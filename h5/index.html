@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>小思 AI</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="page" data-active="home">
+
+  <!-- 背景光晕 - 首页 -->
+  <div class="bg-layer bg-layer--home" aria-hidden="true">
+    <div class="bg-blob bg-blob--red"></div>
+    <div class="bg-blob bg-blob--cyan"></div>
+  </div>
+
+  <!-- 背景光晕 - 图书 -->
+  <div class="bg-layer bg-layer--books" aria-hidden="true">
+    <div class="bg-blob bg-blob--teal"></div>
+    <div class="bg-blob bg-blob--orange"></div>
+  </div>
+
+  <!-- 背景光晕 - 练习 -->
+  <div class="bg-layer bg-layer--practice" aria-hidden="true">
+    <div class="bg-blob bg-blob--practice-amber"></div>
+    <div class="bg-blob bg-blob--practice-glow"></div>
+  </div>
+
+  <!-- 背景光晕 - 我的 -->
+  <div class="bg-layer bg-layer--me" aria-hidden="true">
+    <div class="bg-blob bg-blob--me-pink"></div>
+  </div>
+
+  <!-- 状态栏占位 -->
+  <div class="status-bar"></div>
+
+  <!-- Tab 导航 + 年级选择器（共用） -->
+  <header class="top-bar">
+    <nav class="tab-nav">
+      <span class="tab-item tab-item--active" data-page="home">小思</span>
+      <span class="tab-item" data-page="practice">练习</span>
+      <span class="tab-item" data-page="books">图书</span>
+      <span class="tab-item" data-page="me">我的</span>
+    </nav>
+    <button class="grade-btn" aria-label="选择年级">
+      <img src="assets/默认头像.png" class="grade-avatar" alt="" />
+      <span class="grade-text">选择年级</span>
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <path d="M4 5.5l3 3 3-3" stroke="#262626" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <button class="practice-grade-btn" aria-label="选择年级">
+      <span class="practice-grade-text">三年级下</span>
+      <span class="practice-grade-sub">人教版</span>
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+        <path d="M3 4.5l3 3 3-3" stroke="#444" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <button class="me-settings-btn" aria-label="设置">
+      <img src="assets/设置.png" width="26" height="26" alt="" />
+    </button>
+  </header>
+
+  <!-- ══════════════════ 首页 ══════════════════ -->
+  <div class="page-view" id="page-home">
+
+    <!-- 功能卡片 -->
+    <section class="feature-cards" aria-label="功能入口">
+      <button class="feat-card feat-card--yellow">
+        <div class="feat-glow"></div>
+        <div class="feat-gradient"></div>
+        <div class="feat-texts">
+          <span class="feat-title">作业检查</span>
+          <span class="feat-sub">秒判全科</span>
+        </div>
+        <div class="feat-icon-slot">
+          <img src="assets/作业.png" alt="" />
+        </div>
+      </button>
+      <button class="feat-card feat-card--red">
+        <div class="feat-glow"></div>
+        <div class="feat-gradient"></div>
+        <div class="feat-texts">
+          <span class="feat-title">拍照答疑</span>
+          <span class="feat-sub">难题随时问</span>
+        </div>
+        <div class="feat-icon-slot">
+          <img src="assets/拍照.png" alt="" />
+        </div>
+      </button>
+      <button class="feat-card feat-card--blue">
+        <div class="feat-glow"></div>
+        <div class="feat-gradient"></div>
+        <div class="feat-texts">
+          <span class="feat-title">教辅图书</span>
+          <span class="feat-sub">扫码学习</span>
+        </div>
+        <div class="feat-icon-slot">
+          <img src="assets/图书.png" alt="" />
+        </div>
+      </button>
+      <button class="feat-card feat-card--purple">
+        <div class="feat-glow"></div>
+        <div class="feat-gradient"></div>
+        <div class="feat-texts">
+          <span class="feat-title">全部功能</span>
+          <span class="feat-sub">高效学习</span>
+        </div>
+        <div class="feat-icon-slot">
+          <img src="assets/全部.png" alt="" />
+        </div>
+      </button>
+    </section>
+
+    <!-- 主内容卡片 -->
+    <main class="main-card">
+
+      <img src="assets/IP.png" class="ip-char-img" alt="小思形象" />
+
+      <div class="ip-actions">
+        <button class="icon-btn" aria-label="静音">
+          <img src="assets/线性图标-24.svg" width="24" height="24" alt="" />
+        </button>
+        <button class="icon-btn" aria-label="更多">
+          <img src="assets/more.svg" width="24" height="24" alt="" />
+        </button>
+      </div>
+
+      <div class="qa-section">
+
+        <p class="qa-greeting">有什么想和我聊的吗？</p>
+
+        <!-- 运营位 Banner — 改为 button 保持与列表项一致的点击反馈 -->
+        <button class="banner-card">
+          <div class="banner-img-wrap">
+            <img src="assets/banner.png" class="banner-img" alt="运营活动" />
+          </div>
+          <div class="banner-text-row">
+            <span class="banner-title">🧑‍🚀 遇见20年后的你自己！</span>
+            <div class="banner-badge">
+              <span class="badge-plus">+5</span>
+              <img src="assets/金币.png" class="badge-coin" alt="" />
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M6 4l4 4-4 4" stroke="#111" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+        </button>
+
+        <!-- 建议列表 -->
+        <div class="list-group" id="suggList">
+          <button class="list-item">
+            <span class="list-text">😄 告诉小思你的名字吧</span>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M6 4l4 4-4 4" stroke="#111" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <button class="list-item">
+            <span class="list-text">🤔 如果 AI 模仿你的风格写作文</span>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M6 4l4 4-4 4" stroke="#111" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- 换一换 -->
+        <button class="refresh-btn" id="refreshBtn" aria-label="换一换">
+          <img src="assets/换一换.png" class="refresh-img" alt="" />
+          <span>换一换</span>
+        </button>
+
+      </div>
+    </main>
+
+    <!-- 底部输入区（属于首页） -->
+    <footer class="bottom-bar">
+      <div class="tags-scroll" role="list">
+        <div class="tags-track">
+          <button class="tag-btn" role="listitem">
+            <img src="assets/1.svg" class="tag-icon" alt="" />
+            <span>DeepSeekR1</span>
+          </button>
+          <button class="tag-btn" role="listitem">
+            <img src="assets/口算PK.svg" class="tag-icon" alt="" />
+            <span>口算PK</span>
+          </button>
+          <button class="tag-btn tag-btn--hot" role="listitem">
+            <img src="assets/VIP.svg" class="tag-icon" alt="" />
+            <span>开学好礼</span>
+            <img src="assets/icon-火.svg" class="hot-badge" alt="热门" />
+          </button>
+          <button class="tag-btn" role="listitem">
+            <img src="assets/苏格拉底.svg" class="tag-icon" alt="" />
+            <span>苏格拉底式提问</span>
+          </button>
+          <button class="tag-btn" role="listitem">
+            <span>写作文</span>
+          </button>
+          <button class="tag-btn" role="listitem">
+            <span>翻译</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="input-row">
+        <button class="input-side-btn" aria-label="拍照">
+          <img src="assets/Union.svg" width="26" height="26" alt="" />
+        </button>
+        <div class="input-field" id="inputField" contenteditable="true" role="textbox" aria-label="输入问题" spellcheck="false">
+          <span class="input-placeholder" id="inputPh">提问是更好的学习</span>
+        </div>
+        <button class="input-side-btn" aria-label="语音输入">
+          <img src="assets/声音.svg" width="26" height="26" alt="" />
+        </button>
+      </div>
+    </footer>
+
+  </div><!-- /page-home -->
+
+  <!-- ══════════════════ 图书 ══════════════════ -->
+  <div class="page-view" id="page-books">
+    <div class="books-content">
+
+      <!-- 扫码学习 / 激活图书 -->
+      <div class="books-actions">
+        <button class="books-action-card books-action-card--scan">
+          <img src="assets/扫码学习.png" class="books-action-bg" alt="" />
+          <div class="books-action-text">
+            <span class="books-action-title">扫码学习</span>
+            <span class="books-action-sub">请扫描图书内页二维码</span>
+          </div>
+        </button>
+        <button class="books-action-card books-action-card--activate">
+          <img src="assets/激活图书.png" class="books-action-bg" alt="" />
+          <div class="books-action-text">
+            <span class="books-action-title">激活图书</span>
+            <span class="books-action-sub">扫描刮刮卡一键激活图书</span>
+          </div>
+        </button>
+      </div>
+
+      <!-- 快捷功能 -->
+      <div class="books-quick-nav">
+        <div class="books-quick-grid">
+          <button class="books-quick-item">
+            <img src="assets/学习成就.png" class="books-quick-icon" alt="" />
+            <span class="books-quick-label">学习成就</span>
+          </button>
+          <button class="books-quick-item">
+            <img src="assets/学习报告.png" class="books-quick-icon" alt="" />
+            <span class="books-quick-label">学习报告</span>
+          </button>
+          <button class="books-quick-item">
+            <img src="assets/探索发现.png" class="books-quick-icon" alt="" />
+            <span class="books-quick-label">探索发现</span>
+          </button>
+          <button class="books-quick-item">
+            <img src="assets/学习资料.png" class="books-quick-icon" alt="" />
+            <span class="books-quick-label">学习资料</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 我的图书 -->
+      <section class="books-list-section" aria-label="我的图书">
+        <div class="books-list-header">
+          <span class="books-list-title">我的图书</span>
+          <button class="books-manage-btn">
+            管理
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M5 3.5l3 3-3 3" stroke="#666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="books-list-card">
+
+          <!-- 图书 1：数学思维训练 -->
+          <div class="book-item">
+            <div class="book-cover">
+              <img src="assets/封面.png" alt="数学思维训练" />
+            </div>
+            <div class="book-info">
+              <div class="book-title">数学思维训练</div>
+              <div class="book-subtitle">搞定数学四大问题，解题技巧全掌握</div>
+              <div class="book-tags">
+                <span class="book-tag">名师1对1</span>
+                <span class="book-tag">数学</span>
+                <span class="book-tag">六年级</span>
+                <span class="book-tag">全学段</span>
+              </div>
+              <div class="book-bottom">
+                <div class="book-hot">
+                  <svg width="12" height="14" viewBox="0 0 12 14" fill="none" aria-hidden="true">
+                    <path d="M6.5 0.5C6.5 0.5 9.5 3.5 9.5 6C9.5 7.93 8.04 9.5 6.5 9C5.5 8.6 5 7.5 5 6.5C5 5.6 5.4 5 5.4 5C5.4 5 4.5 5.8 4.5 7C4.5 9.5 5.8 11.5 8 12C4.5 12.5 2 10 2 7C2 3.5 6.5 0.5 6.5 0.5Z" fill="#e02628"/>
+                    <circle cx="6.5" cy="10" r="2" fill="#e02628" opacity="0.3"/>
+                  </svg>
+                  <span class="book-hot-count">3459</span>
+                </div>
+                <button class="book-btn book-btn--primary">免费试看</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="book-divider"></div>
+
+          <!-- 图书 2：哈佛外教体验课 -->
+          <div class="book-item">
+            <div class="book-cover">
+              <img src="assets/封面2.png" alt="哈佛外教体验课" />
+            </div>
+            <div class="book-info">
+              <div class="book-title">哈佛外教体验课</div>
+              <div class="book-subtitle">辅助文案辅助文案辅助文案</div>
+              <div class="book-tags">
+                <span class="book-tag">大语文</span>
+                <span class="book-tag">6-12岁学段</span>
+              </div>
+              <div class="book-bottom">
+                <div></div>
+                <button class="book-btn book-btn--outline">继续学习</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="book-divider"></div>
+
+          <!-- 图书 3：西游记 -->
+          <div class="book-item">
+            <div class="book-cover">
+              <img src="assets/封面3.png" alt="西游记" />
+            </div>
+            <div class="book-info">
+              <div class="book-title">西游记</div>
+              <div class="book-subtitle">辅助文案辅助文案辅助文案</div>
+              <div class="book-tags">
+                <span class="book-tag">大语文</span>
+                <span class="book-tag">6-12岁学段</span>
+              </div>
+              <div class="book-bottom">
+                <div></div>
+                <button class="book-btn book-btn--outline">继续学习</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="book-divider"></div>
+
+          <!-- 图书 4：哈佛外教体验课 -->
+          <div class="book-item">
+            <div class="book-cover">
+              <img src="assets/封面4.png" alt="哈佛外教体验课" />
+            </div>
+            <div class="book-info">
+              <div class="book-title">哈佛外教体验课</div>
+              <div class="book-subtitle">辅助文案辅助文案辅助文案</div>
+              <div class="book-tags">
+                <span class="book-tag">大语文</span>
+                <span class="book-tag">6-12岁学段</span>
+              </div>
+              <div class="book-bottom">
+                <div></div>
+                <button class="book-btn book-btn--outline">继续学习</button>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /books-list-card -->
+      </section>
+
+    </div><!-- /books-content -->
+  </div><!-- /page-books -->
+
+  <!-- ══════════════════ 我的 ══════════════════ -->
+  <div class="page-view" id="page-me">
+    <div class="me-content">
+
+      <!-- 用户信息 -->
+      <div class="me-profile">
+        <div class="me-avatar-wrap">
+          <img src="assets/头像.png" class="me-avatar" alt="" />
+        </div>
+        <div class="me-user-info">
+          <span class="me-username">嘟嘟嘟Duuu</span>
+          <span class="me-grade">五年级</span>
+        </div>
+      </div>
+
+      <!-- VIP 会员卡 + 特权（同一橙边容器） -->
+      <div class="me-vip-section">
+        <div class="me-vip-top">
+          <img src="assets/VIPbg.png" class="me-vip-bg" alt="" />
+          <div class="me-vip-overlay">
+            <div class="me-vip-title-row">
+              <span class="me-vip-title">我的VIP会员</span>
+              <img src="assets/非会员.png" class="me-vip-crown" alt="" />
+            </div>
+            <div class="me-vip-bottom-row">
+              <div class="me-vip-warn">
+                <span>本月扣款失败</span>
+                <img src="assets/正确 未选.png" class="me-vip-warn-icon" alt="" />
+              </div>
+              <button class="me-vip-btn">立即开通</button>
+            </div>
+          </div>
+        </div>
+        <div class="me-vip-feats">
+          <button class="me-vip-feat">
+            <img src="assets/视频讲题.png" class="me-vip-feat-icon" alt="" />
+            <span>视频讲题</span>
+          </button>
+          <button class="me-vip-feat">
+            <img src="assets/真人答疑.png" class="me-vip-feat-icon" alt="" />
+            <span>真人答疑</span>
+          </button>
+          <button class="me-vip-feat">
+            <img src="assets/金牌动画课.png" class="me-vip-feat-icon" alt="" />
+            <span>金牌动画课</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 快捷入口 -->
+      <div class="me-quick-nav">
+        <button class="me-quick-item">
+          <img src="assets/Icon/Calendar-1.png" class="me-quick-icon" alt="" />
+          <span>错题本</span>
+        </button>
+        <button class="me-quick-item">
+          <img src="assets/Icon/Picture.png" class="me-quick-icon" alt="" />
+          <span>学习记录</span>
+        </button>
+        <button class="me-quick-item">
+          <img src="assets/Icon/Calendar.png" class="me-quick-icon" alt="" />
+          <span>我的视频</span>
+        </button>
+        <button class="me-quick-item">
+          <img src="assets/Group 2085669108.png" class="me-quick-icon" alt="" />
+          <span>我的试卷</span>
+        </button>
+      </div>
+
+      <!-- 设置列表 1：账户功能 -->
+      <div class="me-settings-card">
+        <button class="me-list-item">
+          <div class="me-list-left">
+            <img src="assets/全部功能.png" class="me-list-icon" alt="" />
+            <span>全部功能</span>
+          </div>
+          <svg class="me-list-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 4l4 4-4 4" stroke="#ccc" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="me-list-sep"></div>
+        <button class="me-list-item">
+          <div class="me-list-left">
+            <img src="assets/1122-用户中心-1.png" class="me-list-icon" alt="" />
+            <span>我的订单</span>
+          </div>
+          <div class="me-list-right">
+            <span class="me-list-hint">573能量</span>
+            <svg class="me-list-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 4l4 4-4 4" stroke="#ccc" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </button>
+        <div class="me-list-sep"></div>
+        <button class="me-list-item">
+          <div class="me-list-left">
+            <img src="assets/播放.png" class="me-list-icon" alt="" />
+            <span>声音设置</span>
+          </div>
+          <div class="me-list-right">
+            <span class="me-list-hint">温柔女老师</span>
+            <svg class="me-list-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 4l4 4-4 4" stroke="#ccc" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </button>
+        <div class="me-list-sep"></div>
+        <button class="me-list-item">
+          <div class="me-list-left">
+            <img src="assets/remix-icons/line/design/magic-line.png" class="me-list-icon" alt="" />
+            <span>主题设置</span>
+          </div>
+          <div class="me-list-right">
+            <span class="me-list-hint">卡皮吧啦</span>
+            <svg class="me-list-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 4l4 4-4 4" stroke="#ccc" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </button>
+      </div>
+
+      <!-- 设置列表 2：内容 -->
+      <div class="me-settings-card">
+        <button class="me-list-item">
+          <div class="me-list-left">
+            <img src="assets/Frame 2085666021.png" class="me-list-icon" alt="" />
+            <span>我的视频</span>
+          </div>
+          <svg class="me-list-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 4l4 4-4 4" stroke="#ccc" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="me-list-sep"></div>
+        <button class="me-list-item">
+          <div class="me-list-left">
+            <img src="assets/1122-用户中心-3.png" class="me-list-icon" alt="" />
+            <span>我的试卷</span>
+          </div>
+          <svg class="me-list-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 4l4 4-4 4" stroke="#ccc" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+
+      <!-- 设置列表 3：社区 & 反馈 -->
+      <div class="me-settings-card">
+        <button class="me-list-item">
+          <div class="me-list-left">
+            <img src="assets/1122-用户中心.png" class="me-list-icon" alt="" />
+            <span>给随时问五星好评</span>
+          </div>
+          <svg class="me-list-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 4l4 4-4 4" stroke="#ccc" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="me-list-sep"></div>
+        <button class="me-list-item">
+          <div class="me-list-left">
+            <img src="assets/1122-用户中心-2.png" class="me-list-icon" alt="" />
+            <span>分享随时问给好友</span>
+          </div>
+          <svg class="me-list-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 4l4 4-4 4" stroke="#ccc" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="me-list-sep"></div>
+        <button class="me-list-item">
+          <div class="me-list-left">
+            <img src="assets/联系我们.png" class="me-list-icon" alt="" />
+            <span>联系我们</span>
+          </div>
+          <svg class="me-list-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 4l4 4-4 4" stroke="#ccc" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="me-list-sep"></div>
+        <button class="me-list-item">
+          <div class="me-list-left">
+            <img src="assets/1122-用户中心-2.png" class="me-list-icon" alt="" />
+            <span>意见反馈</span>
+          </div>
+          <svg class="me-list-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 4l4 4-4 4" stroke="#ccc" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+
+    </div><!-- /me-content -->
+  </div><!-- /page-me -->
+
+  <!-- ══════════════════ 练习 ══════════════════ -->
+  <div class="page-view" id="page-practice">
+    <div class="prac-scroll">
+      <div class="prac-inner">
+
+        <!-- 白色半透明背景层 (V8YtpL: y=96, h=333, fill=#ffffff33, radius=[20,20,0,0]) -->
+        <div class="prac-whitebg"></div>
+
+        <!-- 学科标题 (hJ51R: y=104, w=375, h=44, layout=none) -->
+        <div class="prac-tabs">
+          <!-- tab-学科 (hUgUY: padding=[0,20], gap=20) -->
+          <div class="prac-tabs-items">
+            <button class="prac-tab prac-tab-active" data-subject="math">
+              <span>数学</span>
+              <svg class="prac-wave" viewBox="0 0 32 6" width="32" height="6" fill="none" aria-hidden="true">
+                <path d="M3 3.93c0 0 4.46-1.77 4.24-.57-.09.55-2.33.82-1.17.82 1.17 0 2.31-.15 3.44-.45l3.44-.91 3.44-.91c1.15-.31 2.29-.45 3.44-.45 1.17 0 2.09.27 2 .82-.22 1.2-2.33.82-1.17.82 1.17 0 2.31-.15 3.44-.45L29 2" stroke="url(#waveGrad2)" stroke-width="2.57" stroke-linecap="round"/>
+                <defs>
+                  <linearGradient id="waveGrad2" x1="0" y1="0" x2="32" y2="0" gradientUnits="userSpaceOnUse">
+                    <stop offset="0" stop-color="#fec01e"/>
+                    <stop offset="1" stop-color="#ffbe14" stop-opacity="0.7"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            </button>
+            <button class="prac-tab" data-subject="chinese"><span>语文</span></button>
+            <button class="prac-tab" data-subject="english"><span>英语</span></button>
+          </div>
+          <!-- 年级选择 (MbMBz: x=297, y=7, gap=4) -->
+          <button class="prac-grade-btn">
+            <span class="prac-grade-text">三年级下<br/><span class="prac-grade-sub">人教版</span></span>
+            <svg width="10" height="10" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M4 5.5l3 3 3-3" stroke="#333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- 数学 同步卡片 (tMYVH: x=12, y=156, w=351, fill=#fff, radius=16, padding=[16,12], gap=16) -->
+        <div class="prac-sync">
+
+          <!-- aEvj2 → iI2ce → S1TIcw (gap=20): 书封面 + 标题组 -->
+          <div class="prac-sync-top">
+            <!-- image 6902 (EKvOI): 49×76 -->
+            <img src="assets/数学封面.png" class="prac-cover" alt="" />
+            <!-- VlOU9: absolute pos(64,8) — image 6903(113×47) + texts -->
+            <div class="prac-sync-info">
+              <!-- image 6903 decoration not exported; use title directly -->
+              <span class="prac-sync-name">同步练习</span>
+              <!-- k0yrS: y=26, #999, 12px -->
+              <span class="prac-sync-sub">校内精练 巩固提升</span>
+            </div>
+          </div>
+
+          <!-- PUqd4: fill=#f4f5f9, radius=12, padding=[10,12], gap=12 -->
+          <!-- Row 1: ubQT8(练习范围) + No27S(value+arrow) -->
+          <button class="prac-row">
+            <div class="prac-row-label">
+              <!-- O3PANW: #999, 12px -->
+              <span class="prac-lbl">练习范围</span>
+              <span class="prac-sep">｜</span>
+            </div>
+            <div class="prac-row-val">
+              <!-- pUYvv: #111, 16px, w500 -->
+              <span class="prac-val">认识东北、东南、西北</span>
+            </div>
+            <!-- image 6885 (右箭头 16×16) -->
+            <img src="assets/右.png" class="prac-arrow" alt="" />
+          </button>
+
+          <!-- BWv5a: fill=#f4f5f9, radius=12, padding=[10,12] -->
+          <!-- Row 2: XLRFm(题目数量) + WcRiy(完成10题+20+coin+arrow) -->
+          <button class="prac-row">
+            <div class="prac-row-label">
+              <!-- x5Clmd: #999, 14px -->
+              <span class="prac-lbl prac-lbl-14">题目数量</span>
+              <span class="prac-sep">｜</span>
+            </div>
+            <div class="prac-row-val prac-row-val-coins">
+              <!-- M41yn: #111, 16px, w500 -->
+              <span class="prac-val">完成 10 题</span>
+              <!-- coin badge -->
+              <span class="prac-coin-plus">+20</span>
+              <img src="assets/金币.png" class="prac-coin-img" alt="" />
+            </div>
+            <!-- dropdown arrow (t8Z7b) -->
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M4 6l4 4 4-4" stroke="#bbb" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+
+          <!-- MyGVH → YAD3b → xYsXE (gap=11): 按钮对 -->
+          <div class="prac-btns">
+            <!-- kUcxb: fill=#fff, radius=12, h=40, border=0.5px #dadada -->
+            <button class="prac-btn-ghost">打印题目</button>
+            <!-- Lmb9t: fill=#8266ff, radius=12, h=40, w=158 -->
+            <button class="prac-btn-primary">开始练习</button>
+          </div>
+
+        </div><!-- /prac-sync -->
+
+        <!-- 口算PK (RPJzJ: x=12, y=444, w=351, h=291) -->
+        <div class="prac-pk">
+          <!-- image 6897 = 口算PKbg.png, fills 351×291 -->
+          <img src="assets/口算PKbg.png" class="prac-pk-bg" alt="" />
+          <!-- 标题 (JznDF: x=12, y=16) -->
+          <div class="prac-pk-header">
+            <!-- l3CJhr: #111, 16px, normal -->
+            <span class="prac-pk-title">口算 PK</span>
+            <img src="assets/右.png" class="prac-arrow" alt="" />
+          </div>
+          <!-- Mask group (brXKA: x=12, y=55, clips 339×226) -->
+          <!-- PK卡片 (a1ZV3U): 227×219 × 2 -->
+          <div class="prac-pk-mask">
+            <img src="assets/展位.png" class="prac-pk-card" alt="" />
+            <img src="assets/展位.png" class="prac-pk-card" alt="" />
+          </div>
+        </div>
+
+        <!-- 试卷下载 (gUTjP: x=12, y=747, w=351, h=214) -->
+        <div class="prac-exam">
+          <!-- image 6898 = 试卷下载bg.png, fills 351×214 -->
+          <img src="assets/试卷下载bg.png" class="prac-exam-bg" alt="" />
+          <!-- 标题 (yTaBT: x=14, y=17) -->
+          <div class="prac-exam-header">
+            <!-- zuida: 试卷下载 text + 免费 badge -->
+            <div class="prac-exam-title-row">
+              <!-- V1zIF: #111, 16px, normal -->
+              <span class="prac-exam-title">试卷下载</span>
+              <!-- zMTDG: gradient #ff6f4e→#ff2e30, radius=[4,8,4,8], h=20, padding=[1,6] -->
+              <span class="prac-free-badge">免费</span>
+            </div>
+            <!-- JIS0m: image 6885 = 右.png, 16×16, at x=309,y=3 within RPJzJ: mapped to end -->
+            <img src="assets/右.png" class="prac-arrow" alt="" />
+          </div>
+          <!-- 标签 (NN398: x=12, y=52, gap=8) -->
+          <div class="prac-exam-tags">
+            <!-- m2rmsv: fill=#ffbe1426, radius=4, padding=[1,4] / text #ffa100, 11px, w500 -->
+            <span class="prac-tag prac-tag-active">数学</span>
+            <!-- H48PUX: fill=#f5f5f5, radius=4 / text #666, 11px, normal -->
+            <span class="prac-tag">语文</span>
+            <span class="prac-tag">英语</span>
+          </div>
+          <!-- 数学-小学 (iPDtb: x=12, y=82, gap=8, alignItems=center) -->
+          <div class="prac-papers">
+            <div class="prac-paper">
+              <img src="assets/数学.png" alt="" />
+            </div>
+            <div class="prac-paper">
+              <img src="assets/数学.png" alt="" />
+            </div>
+            <div class="prac-paper">
+              <img src="assets/数学.png" alt="" />
+            </div>
+            <div class="prac-paper prac-paper-partial">
+              <img src="assets/数学.png" alt="" />
+            </div>
+          </div>
+        </div><!-- /prac-exam -->
+
+      </div><!-- /prac-inner -->
+    </div><!-- /prac-scroll -->
+  </div><!-- /page-practice -->
+
+</div><!-- /page -->
+<script src="app.js"></script>
+</body>
+</html>
