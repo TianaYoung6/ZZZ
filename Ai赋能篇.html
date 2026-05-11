@@ -286,6 +286,86 @@
     }
 
     /* ═══════════════════════════════════════
+       AI赛事自驱 TAB
+    ═══════════════════════════════════════ */
+    .race-hero-bg {
+      width: 100%;
+      aspect-ratio: 1600 / 800;
+      background: #080818;
+    }
+
+    .race-s2 {
+      position: relative;
+      width: 100%;
+    }
+
+    .race-s2-bg {
+      width: 100%;
+      aspect-ratio: 1600 / 858;
+      background: #070715;
+    }
+
+    .race-s2-phone {
+      position: absolute;
+      top: calc(359 / 858 * 100%);
+      left: calc(1075 / 1600 * 100%);
+      width: calc(377 / 1600 * 100%);
+      aspect-ratio: 377 / 520;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: clamp(8px, 2vw, 20px);
+    }
+
+    .race-s2-fade {
+      position: absolute;
+      top: calc(619 / 858 * 100%);
+      left: 0; right: 0;
+      height: calc(239 / 858 * 100%);
+      background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 60%, #000 100%);
+      backdrop-filter: blur(2.6px);
+      -webkit-backdrop-filter: blur(2.6px);
+    }
+
+    .race-logos {
+      position: absolute;
+      top: calc(792 / 858 * 100%);
+      left: calc(79.5 / 1600 * 100%);
+      display: flex;
+      align-items: center;
+      gap: clamp(12px, 2.5vw, 40px);
+      z-index: 2;
+    }
+
+    .race-logo-pl {
+      width: clamp(28px, calc(118 / 1600 * 100vw), 118px);
+      height: clamp(28px, calc(118 / 1600 * 100vw), 118px);
+      border-radius: 50%;
+      background: rgba(255,255,255,0.10);
+      flex-shrink: 0;
+    }
+
+    .race-pl {
+      width: 100%;
+      background: #06060f;
+    }
+
+    .race-wechat {
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+      background: #111;
+    }
+
+    .race-wechat iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      border: none;
+      display: block;
+      transform-origin: top left;
+    }
+
+    /* ═══════════════════════════════════════
        AI CONTENT PRODUCTION — LOGOS SECTION
        Design: gap y:800→1080 (280px @ 1600w)
        Logos at y:880 (80px below hero)
@@ -352,7 +432,7 @@
   ═══════════════════════════════════════════ -->
   <header id="sticky-header">
     <!-- Ai赋能篇（top）.png  — outlined/stroked style for sticky header -->
-    <img class="header-logo-img" src="VibeCoding/Ai赋能篇（top）.png" alt="01 Ai赋能篇">
+    <img class="header-logo-img" src="01 Ai赋能篇/VibeCoding/Ai赋能篇（top）.png" alt="01 Ai赋能篇">
     <nav class="tabs-row" id="header-tabs" aria-label="主导航">
       <button class="tab-btn active" data-tab="0">Vibe Coding</button>
       <button class="tab-btn"        data-tab="1">Ai内容生产</button>
@@ -378,12 +458,12 @@
 
       <!-- ── Section 1 : VibeCoding1 hero ── -->
       <section class="section-hero">
-        <img class="bg" src="VibeCoding/VibeCoding1.png" alt="Vibe Coding Hero" draggable="false">
+        <img class="bg" src="01 Ai赋能篇/VibeCoding/VibeCoding1.png" alt="Vibe Coding Hero" draggable="false">
 
         <!-- Nav overlay  (A4Ixjt  y:60 h:200) -->
         <div class="nav-overlay" id="nav-overlay">
           <!-- Ai赋能篇（默认）.png — filled style for hero title -->
-          <img class="nav-title-img" src="VibeCoding/Ai赋能篇（默认）.png" alt="01 Ai赋能篇">
+          <img class="nav-title-img" src="01 Ai赋能篇/VibeCoding/Ai赋能篇（默认）.png" alt="01 Ai赋能篇">
           <!-- 3 Tab buttons  (JKgM3) -->
           <nav class="tabs-row" id="page-tabs" aria-label="内容分类">
             <button class="tab-btn active" data-tab="0">Vibe Coding</button>
@@ -394,9 +474,9 @@
 
         <!-- Tool logos  (By7IN  x:65 y:780  three 140×140 icons gap:40) -->
         <div class="logos-overlay" aria-hidden="true">
-          <img src="VibeCoding/Antigravity.png" alt="Antigravity">
-          <img src="VibeCoding/ClaudeCode.png"  alt="Claude Code">
-          <img src="VibeCoding/Codex.png"       alt="Codex">
+          <img src="01 Ai赋能篇/VibeCoding/Antigravity.png" alt="Antigravity">
+          <img src="01 Ai赋能篇/VibeCoding/ClaudeCode.png"  alt="Claude Code">
+          <img src="01 Ai赋能篇/VibeCoding/Codex.png"       alt="Codex">
         </div>
       </section>
 
@@ -405,12 +485,12 @@
 
       <!-- ── Section 2 : VibeCoding2  +  H5 iframe  +  fade overlay ── -->
       <section class="section-2" id="section-2">
-        <img class="bg" src="VibeCoding/VibeCoding2.png" alt="" draggable="false">
+        <img class="bg" src="01 Ai赋能篇/VibeCoding/VibeCoding2.png" alt="" draggable="false">
 
         <div class="h5-container" id="h5-container">
           <iframe
             id="h5-iframe"
-            src="h5/index.html"
+            src="01 Ai赋能篇/h5/index.html"
             title="内嵌 H5 展示"
             allowfullscreen
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"
@@ -437,11 +517,11 @@
       <div style="height:calc(20/1600*100vw);background:#01020d;"></div>
 
       <!-- ── Sections 3 – 7 (stacked, no gap needed) ── -->
-      <img class="section-img" src="VibeCoding/VibeCoding3.png" alt="" draggable="false">
-      <img class="section-img" src="VibeCoding/VibeCoding4.png" alt="" draggable="false">
-      <img class="section-img" src="VibeCoding/VibeCoding5.png" alt="" draggable="false">
-      <img class="section-img" src="VibeCoding/VibeCoding6.png" alt="" draggable="false">
-      <img class="section-img" src="VibeCoding/VibeCoding7.png" alt="" draggable="false">
+      <img class="section-img" src="01 Ai赋能篇/VibeCoding/VibeCoding3.png" alt="" draggable="false">
+      <img class="section-img" src="01 Ai赋能篇/VibeCoding/VibeCoding4.png" alt="" draggable="false">
+      <img class="section-img" src="01 Ai赋能篇/VibeCoding/VibeCoding5.png" alt="" draggable="false">
+      <img class="section-img" src="01 Ai赋能篇/VibeCoding/VibeCoding6.png" alt="" draggable="false">
+      <img class="section-img" src="01 Ai赋能篇/VibeCoding/VibeCoding7.png" alt="" draggable="false">
 
     </div><!-- /tab-0 -->
 
@@ -451,11 +531,11 @@
 
       <!-- ── Section 1 : Hero (1.png, 1600×800) ── -->
       <section class="section-hero">
-        <img class="bg" src="Ai内容生产/1.png" alt="Ai内容生产 Hero" draggable="false">
+        <img class="bg" src="01 Ai赋能篇/Ai内容生产/1.png" alt="Ai内容生产 Hero" draggable="false">
 
         <!-- Nav overlay  (y:60 h:200, same structure as Vibe Coding) -->
         <div class="nav-overlay">
-          <img class="nav-title-img" src="VibeCoding/Ai赋能篇（默认）.png" alt="01 Ai赋能篇">
+          <img class="nav-title-img" src="01 Ai赋能篇/VibeCoding/Ai赋能篇（默认）.png" alt="01 Ai赋能篇">
           <nav class="tabs-row" aria-label="内容分类">
             <button class="tab-btn"        data-tab="0">Vibe Coding</button>
             <button class="tab-btn active" data-tab="1">Ai内容生产</button>
@@ -467,29 +547,77 @@
       <!-- ── Gap + Logos (y:800→1080, logos at y:880) ── -->
       <!-- 4 logos 120×120 gap:40, centered at x:501 in 1600px canvas -->
       <div class="ai-logos-section" aria-hidden="true">
-        <img src="Ai内容生产/Figma.png" alt="Figma">
-        <img src="Ai内容生产/GPT.png"   alt="GPT">
-        <img src="Ai内容生产/Lovart.png" alt="Lovart">
-        <img src="Ai内容生产/龙虾.png"   alt="龙虾">
+        <img src="01 Ai赋能篇/Ai内容生产/Figma.png" alt="Figma">
+        <img src="01 Ai赋能篇/Ai内容生产/GPT.png"   alt="GPT">
+        <img src="01 Ai赋能篇/Ai内容生产/Lovart.png" alt="Lovart">
+        <img src="01 Ai赋能篇/Ai内容生产/龙虾.png"   alt="龙虾">
       </div>
 
       <!-- ── Sections 2–5 (stacked full-width) ── -->
       <!-- 2.png 1600×900 | 3.png 1581×1000 | 4.png 1600×1100 | 5.png 1600×1000 -->
-      <img class="section-img" src="Ai内容生产/2.png" alt="" draggable="false">
-      <img class="section-img" src="Ai内容生产/3.png" alt="" draggable="false">
-      <img class="section-img" src="Ai内容生产/4.png" alt="" draggable="false">
-      <img class="section-img" src="Ai内容生产/5.png" alt="" draggable="false">
+      <img class="section-img" src="01 Ai赋能篇/Ai内容生产/2.png" alt="" draggable="false">
+      <img class="section-img" src="01 Ai赋能篇/Ai内容生产/3.png" alt="" draggable="false">
+      <img class="section-img" src="01 Ai赋能篇/Ai内容生产/4.png" alt="" draggable="false">
+      <img class="section-img" src="01 Ai赋能篇/Ai内容生产/5.png" alt="" draggable="false">
 
     </div><!-- /tab-1 -->
 
 
     <!-- ▶▶  TAB 3 : Ai赛事自驱  ◀◀ -->
     <div class="tab-page" id="tab-2">
-      <div class="tab-placeholder">
-        <span>Ai赛事自驱</span>
-        <span class="dot"></span>
-        <span style="font-size:0.45em;letter-spacing:0.12em">COMING SOON</span>
-      </div>
+
+      <!-- ── Section 1 : Hero (1600×800) ── -->
+      <section class="section-hero">
+        <div class="race-hero-bg"></div>
+        <div class="nav-overlay">
+          <img class="nav-title-img" src="01 Ai赋能篇/VibeCoding/Ai赋能篇（默认）.png" alt="01 Ai赋能篇">
+          <nav class="tabs-row" aria-label="内容分类">
+            <button class="tab-btn"        data-tab="0">Vibe Coding</button>
+            <button class="tab-btn"        data-tab="1">Ai内容生产</button>
+            <button class="tab-btn active" data-tab="2">Ai赛事自驱</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- ── Section 2 : bg + phone mockup + logos (1600×858) ── -->
+      <section class="race-s2">
+        <div class="race-s2-bg"></div>
+        <div class="race-s2-phone" aria-hidden="true"></div>
+        <div class="race-s2-fade"></div>
+        <div class="race-logos" aria-hidden="true">
+          <div class="race-logo-pl"></div>
+          <div class="race-logo-pl"></div>
+          <div class="race-logo-pl"></div>
+          <div class="race-logo-pl"></div>
+        </div>
+      </section>
+
+      <!-- ── Gap (112px @ 1600w) ── -->
+      <div style="height:calc(112/1600*100vw);background:#01020d;"></div>
+
+      <!-- ── Full-width placeholder sections ── -->
+      <div class="race-pl" style="aspect-ratio:1600/829;"></div>
+      <div class="race-pl" style="aspect-ratio:1600/1487;"></div>
+      <div class="race-pl" style="aspect-ratio:1600/1487;background:#08081a;"></div>
+
+      <!-- ── Separator (1600×140) ── -->
+      <div class="race-pl" style="aspect-ratio:1600/140;background:#0a0a1a;"></div>
+
+      <!-- ── WeChat H5 embed ── -->
+      <section class="race-wechat">
+        <iframe
+          src="01 Ai赋能篇/微信/wechat-demo.html"
+          title="微信 H5"
+          allowfullscreen
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"
+          sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups"
+        ></iframe>
+      </section>
+
+      <!-- ── Remaining sections ── -->
+      <div class="race-pl" style="aspect-ratio:1600/1487;"></div>
+      <div class="race-pl" style="aspect-ratio:1600/757;"></div>
+
     </div>
 
   </div><!-- /tab-pages -->
@@ -510,6 +638,7 @@
         page.classList.toggle('active', i === index)
       );
       window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (index === 2) requestAnimationFrame(scaleRaceWechat);
     }
 
     allBtns.forEach(btn =>
@@ -576,6 +705,31 @@
 
     iframe.addEventListener('load', updatePlaceholder);
     updatePlaceholder();
+
+    /* ─────────────────────────────────────────
+       RACE WECHAT IFRAME · scale-to-fit
+       固定内容尺寸 924×800，整体等比缩放至容器宽
+    ───────────────────────────────────────── */
+    const RACE_W = 1100, RACE_H = 800;
+
+    const raceSection = document.querySelector('.race-wechat');
+    const raceFrame   = raceSection && raceSection.querySelector('iframe');
+
+    function scaleRaceWechat() {
+      if (!raceSection || !raceFrame) return;
+      const cw = raceSection.clientWidth;
+      if (!cw) return;
+      const scale   = Math.min(1, cw / RACE_W);       // 最大 1，不放大
+      const offsetX = (cw - RACE_W * scale) / 2;      // 水平居中
+      raceFrame.style.width     = RACE_W + 'px';
+      raceFrame.style.height    = RACE_H + 'px';
+      raceFrame.style.transform = `translateX(${offsetX}px) scale(${scale})`;
+      raceSection.style.height  = Math.ceil(RACE_H * scale) + 'px';
+    }
+
+    window.addEventListener('resize', scaleRaceWechat, { passive: true });
+    scaleRaceWechat();
+
   </script>
 
 </body>
