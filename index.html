@@ -129,13 +129,10 @@
       padding-bottom: calc(204 / 1600 * 100vw);
     }
 
-    .grid-row {
+    .cards-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: calc(30 / 1600 * 100vw);
-    }
-    .grid-row + .grid-row {
-      margin-top: calc(30 / 1600 * 100vw);
     }
 
     /* Card: 440×440 square, cornerRadius=20 */
@@ -147,7 +144,7 @@
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid rgba(255, 255, 255, 0.10);
     }
-    .card img {
+    .card img:not(.next-icon) {
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -163,13 +160,13 @@
     }
     .card-play:hover { opacity: 0.88; }
 
-    /* next.png: 80×80, 距右下各16px，随卡片等比缩放 */
-    .next-icon {
+    /* next.png: 80/440≈18.2% of card width, offset 16/440≈3.6% */
+    .card .next-icon {
       position: absolute;
-      right:  clamp(4px,  calc(16 / 1600 * 100vw), 16px);
-      bottom: clamp(4px,  calc(16 / 1600 * 100vw), 16px);
-      width:  clamp(20px, calc(80 / 1600 * 100vw), 80px);
-      height: clamp(20px, calc(80 / 1600 * 100vw), 80px);
+      right:  3.6%;
+      bottom: 3.6%;
+      width:  18.2%;
+      height: 18.2%;
       object-fit: contain;
     }
 
@@ -260,8 +257,8 @@
       right: clamp(10px, calc(28.125 / 1600 * 100vw), 28.125px);
       top: 50%;
       transform: translateY(-50%);
-      width:  32px;
-      height: 32px;
+      width:  clamp(20px, calc(28.125 / 1600 * 100vw), 28.125px);
+      height: clamp(20px, calc(28.125 / 1600 * 100vw), 28.125px);
       background: none;
       border: none;
       outline: none;
@@ -271,15 +268,17 @@
       align-items: center;
       justify-content: center;
       transition: opacity 0.2s;
+      flex-shrink: 0;
     }
     .modal-close:focus { outline: none; }
     .modal-close:hover { opacity: 0.6; }
-    .modal-close img { width: 32px; height: 32px; object-fit: contain; display: block; }
+    .modal-close img { width: 100%; height: 100%; object-fit: contain; display: block; }
 
     .modal-body {
       flex: 1;
       overflow-y: auto;
       overflow-x: hidden;
+      -webkit-overflow-scrolling: touch; /* iOS momentum scroll */
       padding: 0 clamp(12px, calc(40 / 1600 * 100vw), 40px);
       display: flex;
       flex-direction: column;
@@ -318,39 +317,42 @@
     }
 
     /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       RESPONSIVE — 2-col transition ≤ 768px
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    @media (max-width: 768px) {
+      .cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+      .sec-grid {
+        padding-left:  20px;
+        padding-right: 20px;
+      }
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
        RESPONSIVE — mobile ≤ 640px
     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
     @media (max-width: 640px) {
-      .sec-photos {
-        height: auto;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 8px;
-        padding: 0 8px;
-      }
-      .photo-card {
-        position: static;
-        width: 100%;
-        height: auto;
-        aspect-ratio: 300 / 540;
-        transform: none !important;
-      }
-      .grid-row {
-        grid-template-columns: 1fr;
-        gap: 8px;
-      }
-      .grid-row + .grid-row { margin-top: 8px; }
+      /* sec-photos: keep absolute/vw scaling, no grid override */
       .sec-grid {
-        padding-left: 8px;
-        padding-right: 8px;
-        padding-bottom: 32px;
+        padding-left:   20px;
+        padding-right:  20px;
+        padding-bottom: 40px;
       }
+      /* cards-grid stays 2-col (set at ≤768px), no 1-col override */
       #modal-window {
         width: 100%;
         border-radius: 20px 20px 0 0;
       }
       .modal-title { font-size: 16px; letter-spacing: 0.08em; }
       #modal-window { height: calc(100vh - 60px); }
+      /* Close icon: smaller but still tappable on mobile */
+      .modal-close {
+        width: 28px;
+        height: 28px;
+        right: 12px;
+      }
     }
   </style>
 </head>
@@ -406,59 +408,20 @@
        3rd column (positions 3,6,9,12) → play btn + opens modal
   ─── -->
   <section class="sec-grid">
-
-    <!-- Row 1: 1 · 2 · 3 -->
-    <div class="grid-row">
-      <div class="card">
-        <img src="首页/1.png" alt="">
-      </div>
-      <div class="card">
-        <img src="首页/2.png" alt="">
-      </div>
-      <a class="card card-play" role="button" aria-haspopup="dialog">
-        <img src="首页/3.png" alt="">
-      </a>
+    <div class="cards-grid">
+      <div class="card"><img src="首页/1.png" alt=""></div>
+      <div class="card"><img src="首页/2.png" alt=""></div>
+      <a class="card card-play" role="button" aria-haspopup="dialog"><img src="首页/3.png" alt=""></a>
+      <div class="card"><img src="首页/4.png" alt=""></div>
+      <div class="card"><img src="首页/5.png" alt=""></div>
+      <a class="card card-play" role="button" aria-haspopup="dialog"><img src="首页/6.png" alt=""></a>
+      <div class="card"><img src="首页/7.png" alt=""></div>
+      <div class="card"><img src="首页/8.png" alt=""></div>
+      <a class="card card-play" role="button" aria-haspopup="dialog"><img src="首页/9.png" alt=""></a>
+      <div class="card"><img src="首页/10.png" alt=""></div>
+      <div class="card"><img src="首页/11.png" alt=""></div>
+      <a class="card card-play" role="button" aria-haspopup="dialog"><img src="首页/next.png" class="next-icon" alt=""></a>
     </div>
-
-    <!-- Row 2: 4 · 5 · 6 -->
-    <div class="grid-row">
-      <div class="card">
-        <img src="首页/4.png" alt="">
-      </div>
-      <div class="card">
-        <img src="首页/5.png" alt="">
-      </div>
-      <a class="card card-play" role="button" aria-haspopup="dialog">
-        <img src="首页/6.png" alt="">
-      </a>
-    </div>
-
-    <!-- Row 3: 7 · 8 · 9 -->
-    <div class="grid-row">
-      <div class="card">
-        <img src="首页/7.png" alt="">
-      </div>
-      <div class="card">
-        <img src="首页/8.png" alt="">
-      </div>
-      <a class="card card-play" role="button" aria-haspopup="dialog">
-        <img src="首页/9.png" alt="">
-      </a>
-    </div>
-
-    <!-- Row 4: 10 · 11 · next.png -->
-    <div class="grid-row">
-      <div class="card">
-        <img src="首页/10.png" alt="">
-      </div>
-      <div class="card">
-        <img src="首页/11.png" alt="">
-      </div>
-      <a class="card card-play" role="button" aria-haspopup="dialog">
-        <img src="首页/next.png" class="next-icon" alt="">
-      </a>
-    </div>
-
   </section>
 
 
@@ -500,21 +463,33 @@
   <script>
     /* ─────────────────────────────────────
        MODAL — open / close
+       iOS scroll-lock: body position:fixed
+       preserves scroll position on close
     ───────────────────────────────────── */
     const overlay   = document.getElementById('modal-overlay');
     const closeBtn  = document.getElementById('modal-close');
     const modalBody = document.getElementById('modal-body');
 
+    let _savedScrollY = 0;
+
     function openModal() {
+      _savedScrollY = window.scrollY;
+      document.body.style.overflow  = 'hidden';
+      document.body.style.position  = 'fixed';
+      document.body.style.top       = `-${_savedScrollY}px`;
+      document.body.style.width     = '100%';
       overlay.classList.add('open');
-      document.body.style.overflow = 'hidden';
       modalBody.scrollTop = 0;
       closeBtn.focus();
     }
 
     function closeModal() {
       overlay.classList.remove('open');
-      document.body.style.overflow = '';
+      document.body.style.overflow  = '';
+      document.body.style.position  = '';
+      document.body.style.top       = '';
+      document.body.style.width     = '';
+      window.scrollTo(0, _savedScrollY);
     }
 
     /* All play-button cards (3rd column) trigger the modal */

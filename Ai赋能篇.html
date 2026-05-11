@@ -286,6 +286,30 @@
     }
 
     /* ═══════════════════════════════════════
+       AI CONTENT PRODUCTION — LOGOS SECTION
+       Design: gap y:800→1080 (280px @ 1600w)
+       Logos at y:880 (80px below hero)
+       4 logos 120×120, gap:40, centered
+    ═══════════════════════════════════════ */
+    .ai-logos-section {
+      background: #01020d;
+      height: calc(280 / 1600 * 100vw);
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      gap: clamp(12px, 2.5vw, 40px);
+      padding-top: calc(80 / 1600 * 100vw);
+    }
+
+    .ai-logos-section img {
+      width:  clamp(36px, calc(120 / 1600 * 100vw), 120px);
+      height: clamp(36px, calc(120 / 1600 * 100vw), 120px);
+      object-fit: contain;
+      display: block;
+      flex-shrink: 0;
+    }
+
+    /* ═══════════════════════════════════════
        SCROLL-TO-TOP BUTTON
     ═══════════════════════════════════════ */
     #back-top {
@@ -331,8 +355,8 @@
     <img class="header-logo-img" src="VibeCoding/Ai赋能篇（top）.png" alt="01 Ai赋能篇">
     <nav class="tabs-row" id="header-tabs" aria-label="主导航">
       <button class="tab-btn active" data-tab="0">Vibe Coding</button>
-      <button class="tab-btn"        data-tab="1">OpenClaw龙虾</button>
-      <button class="tab-btn"        data-tab="2">Ai内容生产</button>
+      <button class="tab-btn"        data-tab="1">Ai内容生产</button>
+      <button class="tab-btn"        data-tab="2">Ai赛事自驱</button>
     </nav>
   </header>
 
@@ -363,8 +387,8 @@
           <!-- 3 Tab buttons  (JKgM3) -->
           <nav class="tabs-row" id="page-tabs" aria-label="内容分类">
             <button class="tab-btn active" data-tab="0">Vibe Coding</button>
-            <button class="tab-btn"        data-tab="1">OpenClaw龙虾</button>
-            <button class="tab-btn"        data-tab="2">Ai内容生产</button>
+            <button class="tab-btn"        data-tab="1">Ai内容生产</button>
+            <button class="tab-btn"        data-tab="2">Ai赛事自驱</button>
           </nav>
         </div>
 
@@ -422,20 +446,47 @@
     </div><!-- /tab-0 -->
 
 
-    <!-- ▶▶  TAB 2 : OpenClaw龙虾  ◀◀ -->
+    <!-- ▶▶  TAB 2 : Ai内容生产  ◀◀ -->
     <div class="tab-page" id="tab-1">
-      <div class="tab-placeholder">
-        <span>OpenClaw龙虾</span>
-        <span class="dot"></span>
-        <span style="font-size:0.45em;letter-spacing:0.12em">COMING SOON</span>
+
+      <!-- ── Section 1 : Hero (1.png, 1600×800) ── -->
+      <section class="section-hero">
+        <img class="bg" src="Ai内容生产/1.png" alt="Ai内容生产 Hero" draggable="false">
+
+        <!-- Nav overlay  (y:60 h:200, same structure as Vibe Coding) -->
+        <div class="nav-overlay">
+          <img class="nav-title-img" src="VibeCoding/Ai赋能篇（默认）.png" alt="01 Ai赋能篇">
+          <nav class="tabs-row" aria-label="内容分类">
+            <button class="tab-btn"        data-tab="0">Vibe Coding</button>
+            <button class="tab-btn active" data-tab="1">Ai内容生产</button>
+            <button class="tab-btn"        data-tab="2">Ai赛事自驱</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- ── Gap + Logos (y:800→1080, logos at y:880) ── -->
+      <!-- 4 logos 120×120 gap:40, centered at x:501 in 1600px canvas -->
+      <div class="ai-logos-section" aria-hidden="true">
+        <img src="Ai内容生产/Figma.png" alt="Figma">
+        <img src="Ai内容生产/GPT.png"   alt="GPT">
+        <img src="Ai内容生产/Lovart.png" alt="Lovart">
+        <img src="Ai内容生产/龙虾.png"   alt="龙虾">
       </div>
-    </div>
+
+      <!-- ── Sections 2–5 (stacked full-width) ── -->
+      <!-- 2.png 1600×900 | 3.png 1581×1000 | 4.png 1600×1100 | 5.png 1600×1000 -->
+      <img class="section-img" src="Ai内容生产/2.png" alt="" draggable="false">
+      <img class="section-img" src="Ai内容生产/3.png" alt="" draggable="false">
+      <img class="section-img" src="Ai内容生产/4.png" alt="" draggable="false">
+      <img class="section-img" src="Ai内容生产/5.png" alt="" draggable="false">
+
+    </div><!-- /tab-1 -->
 
 
-    <!-- ▶▶  TAB 3 : Ai内容生产  ◀◀ -->
+    <!-- ▶▶  TAB 3 : Ai赛事自驱  ◀◀ -->
     <div class="tab-page" id="tab-2">
       <div class="tab-placeholder">
-        <span>Ai内容生产</span>
+        <span>Ai赛事自驱</span>
         <span class="dot"></span>
         <span style="font-size:0.45em;letter-spacing:0.12em">COMING SOON</span>
       </div>
