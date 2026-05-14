@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>产品力拓展</title>
+  <style>
+    @font-face {
+      font-family: 'FZHanZhenGuangBiaoS-GB';
+      src: url('FZHZGBJW.TTF') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      background: #01020d;
+      color: #fff;
+      font-family: 'PingFang SC', -apple-system, 'Helvetica Neue', Arial, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ═══════════════════════════════════════
+       HERO  (1600×800)
+       Nav overlay: y:60, h:200, padding:[0,60], gap:40
+    ═══════════════════════════════════════ */
+    .hero {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1600 / 800;
+      background: #01020d url("02 产品力拓展/OS-软硬一体/OS-软硬一体头图.jpg") center/cover no-repeat;
+      overflow: hidden;
+    }
+
+    .nav-overlay {
+      position: absolute;
+      top: calc(60 / 800 * 100%);
+      left: 0;
+      right: 0;
+      height: calc(200 / 800 * 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(12px, 2.5vw, 40px);
+      padding: 0 clamp(16px, 3.75vw, 60px);
+    }
+
+    .nav-title {
+      display: flex;
+      align-items: center;
+      gap: clamp(12px, 2.5vw, 40px);
+      flex-shrink: 0;
+    }
+
+    .nav-title span {
+      font-family: 'FZHanZhenGuangBiaoS-GB', 'STZhongsong', 'Noto Serif SC', serif;
+      font-size: clamp(22px, 3.75vw, 60px);
+      font-weight: normal;
+      color: #ddeaff;
+      line-height: 1.2;
+    }
+
+    .nav-title .nav-title-name {
+      letter-spacing: clamp(2px, 0.375vw, 6px);
+    }
+
+    #sticky-header .nav-title span {
+      font-size: 33px;
+    }
+
+    /* ═══════════════════════════════════════
+       TAB BUTTONS  (matches Ai赋能篇 updated values)
+       gap:24, padding:[12,24], blur:14, border:1.2px, font:24px
+    ═══════════════════════════════════════ */
+    .tabs-row {
+      display: flex;
+      align-items: center;
+      gap: clamp(8px, 1.5vw, 24px);
+      flex-shrink: 0;
+    }
+
+    .tab-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(5px, 0.75vw, 12px) clamp(10px, 1.5vw, 24px);
+      border-radius: 9999px;
+      border: 1.2px solid rgba(221, 234, 255, 0.85);
+      background: rgba(255, 255, 255, 0.10);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      color: #fff;
+      font-family: 'PingFang SC', -apple-system, sans-serif;
+      font-size: clamp(10px, 1.5vw, 24px);
+      font-weight: 400;
+      line-height: 1;
+      white-space: nowrap;
+      cursor: pointer;
+      opacity: 0.9;
+      transition: background 0.22s ease, opacity 0.22s ease, transform 0.12s ease;
+      -webkit-appearance: none;
+      appearance: none;
+      user-select: none;
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(90deg,
+          #3c91ff 0%,
+          #619de6 38%,
+          #7684ea 76%,
+          #3c91ff 100%);
+      opacity: 0.9;
+    }
+
+    .tab-btn:hover  { opacity: 1; transform: scale(1.03); }
+    .tab-btn:active { transform: scale(0.97); }
+
+    /* ═══════════════════════════════════════
+       SECTION 2 BG  (1600×560, y:800)
+    ═══════════════════════════════════════ */
+    .section-2-bg {
+      width: 100%;
+      aspect-ratio: 1600 / 560;
+      background: #01020d url("02 产品力拓展/OS-软硬一体/1.jpg") center/cover no-repeat;
+    }
+
+    /* ═══════════════════════════════════════
+       TAB PAGES
+    ═══════════════════════════════════════ */
+    .tab-page { display: none; }
+    .tab-page.active { display: block; }
+
+    /* Gap between section-2-bg and first video row (19px @ 1600w) */
+    .pre-video-gap {
+      height: calc(19 / 1600 * 100vw);
+      background: #01020d;
+    }
+
+    /* ═══════════════════════════════════════
+       VIDEO SECTION ROWS
+       Design: x:100, width:1400, gap:50, alignItems:center
+       Left: 100 | Video: 880 | Gap: 50 | Image: ~470 | Right: 100
+       Total: 100+880+50+470+100 = 1600 ✓
+    ═══════════════════════════════════════ */
+    .video-row {
+      width: 100%;
+      padding: 0 calc(100 / 1600 * 100vw);
+      display: flex;
+      align-items: center;
+      gap: calc(50 / 1600 * 100vw);
+      background: #01020d;
+    }
+
+    .video-row.reverse { flex-direction: row-reverse; }
+
+    /* Gap between video rows (103px @ 1600w) */
+    .video-gap {
+      height: calc(103 / 1600 * 100vw);
+      background: #01020d;
+    }
+
+    /* ═══════════════════════════════════════
+       VIDEO BLOCK  (880×495 in 1600px canvas)
+    ═══════════════════════════════════════ */
+    .video-block {
+      flex: 0 0 calc(880 / 1600 * 100vw);
+      position: relative;
+      background: #0a0a14;
+      border-radius: clamp(4px, 0.5vw, 8px);
+      overflow: hidden;
+    }
+
+    .video-block video {
+      width: 100%;
+      display: block;
+      aspect-ratio: 880 / 495;
+      background: #000;
+    }
+
+    .video-block .no-src {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: #0c0c18;
+      color: rgba(255,255,255,0.25);
+      font-size: clamp(11px, 1vw, 15px);
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+
+    .video-block .no-src svg {
+      width: clamp(28px, 2.5vw, 40px);
+      height: clamp(28px, 2.5vw, 40px);
+      opacity: 0.35;
+    }
+
+    .video-block.has-src .no-src { opacity: 0; }
+
+    /* Pause indicator — fades in briefly on click */
+    .video-block .pause-indicator {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .video-block .pause-indicator svg {
+      width: clamp(36px, 3.5vw, 56px);
+      height: clamp(36px, 3.5vw, 56px);
+      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.6));
+    }
+
+    .video-block.paused .pause-indicator { opacity: 1; }
+
+    /* ═══════════════════════════════════════
+       IMAGE BLOCK  (~470×495 in 1600px canvas)
+       Design: 482.5×495 — fill remaining space
+    ═══════════════════════════════════════ */
+    .img-block {
+      flex: 1;
+      aspect-ratio: 482.5 / 495;
+      background: #01020d;
+      border-radius: clamp(4px, 0.5vw, 8px);
+      overflow: hidden;
+    }
+
+    .img-block img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ═══════════════════════════════════════
+       COMING-SOON (other tabs)
+    ═══════════════════════════════════════ */
+    .coming-soon {
+      min-height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.12);
+      font-size: clamp(18px, 2vw, 32px);
+      letter-spacing: 0.1em;
+    }
+
+    /* ═══════════════════════════════════════
+       STICKY MINI-HEADER
+    ═══════════════════════════════════════ */
+    #sticky-header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: clamp(48px, 5vw, 80px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(16px, 3.75vw, 60px);
+      gap: clamp(12px, 2.5vw, 40px);
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.88) 0%, rgba(0, 0, 0, 0) 100%);
+      z-index: 1000;
+      opacity: 0;
+      transform: translateY(-8px);
+      pointer-events: none;
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+
+    #sticky-header.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: all;
+    }
+
+
+    /* ═══════════════════════════════════════
+       BACK-TO-TOP
+    ═══════════════════════════════════════ */
+    #back-top {
+      position: fixed;
+      bottom: clamp(16px, 2.5vw, 40px);
+      right: clamp(16px, 2.5vw, 40px);
+      width: clamp(32px, 2.5vw, 44px);
+      height: clamp(32px, 2.5vw, 44px);
+      border-radius: 50%;
+      background: rgba(60,145,255,0.7);
+      backdrop-filter: blur(8px);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.3s, transform 0.3s;
+      pointer-events: none;
+      z-index: 99;
+    }
+
+    #back-top.visible  { opacity: 1; transform: translateY(0); pointer-events: all; }
+    #back-top:hover    { background: rgba(60,145,255,0.92); }
+    #back-top svg      { width: 16px; height: 16px; }
+  </style>
+</head>
+
+<body>
+
+  <!-- ═══════════════════════════════════════════
+       STICKY MINI-HEADER
+  ═══════════════════════════════════════════ -->
+  <header id="sticky-header">
+    <div class="nav-title">
+      <span>02</span>
+      <span class="nav-title-name">产品力拓展</span>
+    </div>
+    <nav class="tabs-row" id="header-tabs" aria-label="主导航">
+      <button class="tab-btn active" data-tab="0">OS系统 - 软硬一体</button>
+      <button class="tab-btn" data-tab="1">全机型 - 开机初始化</button>
+    </nav>
+  </header>
+
+  <button id="back-top" title="回到顶部" aria-label="回到顶部">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"
+         stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"/>
+    </svg>
+  </button>
+
+  <!-- ═══════════════════════════════════════════
+       HERO  (1600×800)
+  ═══════════════════════════════════════════ -->
+  <section class="hero">
+    <div class="nav-overlay" id="nav-overlay">
+      <div class="nav-title">
+        <span>02</span>
+        <span class="nav-title-name">产品力拓展</span>
+      </div>
+      <nav class="tabs-row" id="page-tabs" aria-label="产品分类">
+        <button class="tab-btn active" data-tab="0">OS系统 - 软硬一体</button>
+        <button class="tab-btn"        data-tab="1">全机型 - 开机初始化</button>
+      </nav>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       SECTION 2 BG  (1600×560, y:800)
+  ═══════════════════════════════════════════ -->
+  <div class="section-2-bg"></div>
+
+  <!-- ═══════════════════════════════════════════
+       TAB PAGES
+  ═══════════════════════════════════════════ -->
+  <div id="tab-pages">
+
+    <!-- ▶▶  TAB 0 : OS系统 - 软硬一体  ◀◀ -->
+    <div class="tab-page active" id="tab-0">
+
+      <!-- Gap: section-2-bg end → row 1 = 19px @ 1600w -->
+      <div class="pre-video-gap"></div>
+
+      <!-- ── Video Row 1: video LEFT · image RIGHT ── -->
+      <div class="video-row" id="row-1">
+        <div class="video-block" id="vb-1">
+          <video id="vid-1" autoplay muted loop playsinline preload="metadata"
+                 src="02 产品力拓展/视频/三代OS.mp4">
+            您的浏览器不支持 HTML5 视频。
+          </video>
+          <div class="no-src">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="4" y="10" width="40" height="28" rx="3"/>
+              <polygon points="20,18 20,30 32,24" fill="currentColor" stroke="none"/>
+            </svg>
+            <span>视频一</span>
+          </div>
+          <div class="pause-indicator">
+            <svg viewBox="0 0 48 48" fill="none">
+              <circle cx="24" cy="24" r="22" fill="rgba(0,0,0,0.5)"/>
+              <rect x="15" y="14" width="6" height="20" rx="2" fill="#fff"/>
+              <rect x="27" y="14" width="6" height="20" rx="2" fill="#fff"/>
+            </svg>
+          </div>
+        </div>
+        <div class="img-block" id="img-1">
+          <img src="02 产品力拓展/OS-软硬一体/核心产出01.png" alt="">
+        </div>
+      </div>
+
+      <!-- Gap between rows: 103px @ 1600w -->
+      <div class="video-gap"></div>
+
+      <!-- ── Video Row 2: image LEFT · video RIGHT ── -->
+      <div class="video-row reverse" id="row-2">
+        <div class="video-block" id="vb-2">
+          <video id="vid-2" autoplay muted loop playsinline preload="metadata"
+                 src="02 产品力拓展/视频/设置.mp4">
+            您的浏览器不支持 HTML5 视频。
+          </video>
+          <div class="no-src">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="4" y="10" width="40" height="28" rx="3"/>
+              <polygon points="20,18 20,30 32,24" fill="currentColor" stroke="none"/>
+            </svg>
+            <span>视频二</span>
+          </div>
+          <div class="pause-indicator">
+            <svg viewBox="0 0 48 48" fill="none">
+              <circle cx="24" cy="24" r="22" fill="rgba(0,0,0,0.5)"/>
+              <rect x="15" y="14" width="6" height="20" rx="2" fill="#fff"/>
+              <rect x="27" y="14" width="6" height="20" rx="2" fill="#fff"/>
+            </svg>
+          </div>
+        </div>
+        <div class="img-block" id="img-2">
+          <img src="02 产品力拓展/OS-软硬一体/核心产出02.png" alt="">
+        </div>
+      </div>
+
+      <!-- Gap between rows: 103px @ 1600w -->
+      <div class="video-gap"></div>
+
+      <!-- ── Video Row 3: video LEFT · image RIGHT ── -->
+      <div class="video-row" id="row-3">
+        <div class="video-block" id="vb-3">
+          <video id="vid-3" autoplay muted loop playsinline preload="metadata"
+                 src="02 产品力拓展/视频/产品演示.mp4">
+            您的浏览器不支持 HTML5 视频。
+          </video>
+          <div class="no-src">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="4" y="10" width="40" height="28" rx="3"/>
+              <polygon points="20,18 20,30 32,24" fill="currentColor" stroke="none"/>
+            </svg>
+            <span>视频三</span>
+          </div>
+          <div class="pause-indicator">
+            <svg viewBox="0 0 48 48" fill="none">
+              <circle cx="24" cy="24" r="22" fill="rgba(0,0,0,0.5)"/>
+              <rect x="15" y="14" width="6" height="20" rx="2" fill="#fff"/>
+              <rect x="27" y="14" width="6" height="20" rx="2" fill="#fff"/>
+            </svg>
+          </div>
+        </div>
+        <div class="img-block" id="img-3">
+          <img src="02 产品力拓展/OS-软硬一体/核心产出03.png" alt="">
+        </div>
+      </div>
+
+    </div><!-- /tab-0 -->
+
+
+    <!-- ▶▶  TAB 1 : 全机型 - 开机初始化  ◀◀ -->
+    <div class="tab-page" id="tab-1">
+      <div class="coming-soon">即将上线</div>
+    </div><!-- /tab-1 -->
+
+  </div><!-- /tab-pages -->
+
+
+  <script>
+    const allBtns  = document.querySelectorAll('.tab-btn');
+    const tabPages = document.querySelectorAll('.tab-page');
+
+    function switchTab(index) {
+      allBtns.forEach(btn =>
+        btn.classList.toggle('active', +btn.dataset.tab === index)
+      );
+      tabPages.forEach((page, i) =>
+        page.classList.toggle('active', i === index)
+      );
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    allBtns.forEach(btn =>
+      btn.addEventListener('click', () => switchTab(+btn.dataset.tab))
+    );
+
+    /* Sticky header: show after scrolling past hero nav overlay */
+    const stickyHeader = document.getElementById('sticky-header');
+    const backTop      = document.getElementById('back-top');
+
+    function navThreshold() {
+      return window.innerWidth * (260 / 1600);
+    }
+
+    function onScroll() {
+      const scrollY = window.scrollY;
+      stickyHeader.classList.toggle('visible', scrollY > navThreshold());
+      backTop.classList.toggle('visible', scrollY > window.innerHeight * 0.6);
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    backTop.addEventListener('click', () =>
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    );
+
+    /* Hide "no-src" overlay when video src is valid */
+    [1, 2, 3].forEach(n => {
+      const vid   = document.getElementById('vid-' + n);
+      const block = document.getElementById('vb-'  + n);
+      if (!vid) return;
+
+      function checkSrc() {
+        const hasSrc = vid.src && vid.src !== window.location.href
+                    && vid.src !== 'about:blank' && vid.src !== '';
+        block.classList.toggle('has-src', hasSrc);
+      }
+      vid.addEventListener('loadstart', checkSrc);
+      checkSrc();
+
+      /* Click to pause / resume */
+      block.style.cursor = 'pointer';
+      block.addEventListener('click', () => {
+        if (vid.paused) {
+          vid.play();
+          block.classList.remove('paused');
+        } else {
+          vid.pause();
+          block.classList.add('paused');
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

@@ -1345,11 +1345,13 @@
     try { pwvDomain.textContent = new URL(url).hostname; } catch(e) { pwvDomain.textContent = url; }
     pwvFrame.src = url;
     phoneWebview.classList.add('open');
+    phoneWrapper.classList.add('video-playing');
   }
 
   function closePhoneWebview() {
     phoneWebview.classList.remove('open');
     pwvFrame.src = '';
+    phoneWrapper.classList.remove('video-playing');
   }
 
   updateProgress();
