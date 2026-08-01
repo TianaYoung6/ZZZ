@@ -57,7 +57,7 @@ function setupOrbitObserver() {
 
 /* ─── 滚动条图片 ───
    在此数组增删即可改数量（"配置多少张就展示多少张"）。
-   复制两份拼接，配合 translateX(-50%) 做从右向左无缝循环。 */
+   滚入视口时按 1-2-3-4-5 依次入场，间隔 2s。 */
 const MARQUEE_IMAGES = [
   'assets/首页/滚动/1.png',
   'assets/首页/滚动/2.png',
@@ -69,20 +69,42 @@ const MARQUEE_IMAGES = [
 function renderMarquee() {
   const track = document.getElementById('marquee-track');
   if (!track) return;
-  const doubled = [...MARQUEE_IMAGES, ...MARQUEE_IMAGES];
   const frag = document.createDocumentFragment();
-  doubled.forEach((src) => {
-    const img = document.createElement('img');
-    img.src = src;
-    img.alt = '';
-    img.draggable = false;
-    frag.appendChild(img);
-  });
+  // 渲染两份，配合 translateX(-50%) 实现从右向左无缝循环
+  for (let dup = 0; dup < 2; dup++) {
+    MARQUEE_IMAGES.forEach((src) => {
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = '';
+      img.draggable = false;
+      frag.appendChild(img);
+    });
+  }
   track.appendChild(frag);
   const marquee = track.closest('.marquee');
-  if (marquee) marquee.style.setProperty('--marquee-count', MARQUEE_IMAGES.length);
+  if (marquee) {
+    marquee.style.setProperty('--marquee-count', MARQUEE_IMAGES.length);
+    marquee.style.setProperty('--marquee-duration', (MARQUEE_IMAGES.length * 5) + 's');
+  }
+}
+
+/* 跑马灯进入视口时开始从右向左循环滚动 */
+function setupMarqueeObserver() {
+  const marquee = document.querySelector('.marquee');
+  if (!marquee) return;
+  if (!('IntersectionObserver' in window)) { marquee.classList.add('is-playing'); return; }
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        marquee.classList.add('is-playing');
+        io.unobserve(e.target); // 一次性
+      }
+    });
+  }, { threshold: 0.3 });
+  io.observe(marquee);
 }
 
 renderOrbit();
 renderMarquee();
 setupOrbitObserver();
+setupMarqueeObserver();

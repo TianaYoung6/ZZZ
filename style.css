@@ -88,7 +88,7 @@ img { display: block; max-width: 100%; }
 }
 .text-block:last-child { margin-bottom: 0; }
 .text-block h2 {
-  font-size: clamp(18px, calc(30 / 1600 * 100vw), 30px);
+  font-size: clamp(18px, calc(26 / 1600 * 100vw), 26px);
   font-weight: 500;
   color: #fff3e9;
   opacity: 0.8;
@@ -108,11 +108,25 @@ img { display: block; max-width: 100%; }
   background: #918c8d;
 }
 .desc-row p {
-  font-size: clamp(13px, calc(22 / 1600 * 100vw), 22px);
+  font-size: clamp(13px, calc(18 / 1600 * 100vw), 18px);
   font-weight: 300;
   color: #eee6e1;
   opacity: 0.6;
   line-height: 1.5;
+}
+.desc-row p .text-link {
+  display: inline-block;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+.desc-row p .text-link .handwriting {
+  height: 1.2em;
+  width: auto;
+  vertical-align: -.18em;
+  display: inline-block;
+}
+.desc-row p .text-link:hover {
+  opacity: 1;
 }
 
 /* 右：环形轨道系统 ── 950×950 方盒，中心 = 轨道中心(artboard 1516,1692)
@@ -232,6 +246,11 @@ img { display: block; max-width: 100%; }
 .img-overview {
   width: 100%;
   aspect-ratio: 1200 / 630;
+  overflow: hidden;
+  border: 1px solid transparent;
+  border-radius: calc(40 / 1600 * 100vw);
+  transition: border-color 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
 /* 播放按钮：右上角，hover 概览图时放大 */
 .img-overview .play-btn {
@@ -245,6 +264,11 @@ img { display: block; max-width: 100%; }
   z-index: 4;
   transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform;
+}
+.img-overview:hover {
+  border-color: #fff3e9;
+  box-shadow: 0 0 0 1px rgba(255, 243, 233, 0.35),
+              0 0 calc(40 / 1600 * 100vw) rgba(255, 243, 233, 0.28);
 }
 .img-overview:hover .play-btn {
   transform: scale(1.2);
@@ -269,13 +293,11 @@ img { display: block; max-width: 100%; }
   width: 100%;
   height: 100%;
   overflow: hidden;
-  padding-left: calc(50 / 1600 * 100vw);
 }
 .marquee-track {
   display: flex;
   height: 100%;
   width: max-content;
-  animation: marquee-scroll calc(var(--marquee-count, 5) * 6s) linear infinite;
 }
 .marquee-track img {
   width: calc(200 / 1600 * 100vw);
@@ -284,6 +306,10 @@ img { display: block; max-width: 100%; }
   margin-right: calc(24 / 1600 * 100vw);
   border-radius: calc(12 / 1600 * 100vw);
   object-fit: cover;
+}
+/* 播放态：track 内置两份图片，translateX 0 → -50% 实现从右向左无缝循环 */
+.marquee.is-playing .marquee-track {
+  animation: marquee-scroll var(--marquee-duration, 25s) linear infinite;
 }
 @keyframes marquee-scroll {
   from { transform: translateX(0); }
@@ -341,7 +367,7 @@ img { display: block; max-width: 100%; }
   .text-block h2 { font-size: 19px; margin-bottom: 10px; }
   .desc-row { gap: 12px; }
   .desc-row .sep { height: 40px; }
-  .desc-row p { font-size: 13px; }
+  .desc-row p { font-size: 16px; }
 
   .orbit-system {
     position: relative;
@@ -369,7 +395,6 @@ img { display: block; max-width: 100%; }
   /* 播放按钮 & 滚动条：px 尺寸 */
   .img-overview .play-btn { width: 40px; height: 40px; top: 14px; right: 14px; }
   .marquee-overlay { top: 62%; height: 54px; }
-  .marquee { padding-left: 14px; }
   .marquee-track img { width: 54px; height: 54px; margin-right: 12px; border-radius: 8px; }
 }
 
