@@ -1,0 +1,388 @@
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   首页 — 基于 vibecodingZPJ.pen 1:1 还原
+   设计宽 1600，深色背景 #05050f
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  background: #05050f;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+body {
+  padding-top: 0;
+}
+
+img { display: block; max-width: 100%; }
+
+/* 通用图片框：hover 时整体放大、不裁剪 */
+.img-frame {
+  position: relative;
+  overflow: visible;
+}
+.img-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.zoomable {
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+.img-frame:hover { z-index: 10; }
+.img-frame:hover .zoomable {
+  transform: scale(1.05);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   1. Hero  1600×810
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.sec-hero {
+  width: 100%;
+  aspect-ratio: 1600 / 810;
+  overflow: hidden;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   2. Banner  1200×280 居中
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.sec-banner {
+  width: calc(1260 / 1600 * 100vw);
+  margin: calc(87 / 1600 * 100vw) auto 0;
+  aspect-ratio: 2520 / 802;
+  overflow: hidden;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   3. 能力模型：左文字栏 + 右环形轨道
+   section 高 = 轨道 950；overflow hidden 裁掉右侧溢出
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.sec-orbit {
+  position: relative;
+  width: 100%;
+  height: calc(950 / 1600 * 100vw);
+  margin-top: calc(-16 / 1600 * 100vw); /* 轨道顶部 y=1282，与 banner 底(1298)微叠 */
+  overflow: hidden;
+}
+
+/* 左：文字栏  x=170 y=1402(相对section顶=185)  width=660 */
+.text-col {
+  position: absolute;
+  left: calc(170 / 1600 * 100vw);
+  top: calc(131 / 1600 * 100vw);
+  width: calc(660 / 1600 * 100vw);
+  z-index: 2;
+}
+.sec-title {
+  width: calc(170 / 1600 * 100vw);
+  margin-bottom: calc(105 / 1600 * 100vw); /* 1507-1402 */
+}
+.text-block {
+  margin-bottom: calc(90 / 1600 * 100vw); /* 段间距约 */
+}
+.text-block:last-child { margin-bottom: 0; }
+.text-block h2 {
+  font-size: clamp(18px, calc(30 / 1600 * 100vw), 30px);
+  font-weight: 500;
+  color: #fff3e9;
+  opacity: 0.8;
+  line-height: 1.2;
+  margin-bottom: calc(20 / 1600 * 100vw);
+}
+.desc-row {
+  display: flex;
+  align-items: center;
+  gap: calc(16 / 1600 * 100vw);
+  padding: 0 calc(2 / 1600 * 100vw);
+}
+.desc-row .sep {
+  flex-shrink: 0;
+  width: 1px;
+  height: calc(64 / 1600 * 100vw);
+  background: #918c8d;
+}
+.desc-row p {
+  font-size: clamp(13px, calc(22 / 1600 * 100vw), 22px);
+  font-weight: 300;
+  color: #eee6e1;
+  opacity: 0.6;
+  line-height: 1.5;
+}
+
+/* 右：环形轨道系统 ── 950×950 方盒，中心 = 轨道中心(artboard 1516,1692)
+   left = 1516-475 = 1041；整体自旋，标签反向自旋保持正立 */
+.orbit-system {
+  position: absolute;
+  left: calc(1072 / 1600 * 100vw);
+  top: 0;
+  width: calc(950 / 1600 * 100vw);
+  height: calc(950 / 1600 * 100vw);
+  transform: scale(0.9);
+  transform-origin: center;
+}
+
+.ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.5);
+  border-radius: 50%;
+  border: 1px solid rgba(255, 203, 166, 0.35);
+  background: radial-gradient(circle, rgba(255, 208, 126, 0.045), rgba(255, 208, 126, 0) 70%);
+  box-shadow: 0 0 80px rgba(255, 203, 166, 0.04) inset;
+  opacity: 0;
+}
+.ring.r1 { width: 100%;     height: 100%;     }
+.ring.r2 { width: 73.684%;   height: 73.684%;  } /* 700/950 */
+.ring.r3 { width: 47.368%;   height: 47.368%;  } /* 450/950 */
+.ring.r4 { width: 21.053%;   height: 21.053%;  } /* 200/950 */
+
+/* 入场：内圈先、逐渐到外圈，一次性（滚动到屏触发） */
+.sec-orbit.is-visible .ring { animation: ring-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.sec-orbit.is-visible .ring.r4 { animation-delay: 0s;   }
+.sec-orbit.is-visible .ring.r3 { animation-delay: 0.2s; }
+.sec-orbit.is-visible .ring.r2 { animation-delay: 0.4s; }
+.sec-orbit.is-visible .ring.r1 { animation-delay: 0.6s; }
+@keyframes ring-in {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+  to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+.orbit-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0.5);
+  font-size: clamp(15px, calc(28 / 1600 * 100vw), 28px);
+  font-weight: 500;
+  text-align: center;
+  line-height: 1.2;
+  color: #fff;
+  text-shadow: 0 0 40px rgba(230, 133, 21, 0.75);
+  white-space: nowrap;
+  z-index: 2;
+  opacity: 0;
+}
+.sec-orbit.is-visible .orbit-center { animation: center-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) both 1.2s; }
+@keyframes center-in {
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+/* 标签：药丸形，由 JS 按 (x,y) 定位 */
+.tag {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc(12 / 1600 * 100vw) calc(40 / 1600 * 100vw);
+  border-radius: calc(50 / 1600 * 100vw);
+  font-size: clamp(12px, calc(20 / 1600 * 100vw), 20px);
+  font-weight: 500;
+  white-space: nowrap;
+  line-height: 1.2;
+  background: #654f38;
+  color: #ffcba6;
+  border: 1px solid #ffcba6;
+  box-shadow: 0 calc(14 / 1600 * 100vw) calc(52 / 1600 * 100vw) rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  transform: translateY(8px);
+}
+.tag.inverted {
+  background: #ffcba6;
+  color: #654f38;
+}
+.sec-orbit.is-visible .tag {
+  animation: tag-in 0.55s ease both;
+  animation-delay: calc(var(--i, 0) * 0.05s + 1s);
+}
+@keyframes tag-in {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   4. 底部作品展示区  khYTT x=116 w=1368
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.sec-gallery {
+  width: 100%;
+  margin-top: calc(108 / 1600 * 100vw); /* 2340-2232 */
+}
+.gallery-inner {
+  width: calc(1368 / 1600 * 100vw);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(240 / 1600 * 100vw);
+}
+
+/* 项目概览组：小标题 + 1200×630 图（滚动条叠在图上） */
+.group-overview {
+  width: calc(1200 / 1600 * 100vw);
+  gap: calc(50 / 1600 * 100vw);
+}
+.group-overview .grp-title {
+  width: calc(170 / 1600 * 100vw);
+}
+.img-overview {
+  width: 100%;
+  aspect-ratio: 1200 / 630;
+}
+/* 播放按钮：右上角，hover 概览图时放大 */
+.img-overview .play-btn {
+  position: absolute;
+  top: calc(40 / 1600 * 100vw);
+  right: calc(40 / 1600 * 100vw);
+  width: calc(80 / 1600 * 100vw);
+  height: calc(80 / 1600 * 100vw);
+  object-fit: contain;
+  cursor: pointer;
+  z-index: 4;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+.img-overview:hover .play-btn {
+  transform: scale(1.2);
+}
+/* 大图② 1237×727 */
+.showcase {
+  width: calc(1237 / 1600 * 100vw);
+  aspect-ratio: 1237 / 727;
+}
+
+/* 滚动条 overlay：叠在 img-3 的 y=478~678 区间 */
+.marquee-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(389.5 / 630 * 100%);
+  height: calc(200 / 630 * 100%);
+  overflow: hidden;
+  z-index: 3;
+}
+.marquee {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  padding-left: calc(50 / 1600 * 100vw);
+}
+.marquee-track {
+  display: flex;
+  height: 100%;
+  width: max-content;
+  animation: marquee-scroll calc(var(--marquee-count, 5) * 6s) linear infinite;
+}
+.marquee-track img {
+  width: calc(200 / 1600 * 100vw);
+  height: calc(200 / 1600 * 100vw);
+  flex-shrink: 0;
+  margin-right: calc(24 / 1600 * 100vw);
+  border-radius: calc(12 / 1600 * 100vw);
+  object-fit: cover;
+}
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* 三连宽图组 + 小标题 */
+.group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.group-triple { width: calc(1100 / 1600 * 100vw); gap: calc(50 / 1600 * 100vw); }
+.group-triple .grp-title { width: calc(169 / 1600 * 100vw); }
+.triple-stack {
+  display: flex;
+  flex-direction: column;
+  gap: calc(50 / 1600 * 100vw);
+  width: 100%;
+}
+.triple-stack .img-frame { width: 100%; aspect-ratio: 1000 / 327; }
+
+/* 四宫格组 + 小标题 */
+.group-grid { width: calc(1000 / 1600 * 100vw); gap: calc(32 / 1600 * 100vw); }
+.group-grid .grp-title { width: calc(170 / 1600 * 100vw); }
+.grid-4 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: calc(32 / 1600 * 100vw);
+  width: 100%;
+}
+.grid-4 .img-frame { aspect-ratio: 484 / 550; }
+
+.grp-title { height: auto; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   响应式 — 平板/手机
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+@media (max-width: 1024px) {
+  /* 平板：vw 流式仍可用，仅收紧 gallery 间距 */
+  .gallery-inner { gap: calc(160 / 1600 * 100vw); }
+}
+
+@media (max-width: 768px) {
+  body { padding-top: 0; }
+
+  /* 横幅满宽 */
+  .sec-banner { width: 100%; margin-top: 20px; }
+
+  /* 能力模型：文字栏入流、px 字号；轨道缩小居中置于文字下方 */
+  .sec-orbit { height: auto; overflow: hidden; }
+  .text-col { position: relative; left: auto; top: auto; width: 88%; margin: 0 auto; padding-top: 28px; }
+  .sec-title { width: 110px; margin-bottom: 24px; }
+  .text-block { margin-bottom: 24px; }
+  .text-block h2 { font-size: 19px; margin-bottom: 10px; }
+  .desc-row { gap: 12px; }
+  .desc-row .sep { height: 40px; }
+  .desc-row p { font-size: 13px; }
+
+  .orbit-system {
+    position: relative;
+    left: auto; top: auto;
+    margin: 8px auto 24px;
+    width: 300px; height: 300px;
+  }
+  .orbit-center { font-size: 15px; }
+  .tag { padding: 5px 12px; font-size: 11px; border-radius: 24px; box-shadow: 0 6px 22px rgba(0,0,0,0.25); }
+
+  /* 底部作品区：满宽、px 间距 */
+  .sec-gallery { margin-top: 40px; }
+  .gallery-inner { width: 88%; gap: 40px; }
+  .group-overview, .showcase, .group-triple, .group-grid { width: 100%; gap: 20px; }
+  .group-overview .grp-title,
+  .group-triple .grp-title,
+  .group-grid .grp-title { width: 120px; }
+  .img-overview { aspect-ratio: 1200 / 630; }
+  .showcase { aspect-ratio: 1237 / 727; }
+  .triple-stack { gap: 16px; }
+  .triple-stack .img-frame { aspect-ratio: 1000 / 327; }
+  .grid-4 { grid-template-columns: 1fr 1fr; gap: 14px; }
+  .grid-4 .img-frame { aspect-ratio: 484 / 550; }
+
+  /* 播放按钮 & 滚动条：px 尺寸 */
+  .img-overview .play-btn { width: 40px; height: 40px; top: 14px; right: 14px; }
+  .marquee-overlay { top: 62%; height: 54px; }
+  .marquee { padding-left: 14px; }
+  .marquee-track img { width: 54px; height: 54px; margin-right: 12px; border-radius: 8px; }
+}
+
+@media (max-width: 480px) {
+  .grid-4 { grid-template-columns: 1fr; }
+  .text-block h2 { font-size: 18px; }
+  .marquee-track img { width: 48px; height: 48px; }
+}
+
+/* 尊重「减少动态」偏好：关闭动画但直接显示终态 */
+@media (prefers-reduced-motion: reduce) {
+  .ring { opacity: 1 !important; transform: translate(-50%, -50%) !important; }
+  .tag { opacity: 1 !important; transform: none !important; }
+  .orbit-center { opacity: 1 !important; transform: translate(-50%, -50%) !important; }
+  .ring, .tag, .orbit-center, .marquee-track { animation: none !important; }
+}

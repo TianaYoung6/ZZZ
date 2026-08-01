@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>01 Ai赋能篇</title>
+  <style>
+    @font-face {
+      font-family: 'FZHanZhenGuangBiaoS-GB';
+      src: url('FZHZGBJW.TTF') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      background: #01020d;
+      color: #fff;
+      font-family: 'PingFang SC', -apple-system, 'Helvetica Neue', Arial, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ═══════════════════════════════════════
+       STICKY HEADER  (Frame 94)
+       1600×100 | justify-content: space-between
+       fill: linear-gradient black→transparent (downward)
+       padding: [0, 60]  gap: 40
+    ═══════════════════════════════════════ */
+    #sticky-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: clamp(48px, 5vw, 80px);
+      /* updated: 80px */
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: clamp(12px, 2.5vw, 40px);
+      padding: 0 clamp(16px, 3.75vw, 60px);
+      /* padding [0,60] unchanged */
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.88) 0%, rgba(0, 0, 0, 0) 100%);
+      z-index: 1000;
+      opacity: 0;
+      transform: translateY(-8px);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      pointer-events: none;
+    }
+
+    #sticky-header.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: all;
+    }
+
+    /* Title text — Frame 94: FZHanZhenGuangBiaoS-GB 33.33px, gap 22.22px */
+    .nav-title {
+      display: flex;
+      align-items: center;
+      gap: clamp(12px, 2.5vw, 40px);
+      flex-shrink: 1;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .nav-title span {
+      font-family: 'FZHanZhenGuangBiaoS-GB', 'STZhongsong', 'Noto Serif SC', serif;
+      font-size: clamp(22px, 3.75vw, 60px);
+      font-weight: normal;
+      color: #ddeaff;
+      line-height: 1.2;
+    }
+
+    .nav-title .nav-title-name {
+      letter-spacing: clamp(2px, 0.375vw, 6px);
+    }
+
+    #sticky-header .nav-title span {
+      font-size: clamp(13px, 2.0625vw, 33px);
+    }
+
+    /* ═══════════════════════════════════════
+       TAB BUTTONS  (shared style for all tabs)
+       Design values: padding 15/30, radius 150,
+       border 1.5px #ddeaff, backdrop-blur 17.5px
+       font 30px PingFang SC normal
+    ═══════════════════════════════════════ */
+    /* Frame 94 updated: gap 24, font 24px, padding [12,24], blur 14, border 1.2px */
+    .tabs-row {
+      display: flex;
+      align-items: center;
+      gap: clamp(8px, 1.5vw, 24px);
+      flex-shrink: 0;
+      flex-wrap: nowrap;
+    }
+
+    .tab-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(5px, 0.75vw, 12px) clamp(10px, 1.5vw, 24px);
+      border-radius: 9999px;
+      border: 1.2px solid rgba(221, 234, 255, 0.85);
+      background: rgba(255, 255, 255, 0.10);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      color: #fff;
+      font-family: 'PingFang SC', -apple-system, sans-serif;
+      font-size: clamp(10px, 1.5vw, 24px);
+      font-weight: 400;
+      line-height: 1;
+      white-space: nowrap;
+      cursor: pointer;
+      opacity: 0.9;
+      transition: background 0.22s ease, opacity 0.22s ease, transform 0.12s ease;
+      -webkit-appearance: none;
+      appearance: none;
+      user-select: none;
+    }
+
+    /* Active state: blue→purple gradient (rotation -450≈ flowing right) */
+    .tab-btn.active {
+      background: linear-gradient(90deg,
+          #3c91ff 0%,
+          #619de6 38%,
+          #7684ea 76%,
+          #3c91ff 100%);
+      opacity: 0.9;
+    }
+
+    .tab-btn:hover {
+      opacity: 1;
+      transform: scale(1.03);
+    }
+
+    .tab-btn:active {
+      transform: scale(0.97);
+    }
+
+    /* ═══════════════════════════════════════
+       TAB PAGES
+    ═══════════════════════════════════════ */
+    .tab-page {
+      display: none;
+    }
+
+    .tab-page.active {
+      display: block;
+    }
+
+    /* ═══════════════════════════════════════
+       SECTION 1 — HERO  (VibeCoding1, 1600×850)
+       Nav overlay A4Ixjt: y=60, h=200, w=1600
+         layout: vertical, align-items: center,
+         justify-content: center, gap: 40, padding: [0,60]
+       Logos By7IN: x=65, y=780, gap:40
+    ═══════════════════════════════════════ */
+    .section-hero {
+      position: relative;
+      width: 100%;
+      z-index: 1;
+      /* ensures logos (overflow) paint above gap div */
+    }
+
+    .section-hero .bg {
+      width: 100%;
+      display: block;
+    }
+
+    /* Nav overlay: top = 60/800, height = 200/800 */
+    .nav-overlay {
+      position: absolute;
+      top: calc(60 / 800 * 100%);
+      left: 0;
+      right: 0;
+      height: calc(200 / 800 * 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(12px, 2.5vw, 40px);
+      padding: 0 clamp(16px, 3.75vw, 60px);
+    }
+
+
+    /* Logos (By7IN): top = 740/800, left = 65/1600, gap 40 */
+    .logos-overlay {
+      position: absolute;
+      top: calc(740 / 800 * 100%);
+      left: calc(65 / 1600 * 100%);
+      display: flex;
+      align-items: center;
+      gap: clamp(12px, 2.5vw, 40px);
+      z-index: 2;
+    }
+
+    .logos-overlay img {
+      width: clamp(32px, calc(120 / 1600 * 100vw), 120px);
+      height: clamp(32px, calc(120 / 1600 * 100vw), 120px);
+      object-fit: contain;
+      border-radius: 50%;
+    }
+
+    /* ═══════════════════════════════════════
+       GAP  (y:800 → y:880, 80px at 1600w)
+    ═══════════════════════════════════════ */
+    .section-gap {
+      background: #01020d;
+      height: calc(80 / 1600 * 100vw);
+    }
+
+    /* ═══════════════════════════════════════
+       SECTION 2 — VibeCoding2  (1600×880)
+       iframe (image 6784):
+         x=1100, y_rel=168, w=517, h=720
+         cornerRadius [40,0,0,0]  border 2px white
+       Dark overlay (E4Gz2): standalone after section-2
+         y=1760, h=100
+    ═══════════════════════════════════════ */
+    .section-2 {
+      position: relative;
+      width: 100%;
+    }
+
+    .section-2 .bg {
+      width: 100%;
+      display: block;
+    }
+
+    /* H5 iframe embed */
+    .h5-container {
+      position: absolute;
+      top: calc(168 / 880 * 100%);
+      left: calc(1100 / 1600 * 100%);
+      width: calc(517 / 1600 * 100%);
+      height: calc(720 / 880 * 100%);
+      border-radius: clamp(8px, 2.5vw, 40px) 0 0 0;
+      overflow: hidden;
+      border: 2px solid #fff;
+      background: #0d0d1a;
+    }
+
+    .h5-container iframe {
+      border: none;
+      display: block;
+      flex-shrink: 0;
+    }
+
+    /* iframe empty-state placeholder (shown when src is blank) */
+    .h5-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: #0d0d1a;
+      color: rgba(255, 255, 255, 0.35);
+      font-size: clamp(10px, 1vw, 14px);
+      text-align: center;
+      padding: 16px;
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .h5-placeholder svg {
+      opacity: 0.3;
+      flex-shrink: 0;
+    }
+
+    /* Dark overlay — standalone block after VibeCoding2 (y:1760, h:100) */
+    .section2-fade {
+      height: calc(100 / 1600 * 100vw);
+      background: #000;
+      backdrop-filter: blur(17.5px);
+      -webkit-backdrop-filter: blur(17.5px);
+    }
+
+    /* ═══════════════════════════════════════
+       REMAINING FULL-WIDTH SECTIONS
+    ═══════════════════════════════════════ */
+    .section-img {
+      width: 100%;
+      display: block;
+    }
+
+    /* ═══════════════════════════════════════
+       PLACEHOLDER PAGES (Tab 2 & 3)
+    ═══════════════════════════════════════ */
+    .tab-placeholder {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 20px;
+      color: rgba(255, 255, 255, 0.2);
+      font-size: clamp(20px, 3vw, 48px);
+      font-weight: 300;
+      letter-spacing: 0.06em;
+    }
+
+    .tab-placeholder .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.15);
+      display: inline-block;
+    }
+
+    /* ═══════════════════════════════════════
+       AI赛事自驱 TAB
+    ═══════════════════════════════════════ */
+    .race-hero-bg {
+      width: 100%;
+      aspect-ratio: 1600 / 800;
+      background: #080818;
+    }
+
+    .race-s2 {
+      width: 100%;
+    }
+
+    /* laptop mockup + video overlay — all % relative to image width */
+    .race-laptop-wrap {
+      position: relative;
+      width: 100%;
+    }
+
+    .race-laptop-frame {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .race-laptop-screen {
+      position: absolute;
+      top: 19.5%;     /* 129 ÷ 660（完整图高） */
+      left: 7.5%;
+      width: 43.125%;
+      aspect-ratio: 16/10;
+      overflow: hidden;
+    }
+
+    .race-laptop-screen video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .race-laptop-screen video::-webkit-media-controls-fullscreen-button,
+    .race-laptop-screen video::-webkit-media-controls-overflow-button {
+      display: none !important;
+    }
+
+    .race-pl {
+      width: 100%;
+      background: #06060f;
+    }
+
+    .race-wechat {
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+      background: #111;
+    }
+
+    .race-wechat iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      border: none;
+      display: block;
+      transform-origin: top left;
+    }
+
+    /* ── 3D 卡片扇形展示 ── */
+    .race-fan-section {
+      background: #fefefe;
+      width: 100%;
+      aspect-ratio: 1600/660;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .race-fan-stage {
+      position: relative;
+      width: 100%;
+      height: 90%;
+      perspective: 48vw;
+      perspective-origin: 42% 48%;
+    }
+
+    .race-fan-deck {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transform: rotateX(-15deg) rotateY(-20deg);
+    }
+
+    .race-fan-card {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 25vw;
+      aspect-ratio: 1280/800;
+      border-radius: 1vw;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  opacity 0.55s ease,
+                  box-shadow 0.5s ease;
+    }
+
+    .race-fan-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      pointer-events: none;
+    }
+
+    /* ── 3.jpg + 圆形卡片叠层 ── */
+    .race-s3-wrap {
+      position: relative;
+      width: 100%;
+    }
+
+    .race-cards-row {
+      position: absolute;
+      top: 52.54%;   /* (3118 - 2280) ÷ 1595 */
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: calc(40 / 1600 * 100vw);
+    }
+
+    .race-card {
+      position: relative;
+      width: calc(260 / 1600 * 100vw);
+      height: calc(260 / 1600 * 100vw);
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.10);
+      border: 1px solid transparent;
+      background-clip: padding-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: calc(30 / 1600 * 100vw);
+      box-sizing: border-box;
+      gap: calc(7.2 / 1600 * 100vw);
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    /* 渐变描边：上白→下20%白 */
+    .race-card::after {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(to bottom, rgba(255,255,255,1), rgba(255,255,255,0.2));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    .race-card-title {
+      font-family: 'PingFang SC', -apple-system, sans-serif;
+      font-size: calc(27 / 1600 * 100vw);
+      color: #f4d198;
+      font-weight: normal;
+      line-height: 1.2;
+      text-align: center;
+      margin: 0;
+    }
+
+    .race-card-desc {
+      font-family: 'PingFang SC', -apple-system, sans-serif;
+      font-size: calc(20 / 1600 * 100vw);
+      color: #fdfcf8;
+      letter-spacing: 0.1em;
+      line-height: 1.5;
+      text-align: center;
+      margin: 0;
+    }
+
+    /* ═══════════════════════════════════════
+       AI CONTENT PRODUCTION — LOGOS SECTION
+       Design: gap y:800→1080 (280px @ 1600w)
+       Logos at y:880 (80px below hero)
+       4 logos 120×120, gap:40, centered
+    ═══════════════════════════════════════ */
+    .ai-logos-section {
+      background: #01020d;
+      height: calc(280 / 1600 * 100vw);
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      gap: clamp(12px, 2.5vw, 40px);
+      padding-top: calc(80 / 1600 * 100vw);
+    }
+
+    .ai-logos-section img {
+      width: clamp(36px, calc(120 / 1600 * 100vw), 120px);
+      height: clamp(36px, calc(120 / 1600 * 100vw), 120px);
+      object-fit: contain;
+      display: block;
+      flex-shrink: 0;
+    }
+
+    /* ═══════════════════════════════════════
+       SCROLL-TO-TOP BUTTON
+    ═══════════════════════════════════════ */
+    #back-top {
+      position: fixed;
+      bottom: clamp(16px, 3vw, 40px);
+      right: clamp(16px, 3vw, 40px);
+      width: clamp(36px, 3vw, 48px);
+      height: clamp(36px, 3vw, 48px);
+      border-radius: 50%;
+      background: rgba(60, 145, 255, 0.7);
+      backdrop-filter: blur(8px);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.3s, transform 0.3s;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    #back-top.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: all;
+    }
+
+    #back-top:hover {
+      background: rgba(60, 145, 255, 0.9);
+    }
+
+    #back-top svg {
+      width: 18px;
+      height: 18px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ═══════════════════════════════════════════
+       STICKY HEADER  ·  Frame 94
+       Appears after scrolling past nav overlay
+  ═══════════════════════════════════════════ -->
+  <header id="sticky-header">
+    <div class="nav-title">
+      <span>01</span>
+      <span class="nav-title-name">Ai赋能篇</span>
+    </div>
+    <nav class="tabs-row" id="header-tabs" aria-label="主导航">
+      <button class="tab-btn active" data-tab="0">Vibe Coding</button>
+      <button class="tab-btn" data-tab="1">Ai内容生产</button>
+      <button class="tab-btn" data-tab="2">Ai赛事自驱</button>
+    </nav>
+  </header>
+
+  <!-- Back-to-top -->
+  <button id="back-top" title="回到顶部" aria-label="回到顶部">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"
+      stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15" />
+    </svg>
+  </button>
+
+  <!-- ═══════════════════════════════════════════
+       TAB PAGES
+  ═══════════════════════════════════════════ -->
+  <div id="tab-pages">
+
+    <!-- ▶▶  TAB 1 : Vibe Coding  ◀◀ -->
+    <div class="tab-page active" id="tab-0">
+
+      <!-- ── Section 1 : VibeCoding1 hero ── -->
+      <section class="section-hero">
+        <img class="bg" src="01 Ai赋能篇/VibeCoding/VibeCoding1.png" alt="Vibe Coding Hero" draggable="false">
+
+        <!-- Nav overlay  (A4Ixjt  y:60 h:200) -->
+        <div class="nav-overlay" id="nav-overlay">
+          <div class="nav-title">
+            <span>01</span>
+            <span class="nav-title-name">Ai赋能篇</span>
+          </div>
+          <nav class="tabs-row" id="page-tabs" aria-label="内容分类">
+            <button class="tab-btn active" data-tab="0">Vibe Coding</button>
+            <button class="tab-btn" data-tab="1">Ai内容生产</button>
+            <button class="tab-btn" data-tab="2">Ai赛事自驱</button>
+          </nav>
+        </div>
+
+        <!-- Tool logos  (By7IN  x:65 y:780  three 140×140 icons gap:40) -->
+        <div class="logos-overlay" aria-hidden="true">
+          <img src="01 Ai赋能篇/VibeCoding/Antigravity.png" alt="Antigravity">
+          <img src="01 Ai赋能篇/VibeCoding/ClaudeCode.png" alt="Claude Code">
+          <img src="01 Ai赋能篇/VibeCoding/Codex.png" alt="Codex">
+        </div>
+      </section>
+
+      <!-- ── Gap between VibeCoding1 and VibeCoding2 (175px @ 1600w) ── -->
+      <div class="section-gap"></div>
+
+      <!-- ── Section 2 : VibeCoding2  +  H5 iframe  +  fade overlay ── -->
+      <section class="section-2" id="section-2">
+        <img class="bg" src="01 Ai赋能篇/VibeCoding/VibeCoding2.png" alt="" draggable="false">
+
+        <div class="h5-container" id="h5-container">
+          <iframe id="h5-iframe" src="01 Ai赋能篇/h5/index.html" title="内嵌 H5 展示" allowfullscreen
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"
+            sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups"></iframe>
+          <div class="h5-placeholder" id="h5-placeholder">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" width="48" height="48">
+              <rect x="4" y="8" width="40" height="32" rx="4" />
+              <path d="M16 22l8-6 8 6M24 16v16" />
+            </svg>
+            <span>在此处嵌入 H5 文件</span>
+            <span style="font-size:0.85em;opacity:0.6">
+              将 iframe 的 src 设置为本地文件路径
+            </span>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Dark overlay (E4Gz2  y:1760 h:100) — gap between VibeCoding2 and VibeCoding3 -->
+      <div class="section2-fade"></div>
+      <!-- remaining 20px gap to VibeCoding3 (y:1880) -->
+      <div style="height:calc(20/1600*100vw);background:#01020d;"></div>
+
+      <!-- ── Sections 3 – 7 (stacked, no gap needed) ── -->
+      <img class="section-img" src="01 Ai赋能篇/VibeCoding/VibeCoding3.png" alt="" draggable="false">
+      <img class="section-img" src="01 Ai赋能篇/VibeCoding/VibeCoding4.png" alt="" draggable="false">
+      <img class="section-img" src="01 Ai赋能篇/VibeCoding/VibeCoding5.png" alt="" draggable="false">
+      <img class="section-img" src="01 Ai赋能篇/VibeCoding/VibeCoding6.png" alt="" draggable="false">
+      <img class="section-img" src="01 Ai赋能篇/VibeCoding/VibeCoding7.png" alt="" draggable="false">
+
+    </div><!-- /tab-0 -->
+
+
+    <!-- ▶▶  TAB 2 : Ai内容生产  ◀◀ -->
+    <div class="tab-page" id="tab-1">
+
+      <!-- ── Section 1 : Hero (1.png, 1600×800) ── -->
+      <section class="section-hero">
+        <img class="bg" src="01 Ai赋能篇/Ai内容生产/1.png" alt="Ai内容生产 Hero" draggable="false">
+
+        <!-- Nav overlay  (y:60 h:200, same structure as Vibe Coding) -->
+        <div class="nav-overlay">
+          <div class="nav-title">
+            <span>01</span>
+            <span class="nav-title-name">Ai赋能篇</span>
+          </div>
+          <nav class="tabs-row" aria-label="内容分类">
+            <button class="tab-btn" data-tab="0">Vibe Coding</button>
+            <button class="tab-btn active" data-tab="1">Ai内容生产</button>
+            <button class="tab-btn" data-tab="2">Ai赛事自驱</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- ── Gap + Logos (y:800→1080, logos at y:880) ── -->
+      <!-- 4 logos 120×120 gap:40, centered at x:501 in 1600px canvas -->
+      <div class="ai-logos-section" aria-hidden="true">
+        <img src="01 Ai赋能篇/Ai内容生产/Figma.png" alt="Figma">
+        <img src="01 Ai赋能篇/Ai内容生产/GPT.png" alt="GPT">
+        <img src="01 Ai赋能篇/Ai内容生产/Lovart.png" alt="Lovart">
+        <img src="01 Ai赋能篇/Ai内容生产/龙虾.png" alt="龙虾">
+      </div>
+
+      <!-- ── Sections 2–5 (stacked full-width) ── -->
+      <!-- 2.png 1600×900 | 3.png 1581×1000 | 4.png 1600×1100 | 5.png 1600×1000 -->
+      <img class="section-img" src="01 Ai赋能篇/Ai内容生产/2.png" alt="" draggable="false">
+      <img class="section-img" src="01 Ai赋能篇/Ai内容生产/3.png" alt="" draggable="false">
+      <img class="section-img" src="01 Ai赋能篇/Ai内容生产/4.png" alt="" draggable="false">
+      <img class="section-img" src="01 Ai赋能篇/Ai内容生产/5.png" alt="" draggable="false">
+
+    </div><!-- /tab-1 -->
+
+
+    <!-- ▶▶  TAB 3 : Ai赛事自驱  ◀◀ -->
+    <div class="tab-page" id="tab-2">
+
+      <!-- ── Section 1 : Hero (1600×800) ── -->
+      <section class="section-hero">
+        <img class="bg" src="01 Ai赋能篇/Ai赛事自驱/Ai赛自驱-头图.jpg" alt="" draggable="false">
+        <div class="nav-overlay">
+          <div class="nav-title">
+            <span>01</span>
+            <span class="nav-title-name">Ai赋能篇</span>
+          </div>
+          <nav class="tabs-row" aria-label="内容分类">
+            <button class="tab-btn" data-tab="0">Vibe Coding</button>
+            <button class="tab-btn" data-tab="1">Ai内容生产</button>
+            <button class="tab-btn active" data-tab="2">Ai赛事自驱</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- ── Section 2 : laptop mockup + video (1599×660) ── -->
+      <section class="race-s2">
+        <div class="race-laptop-wrap">
+          <img class="race-laptop-frame" src="01 Ai赋能篇/Ai赛事自驱/1.jpg" alt="" draggable="false">
+          <div class="race-laptop-screen">
+            <video playsinline controls controlslist="nofullscreen nodownload noremoteplayback">
+              <source src="01 Ai赋能篇/Ai赛事自驱/讲解体验差异 (1).mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2.jpg 1600×820 -->
+      <img class="section-img" src="01 Ai赋能篇/Ai赛事自驱/2.jpg" alt="" draggable="false">
+
+      <!-- 3.jpg 1600×1595 + 圆形卡片叠层 -->
+      <div class="race-s3-wrap">
+        <img class="section-img" src="01 Ai赋能篇/Ai赛事自驱/3.jpg" alt="" draggable="false">
+        <div class="race-cards-row">
+          <div class="race-card">
+            <p class="race-card-title">接模型</p>
+            <p class="race-card-desc">接入Gemini API<br>多模处理好</p>
+          </div>
+          <div class="race-card">
+            <p class="race-card-title">找声音</p>
+            <p class="race-card-desc">不同角色的声音<br>不同年龄的声音</p>
+          </div>
+          <div class="race-card">
+            <p class="race-card-title">开发</p>
+            <p class="race-card-desc">Gemini对前端<br>处理得更好</p>
+          </div>
+          <div class="race-card">
+            <p class="race-card-title">修复Bug</p>
+            <p class="race-card-desc">解决功能层面主要<br>Bug</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3D 卡片扇形展示 (1600×660) -->
+      <section class="race-fan-section">
+        <div class="race-fan-stage">
+          <div class="race-fan-deck" id="raceFanDeck">
+            <div class="race-fan-card"><img src="01 Ai赋能篇/Ai赛事自驱/展示/1.png"  alt="" draggable="false"></div>
+            <div class="race-fan-card"><img src="01 Ai赋能篇/Ai赛事自驱/展示/2.png"  alt="" draggable="false"></div>
+            <div class="race-fan-card"><img src="01 Ai赋能篇/Ai赛事自驱/展示/3.png"  alt="" draggable="false"></div>
+            <div class="race-fan-card"><img src="01 Ai赋能篇/Ai赛事自驱/展示/4.png"  alt="" draggable="false"></div>
+            <div class="race-fan-card"><img src="01 Ai赋能篇/Ai赛事自驱/展示/5.png"  alt="" draggable="false"></div>
+            <div class="race-fan-card"><img src="01 Ai赋能篇/Ai赛事自驱/展示/6.png"  alt="" draggable="false"></div>
+            <div class="race-fan-card"><img src="01 Ai赋能篇/Ai赛事自驱/展示/7.png"  alt="" draggable="false"></div>
+            <div class="race-fan-card"><img src="01 Ai赋能篇/Ai赛事自驱/展示/8.png"  alt="" draggable="false"></div>
+            <div class="race-fan-card"><img src="01 Ai赋能篇/Ai赛事自驱/展示/9.png"  alt="" draggable="false"></div>
+            <div class="race-fan-card"><img src="01 Ai赋能篇/Ai赛事自驱/展示/10.png" alt="" draggable="false"></div>
+            <div class="race-fan-card"><img src="01 Ai赋能篇/Ai赛事自驱/展示/11.png" alt="" draggable="false"></div>
+            <div class="race-fan-card"><img src="01 Ai赋能篇/Ai赛事自驱/展示/12.png" alt="" draggable="false"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4.jpg separator 1600×200 -->
+      <img class="section-img" src="01 Ai赋能篇/Ai赛事自驱/4.jpg" alt="" draggable="false">
+
+      <!-- ── WeChat H5 embed ── -->
+      <section class="race-wechat">
+        <iframe src="01 Ai赋能篇/微信/wechat-demo.html" title="微信 H5" allowfullscreen
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"
+          sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups"></iframe>
+      </section>
+
+      <!-- 5.jpg 1600×1358 -->
+      <img class="section-img" src="01 Ai赋能篇/Ai赛事自驱/5.jpg" alt="" draggable="false">
+
+      <!-- 6.jpg 1600×720 -->
+      <img class="section-img" src="01 Ai赋能篇/Ai赛事自驱/6.jpg" alt="" draggable="false">
+
+    </div>
+
+  </div><!-- /tab-pages -->
+
+
+  <script>
+    /* ─────────────────────────────────────────
+       TAB SWITCHING
+    ───────────────────────────────────────── */
+    const allBtns = document.querySelectorAll('.tab-btn');
+    const tabPages = document.querySelectorAll('.tab-page');
+
+    function switchTab(index, scroll) {
+      allBtns.forEach(btn =>
+        btn.classList.toggle('active', +btn.dataset.tab === index)
+      );
+      tabPages.forEach((page, i) =>
+        page.classList.toggle('active', i === index)
+      );
+      sessionStorage.setItem('Ai赋能篇_tab', index);
+      if (scroll !== false) window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (index === 2) requestAnimationFrame(scaleRaceWechat);
+    }
+
+    allBtns.forEach(btn =>
+      btn.addEventListener('click', () => switchTab(+btn.dataset.tab))
+    );
+
+    /* 刷新恢复上次 tab */
+    const _savedTab = parseInt(sessionStorage.getItem('Ai赋能篇_tab') || '0', 10);
+    if (_savedTab > 0) switchTab(_savedTab, false);
+
+    /* ─────────────────────────────────────────
+       STICKY HEADER  ·  scroll trigger
+    ───────────────────────────────────────── */
+    const stickyHeader = document.getElementById('sticky-header');
+    const navOverlay = document.getElementById('nav-overlay');
+    const backTop = document.getElementById('back-top');
+
+    function navThreshold() {
+      return window.innerWidth * (260 / 1600);
+    }
+
+    function onScroll() {
+      const scrollY = window.scrollY;
+      stickyHeader.classList.toggle('visible', scrollY > navThreshold());
+      backTop.classList.toggle('visible', scrollY > window.innerHeight * 0.6);
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    backTop.addEventListener('click', () =>
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    );
+
+    /* ─────────────────────────────────────────
+       H5 IFRAME  ·  scale-to-fit container
+    ───────────────────────────────────────── */
+    const iframe = document.getElementById('h5-iframe');
+    const h5Container = document.getElementById('h5-container');
+    const placeholder = document.getElementById('h5-placeholder');
+
+    const H5_W = 375, H5_H = 812;
+
+    function scaleH5() {
+      if (!h5Container || !iframe) return;
+      const cW = h5Container.clientWidth;
+      const cH = h5Container.clientHeight;
+      if (cW === 0 || cH === 0) return;
+      const scale = Math.min(cW / H5_W, cH / H5_H);
+      const offX = (cW - H5_W * scale) / 2;
+      iframe.style.width = H5_W + 'px';
+      iframe.style.height = H5_H + 'px';
+      iframe.style.transform = `translateX(${offX}px) scale(${scale})`;
+      iframe.style.transformOrigin = 'top left';
+    }
+
+    if (window.ResizeObserver) {
+      new ResizeObserver(scaleH5).observe(h5Container);
+    }
+    window.addEventListener('resize', scaleH5, { passive: true });
+    window.addEventListener('load', scaleH5);
+
+    function updatePlaceholder() {
+      const hasSrc = iframe.src && iframe.src !== window.location.href
+        && iframe.src !== 'about:blank' && iframe.src !== '';
+      placeholder.style.display = hasSrc ? 'none' : 'flex';
+    }
+
+    iframe.addEventListener('load', updatePlaceholder);
+    updatePlaceholder();
+
+    /* ─────────────────────────────────────────
+       RACE WECHAT IFRAME · scale-to-fit
+       固定内容尺寸 924×800，整体等比缩放至容器宽
+    ───────────────────────────────────────── */
+    const RACE_W = 1100, RACE_H = 924;
+
+    const raceSection = document.querySelector('.race-wechat');
+    const raceFrame = raceSection && raceSection.querySelector('iframe');
+
+    function scaleRaceWechat() {
+      if (!raceSection || !raceFrame) return;
+      const cw = raceSection.clientWidth;
+      if (!cw) return;
+      const scale = Math.min(1, cw / RACE_W);       // 最大 1，不放大
+      const offsetX = (cw - RACE_W * scale) / 2;      // 水平居中
+      raceFrame.style.width = RACE_W + 'px';
+      raceFrame.style.height = RACE_H + 'px';
+      raceFrame.style.transformOrigin = 'top left';
+      raceFrame.style.transform = `translateX(${offsetX}px) scale(${scale})`;
+      raceSection.style.height = Math.ceil(RACE_H * scale) + 'px';
+    }
+
+    window.addEventListener('resize', scaleRaceWechat, { passive: true });
+    scaleRaceWechat();
+
+    /* ─────────────────────────────────────────
+       苹果风格斜向纵深轮播
+       deck 整体旋转，卡片只做 translateX/Y/Z 错开
+       前卡左下（近大），后卡右上（远小）
+    ───────────────────────────────────────── */
+    (function () {
+      const deck = document.getElementById('raceFanDeck');
+      if (!deck) return;
+
+      const cards = Array.from(deck.querySelectorAll('.race-fan-card'));
+      const N     = cards.length;
+      const SHOW  = 6;      // 同时可见层数
+      const DX    = 3.8;   // 每层向右偏移 vw
+      const DY    = 2.8;   // 每层向上偏移 vw（负 Y）
+      const DZ    = 5.0;   // 每层 Z 纵深 vw
+      const CW    = 25;    // 卡片宽 vw
+      const CH    = CW * 800 / 1280; // ≈15.6vw
+
+      // 使整组堆叠视觉居中：前卡向左下偏移半个堆叠跨度
+      const OX    = -((SHOW - 1) * DX) / 2;
+      const OY    =  ((SHOW - 1) * DY) / 2;
+
+      let frontIdx = 0;
+      let timer    = null;
+
+      function pos(i) { return (i - frontIdx + N) % N; }
+
+      function applyPos(card, p, instant) {
+        if (instant) card.style.transition = 'none';
+
+        const visible = p < SHOW;
+        card.style.opacity       = visible ? String(1 - p * 0.07) : '0';
+        card.style.pointerEvents = p === 0 ? 'auto' : 'none';
+        card.style.zIndex        = String(visible ? SHOW - p + 5 : 0);
+
+        const px = OX + p * DX - CW / 2;
+        const py = OY - p * DY - CH / 2;
+        const pz = -p * DZ;
+        const sh = p === 0
+          ? '0 1.2vw 3.5vw rgba(0,0,0,0.45)'
+          : `0 0.4vw ${0.8 + p * 0.3}vw rgba(0,0,0,0.25)`;
+
+        card.style.transform  = `translateX(${px}vw) translateY(${py}vw) translateZ(${pz}vw)`;
+        card.style.boxShadow  = sh;
+
+        if (instant) requestAnimationFrame(() =>
+          requestAnimationFrame(() => { card.style.transition = ''; })
+        );
+      }
+
+      function renderAll() {
+        cards.forEach((c, i) => applyPos(c, pos(i), false));
+      }
+
+      function advance() {
+        const old = cards[frontIdx];
+        frontIdx  = (frontIdx + 1) % N;
+        applyPos(old, SHOW, true);          // 瞬间移出可视区
+        requestAnimationFrame(() =>
+          requestAnimationFrame(() => renderAll())  // 其余平滑推进
+        );
+      }
+
+      function startAuto() { timer = setInterval(advance, 3200); }
+      function stopAuto()  { clearInterval(timer); timer = null; }
+
+      // 初始化
+      cards.forEach((c, i) => applyPos(c, i, true));
+
+      // 点击前景卡推进
+      deck.addEventListener('click', () => { advance(); stopAuto(); startAuto(); });
+
+      // 悬停暂停
+      deck.addEventListener('mouseenter', stopAuto);
+      deck.addEventListener('mouseleave', startAuto);
+
+      startAuto();
+    })();
+
+  </script>
+
+</body>
+
+</html>
