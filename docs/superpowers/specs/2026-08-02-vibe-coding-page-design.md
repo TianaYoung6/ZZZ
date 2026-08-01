@@ -35,11 +35,12 @@
 - `01 Ai赋能篇/h5/` → `assets/Ai技能/Vibe Coding/h5/`
 - 字体 `@font-face` 指向根目录 `FZHZGBJW.TTF`（从 `旧版本/` 拷贝过来）
 
-### 2. `index.html` 5-1 接线
+### 2. `index.html` 5-1 接线（仅此一处，无交互改造）
 
+- index.html **只新增这一处**：把 6-1.png 的 `.img-frame` 包成 `<a href="Vibe Coding.html" target="_blank" rel="noopener">`，点击在新标签打开 Vibe Coding 页。
 - "5-1" = `assets/首页/6-1.png`（`5.png` 标题下 `stack-3` 第一张）。
-- 把该 `.img-frame` 包成 `<a href="Vibe Coding.html" target="_blank" rel="noopener">`。
-- **保留** `zoomable` 的 hover 放大（`style.css:34-41`，hover scale 1.05），与新标签跳转共存。6-2/6-3 不变。
+- **不改 index.html 任何现有交互/行为**：环形轨道、滚动条 marquee、`zoomable` 的 hover 放大（`style.css:34-41`，hover scale 1.05）全部保持原样；6-2/6-3 不动。
+- 所有交互改造都在 `Vibe Coding.html` 上完成，index.html 仅作导航入口。
 
 ## 交互设计
 
