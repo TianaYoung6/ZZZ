@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Popup 组件 Demo</title>
+  <link rel="stylesheet" href="../../fonts.css">
+  <link rel="stylesheet" href="popup.css?v=5">
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #05050f;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-default, 'SourceHanSansCN', sans-serif);
+    }
+    .demo-btn {
+      padding: 16px 40px;
+      font-size: 18px;
+      color: #ffcba6;
+      background: rgba(255, 203, 166, 0.12);
+      border: 1px solid #ffcba6;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+    .demo-btn:hover { background: rgba(255, 203, 166, 0.22); transform: scale(1.04); }
+    .demo-btn:active { transform: scale(0.98); }
+  </style>
+</head>
+
+<body>
+  <button class="demo-btn" id="open-popup">打开数据可视化弹窗</button>
+
+  <script src="popup.js"></script>
+  <script>
+    const IMAGES = ['ksh-1.png', 'ksh-2.png', 'ksh-3.png', 'ksh-4.png',
+      'ksh-5.png', 'ksh-6.png', 'ksh-7.png', 'ksh-8.png']
+      .map(f => `../../assets/设计规范/可视化/${f}`);
+
+    document.getElementById('open-popup').addEventListener('click', () => {
+      const frag = document.createDocumentFragment();
+      IMAGES.forEach((src, i) => {
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = '';
+        img.draggable = false;
+        // ksh-1 顶部圆角 20（与设计一致）
+        if (i === 0) img.style.borderRadius = 'calc(20 / 1600 * 100vw)';
+        frag.appendChild(img);
+      });
+      Popup.open({ title: '数据可视化', content: frag });
+    });
+  </script>
+</body>
+
+</html>

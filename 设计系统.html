@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>设计系统搭建的4阶段</title>
+  <link rel="stylesheet" href="components/popup/popup.css?v=3">
+  <style>
+    @font-face {
+      font-family: 'FZHanZhenGuangBiaoS-GB';
+      src: url('FZHZGBJW.TTF') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: calc(90 / 1600 * 100vw);
+    }
+
+    body {
+      background: #01020d;
+      color: #fff;
+      font-family: 'PingFang SC', -apple-system, 'Helvetica Neue', Arial, sans-serif;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .page {
+      position: relative;
+      width: 100vw;
+      height: calc(18111 / 1600 * 100vw);
+      --u: calc(100vw / 1600);
+      overflow: hidden;
+    }
+
+    .abs {
+      position: absolute;
+    }
+
+    /* ── STICKY TAB BAR ── */
+    #sticky-tabs {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: clamp(48px, 5vw, 80px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: clamp(12px, 2.5vw, 40px);
+      padding: 0 clamp(16px, 3.75vw, 60px);
+      background: linear-gradient(to bottom, #000000 0%, rgba(0, 0, 0, 0) 100%);
+      z-index: 1000;
+      opacity: 0;
+      transform: translateY(-8px);
+      transition: opacity .35s ease, transform .35s ease;
+      pointer-events: none;
+    }
+
+    #sticky-tabs.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: all;
+    }
+
+    #sticky-tabs .brand {
+      font-family: 'FZHanZhenGuangBiaoS-GB', 'STZhongsong', serif;
+      font-size: clamp(13px, 2.083vw, 33.33px);
+      color: #ddeaff;
+      letter-spacing: clamp(2px, .208vw, 3.333px);
+      line-height: 1.2;
+      flex-shrink: 1;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .tabs-row {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+      flex-wrap: nowrap;
+    }
+
+    .tab-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: calc(15 * var(--u)) calc(30 * var(--u));
+      border-radius: 9999px;
+      border: calc(1.5 * var(--u)) solid rgba(221, 234, 255, .85);
+      background: rgba(255, 255, 255, .10);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      color: #fff;
+      font-family: 'PingFang SC', -apple-system, sans-serif;
+      font-size: calc(30 * var(--u));
+      font-weight: 400;
+      line-height: 1;
+      white-space: nowrap;
+      cursor: pointer;
+      opacity: .9;
+      transition: background .22s ease, opacity .22s ease, transform .12s ease;
+      -webkit-appearance: none;
+      appearance: none;
+      user-select: none;
+    }
+
+    #sticky-tabs .tab-btn {
+      padding: clamp(8px, 0.75vw, 12px) clamp(14px, 1.5vw, 24px);
+      font-size: clamp(14px, 1.5vw, 24px);
+      border: clamp(1px, 0.075vw, 1.2px) solid #ddeaff;
+    }
+
+    #sticky-tabs .tabs-row {
+      gap: clamp(8px, 1.5vw, 24px);
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(90deg, #3c91ff 0%, #619de6 38%, #7684ea 76%, #3c91ff 100%);
+      opacity: .9;
+    }
+
+    .tab-btn:hover {
+      opacity: 1;
+      transform: scale(1.03);
+    }
+
+    .tab-btn:active {
+      transform: scale(.97);
+    }
+
+    /* ── HERO ── */
+    .blur-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(calc(60 * var(--u)));
+      pointer-events: none;
+    }
+
+    .hero-nav {
+      left: 0;
+      top: calc(60 * var(--u));
+      width: 100vw;
+      height: calc(200 * var(--u));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: calc(40 * var(--u));
+      padding: 0 calc(60 * var(--u));
+      z-index: 5;
+    }
+
+    .hero-title {
+      font-family: 'FZHanZhenGuangBiaoS-GB', 'STZhongsong', serif;
+      font-size: calc(50 * var(--u));
+      color: #ddeaff;
+      letter-spacing: calc(2.5 * var(--u));
+      line-height: 1.2;
+      text-align: center;
+    }
+
+    .hero-tabs {
+      gap: calc(30 * var(--u));
+    }
+
+    /* ── TEXT HELPERS ── */
+    .h-section {
+      font-family: 'FZHanZhenGuangBiaoS-GB', 'STZhongsong', serif;
+      font-size: calc(40 * var(--u));
+      color: #ddeaff;
+      letter-spacing: calc(4 * var(--u));
+      line-height: 1.2;
+      text-align: center;
+    }
+
+    .body-cc {
+      color: #ffffffcc;
+      font-size: calc(24 * var(--u));
+      line-height: 1.83;
+    }
+
+    .tag-outline {
+      display: inline-flex;
+      align-items: center;
+      padding: calc(4 * var(--u)) calc(8 * var(--u));
+      border-radius: calc(8 * var(--u)) calc(8 * var(--u)) calc(8 * var(--u)) 0;
+      border: 1px solid #ddeaff;
+      color: #ddeaff;
+      font-size: calc(20 * var(--u));
+      line-height: 1;
+    }
+
+    /* ── WHITE CARD ── */
+    .white-card {
+      background: #fff;
+      border-radius: calc(40 * var(--u));
+      z-index: 1;
+    }
+
+    .accent-bar {
+      background: #498efd;
+      border-radius: 9999px;
+      width: calc(8 * var(--u));
+      height: calc(48 * var(--u));
+      flex: 0 0 auto;
+    }
+
+    .scenario-title {
+      font-size: calc(40 * var(--u));
+      color: #000;
+      font-weight: 500;
+      letter-spacing: calc(4 * var(--u));
+      line-height: 1.2;
+    }
+
+    .scenario-desc {
+      color: #000;
+      font-size: calc(24 * var(--u));
+      font-weight: 500;
+      opacity: .7;
+      letter-spacing: calc(3 * var(--u));
+      line-height: 1.2;
+    }
+
+    .full-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+      color: #000;
+      font-family: 'FZHanZhenGuangBiaoS-GB', serif;
+      font-size: calc(30 * var(--u));
+      letter-spacing: calc(3 * var(--u));
+      border-radius: 0;
+      z-index: 2;
+    }
+
+    /* ── 达成结果 columns + video ── */
+    .result-col {
+      flex: 1 1 0;
+      display: flex;
+      flex-direction: column;
+      gap: calc(40 * var(--u));
+    }
+
+    .video-area {
+      position: relative;
+      background: #d9d9d9;
+      overflow: hidden;
+      border-radius: calc(8 * var(--u));
+      flex: 0 0 auto;
+    }
+
+    .video-area video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .pct {
+      font-family: 'FZHanZhenGuangBiaoS-GB', serif;
+      font-size: calc(40 * var(--u));
+      line-height: 1;
+      background: linear-gradient(90deg, #3c91ff 0%, #619de6 38%, #7684ea 76%, #3c91ff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+
+    .pct-label {
+      font-family: 'FZHanZhenGuangBiaoS-GB', serif;
+      font-size: calc(24 * var(--u));
+      line-height: 1;
+      background: linear-gradient(90deg, #3c91ff 0%, #619de6 38%, #7684ea 76%, #3c91ff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+
+    .grad-line {
+      height: calc(3 * var(--u));
+      width: 100%;
+      background: linear-gradient(90deg, #3c91ff, #619de6, #7684ea, #3c91ff);
+      opacity: .9;
+      border-radius: 9999px;
+    }
+
+    .result-title {
+      color: #fff;
+      font-size: calc(24 * var(--u));
+      font-weight: 500;
+      line-height: 2.08;
+    }
+
+    .result-bg {
+      color: #ffffffcc;
+      font-size: calc(22 * var(--u));
+      font-weight: 300;
+      line-height: 2.2;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      background: #fff;
+      color: #01020d;
+      font-size: calc(20 * var(--u));
+      font-weight: 500;
+      padding: calc(12 * var(--u)) calc(20 * var(--u));
+      border-radius: 0 calc(20 * var(--u)) calc(20 * var(--u)) 0;
+      opacity: .9;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    /* ── gradient question text ── */
+    .q-grad {
+      font-family: 'FZHanZhenGuangBiaoS-GB', serif;
+      font-size: calc(30 * var(--u));
+      letter-spacing: calc(3 * var(--u));
+      background: linear-gradient(90deg, #3c91ff, #adb6ff, #3c91ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+
+    /* ── STEP labels ── */
+    .step-label {
+      font-family: 'FZHanZhenGuangBiaoS-GB', serif;
+      font-size: calc(30 * var(--u));
+      color: #ddeaff;
+      letter-spacing: calc(3 * var(--u));
+      line-height: 1.2;
+    }
+
+    .step-title {
+      font-family: 'FZHanZhenGuangBiaoS-GB', serif;
+      font-size: calc(30 * var(--u));
+      color: #ddeaff;
+      letter-spacing: calc(3 * var(--u));
+      line-height: 1.2;
+    }
+
+    .step-desc {
+      color: #fff;
+      font-size: calc(20 * var(--u));
+      line-height: 1.4;
+    }
+
+    .step-num {
+      color: #ffffffcc;
+      font-size: calc(30 * var(--u));
+      opacity: .8;
+      line-height: 1.47;
+    }
+
+    .timeline-line {
+      position: absolute;
+      width: calc(2 * var(--u));
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fff 5%, #fff 95%, rgba(255, 255, 255, 0));
+    }
+
+    /* ── schedule colored blocks ── */
+    .sched-block {
+      position: absolute;
+      border-radius: calc(4 * var(--u));
+      opacity: 0;
+      transform: scaleX(0.2);
+      transform-origin: left center;
+    }
+
+    .sched-block.revealed {
+      opacity: 1;
+      transform: none;
+      transition: opacity .55s ease, transform .55s cubic-bezier(.2, .7, .3, 1);
+    }
+
+    /* ── bottom 4 images ── */
+    .bottom-img {
+      position: absolute;
+      object-fit: cover;
+      border-radius: calc(20 * var(--u));
+      opacity: 0;
+      transform: translateY(calc(30 * var(--u)));
+    }
+
+    .bottom-img.revealed {
+      opacity: 1;
+      transform: none;
+      transition: opacity .8s ease, transform .8s ease;
+    }
+
+    /* ── spec cards ── */
+    .spec-card {
+      position: absolute;
+      border-radius: calc(20 * var(--u));
+      overflow: hidden;
+    }
+
+    .spec-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ── back to top ── */
+    #back-top {
+      position: fixed;
+      bottom: clamp(16px, 3vw, 40px);
+      right: clamp(16px, 3vw, 40px);
+      width: clamp(36px, 3vw, 48px);
+      height: clamp(36px, 3vw, 48px);
+      border-radius: 50%;
+      background: rgba(60, 145, 255, .7);
+      backdrop-filter: blur(8px);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity .3s, transform .3s;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    #back-top.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: all;
+    }
+
+    #back-top:hover {
+      background: rgba(60, 145, 255, .9);
+    }
+
+    #back-top svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .sched-block,
+      .bottom-img {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- STICKY TAB BAR -->
+  <header id="sticky-tabs">
+    <div class="brand">设计系统</div>
+    <nav class="tabs-row" aria-label="阶段导航">
+      <a class="tab-btn active" href="#stage-1" data-i="0" data-top="500">B端交互规范</a>
+      <a class="tab-btn" href="#stage-2" data-i="1" data-top="1480">数据可视化拆解</a>
+      <a class="tab-btn" href="#stage-3" data-i="2" data-top="5200">OS组件代码落地</a>
+      <a class="tab-btn" href="#stage-4" data-i="3" data-top="16200">Ai搭建</a>
+    </nav>
+  </header>
+
+  <button id="back-top" title="回到顶部" aria-label="回到顶部">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"
+      stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15" />
+    </svg>
+  </button>
+
+  <div class="page" id="page">
+
+    <!-- anchor markers -->
+    <div id="stage-1" class="abs" style="left:0;top:calc(847*var(--u));width:1px;height:1px;"></div>
+    <div id="stage-2" class="abs" style="left:0;top:calc(5319*var(--u));width:1px;height:1px;"></div>
+    <div id="stage-3" class="abs" style="left:0;top:calc(9379*var(--u));width:1px;height:1px;"></div>
+    <div id="stage-4" class="abs" style="left:0;top:calc(15205*var(--u));width:1px;height:1px;"></div>
+
+    <!-- ── HERO ── -->
+    <div class="hero-nav abs">
+      <div class="hero-title">设计系统搭建的4阶段</div>
+      <nav class="tabs-row hero-tabs" aria-label="阶段">
+        <a class="tab-btn active" href="#stage-1" data-i="0" data-top="500">B端交互规范</a>
+        <a class="tab-btn" href="#stage-2" data-i="1" data-top="1480">数据可视化拆解</a>
+        <a class="tab-btn" href="#stage-3" data-i="2" data-top="5200">OS组件代码落地</a>
+        <a class="tab-btn" href="#stage-4" data-i="3" data-top="16200">Ai搭建</a>
+      </nav>
+    </div>
+
+    <!-- gf-top banner (NEW) -->
+    <img class="abs" src="assets/设计规范/gf-top.png" alt="" draggable="false"
+      style="left:0;top:calc(282*var(--u));width:100vw;height:calc(565*var(--u));object-fit:cover;">
+
+    <!-- top 3 images: gf-1.1, gf-1.2, gf-1. (left→right) at artboard coords/sizes -->
+    <img class="abs" src="assets/设计规范/gf-1.1.png" alt="" draggable="false"
+      style="left:calc(100*var(--u));top:calc(847*var(--u));width:calc(633*var(--u));height:calc(500*var(--u));">
+    <img class="abs" src="assets/设计规范/gf-1.2.png" alt="" draggable="false"
+      style="left:calc(753*var(--u));top:calc(847*var(--u));width:calc(600*var(--u));height:calc(500*var(--u));">
+    <img class="abs" src="assets/设计规范/gf-1..png" alt="" draggable="false"
+      style="left:calc(1373*var(--u));top:calc(847*var(--u));width:calc(675*var(--u));height:calc(500*var(--u));">
+
+    <!-- gf-2 small banner (NEW) -->
+    <img class="abs" src="assets/设计规范/gf-2.png" alt="" draggable="false"
+      style="left:calc(449*var(--u));top:calc(1541*var(--u));width:calc(703*var(--u));height:calc(184*var(--u));object-fit:cover;">
+
+    <!-- ── WHITE CARD ── -->
+    <div class="white-card abs"
+      style="left:calc(200*var(--u));top:calc(1786*var(--u));width:calc(1200*var(--u));height:calc(3071*var(--u));">
+    </div>
+
+    <!-- scenarios (auto-layout: vertical, gap 120) -->
+    <div class="abs"
+      style="left:calc(250*var(--u));top:calc(1871*var(--u));width:calc(1100*var(--u));display:flex;flex-direction:column;gap:calc(120*var(--u));z-index:2;">
+
+      <!-- 工作痛点 -->
+      <div style="display:flex;flex-direction:column;gap:calc(36*var(--u));padding-left:calc(30*var(--u));">
+        <div style="display:flex;align-items:center;gap:calc(20*var(--u));">
+          <div class="accent-bar"></div>
+          <div class="scenario-title">工作痛点：</div>
+        </div>
+        <div class="scenario-desc">频繁为使用什么组件而反复Battle —— 上下游都在拍脑袋式决策</div>
+        <div class="scenario-desc">有些诉求没有合适的组件 —— 依赖现成组件，但使用后有歧义</div>
+      </div>
+
+      <!-- 场景1 -->
+      <div style="display:flex;flex-direction:column;gap:calc(33*var(--u));">
+        <div style="display:flex;flex-direction:column;gap:calc(30*var(--u));padding-left:calc(30*var(--u));">
+          <div style="display:flex;align-items:center;gap:calc(20*var(--u));">
+            <div class="accent-bar"></div>
+            <div class="scenario-title">场景1</div>
+          </div>
+          <div class="scenario-desc">产品/其他角色在图表库快速找到合适的组件</div>
+        </div>
+        <img src="assets/设计规范/gf-2.1.png" alt="" draggable="false"
+          style="width:100%;height:auto;display:block;border-radius:calc(8*var(--u));">
+      </div>
+
+      <!-- 场景2 -->
+      <div style="display:flex;flex-direction:column;gap:calc(44*var(--u));">
+        <div style="display:flex;flex-direction:column;gap:calc(30*var(--u));padding-left:calc(30*var(--u));">
+          <div style="display:flex;align-items:center;gap:calc(20*var(--u));">
+            <div class="accent-bar"></div>
+            <div class="scenario-title">场景2</div>
+          </div>
+          <div class="scenario-desc">围绕“维”、“度”、“量” 追问问题，映射到唯一组件</div>
+        </div>
+        <img src="assets/设计规范/gf-2.2.png" alt="" draggable="false"
+          style="width:100%;height:auto;display:block;border-radius:calc(8*var(--u));">
+      </div>
+
+      <!-- 场景3 -->
+      <div style="display:flex;flex-direction:column;gap:calc(31*var(--u));">
+        <div style="display:flex;flex-direction:column;gap:calc(30*var(--u));padding-left:calc(30*var(--u));">
+          <div style="display:flex;align-items:center;gap:calc(20*var(--u));">
+            <div class="accent-bar"></div>
+            <div class="scenario-title">场景3</div>
+          </div>
+          <div class="scenario-desc">为创新组件提供理论依据</div>
+        </div>
+        <img src="assets/设计规范/gf-2.3.png" alt="" draggable="false"
+          style="width:100%;height:auto;display:block;border-radius:calc(8*var(--u));">
+      </div>
+
+    </div>
+
+    <!-- 点击查看完整内容 button -->
+    <a class="full-btn abs" id="ksh-opener" href="#"
+      style="left:calc(250*var(--u));top:calc(4710*var(--u));width:calc(1100*var(--u));height:calc(147*var(--u));">点击查看完整内容&nbsp;&gt;</a>
+
+    <!-- gf-btm banner (NEW, behind white card) -->
+    <img class="abs" src="assets/设计规范/gf-btm.png" alt="" draggable="false"
+      style="left:0;top:calc(4732*var(--u));width:100vw;height:calc(565*var(--u));object-fit:cover;z-index:0;">
+
+    <!-- ── gf-3 ── -->
+    <img class="abs" src="assets/设计规范/gf-3.png" alt="" draggable="false"
+      style="left:calc(92*var(--u));top:calc(5319*var(--u));width:calc(1417*var(--u));height:calc(1227*var(--u));">
+
+    <!-- ── 达成结果 + 3 columns ── -->
+    <div class="abs" style="left:calc(714*var(--u));top:calc(6765*var(--u));">
+      <div class="h-section">达成结果</div>
+    </div>
+
+    <div class="abs"
+      style="left:calc(50*var(--u));top:calc(6862*var(--u));width:calc(1500*var(--u));display:flex;gap:calc(60*var(--u));justify-content:center;">
+
+      <!-- col1: 90% — 三代OS -->
+      <div class="result-col">
+        <div class="video-area" data-video style="width:100%;height:calc(258.75*var(--u));">
+          <video muted loop playsinline preload="metadata" src="assets/设计规范/三代OS.mp4"></video>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:calc(24*var(--u));padding:calc(20*var(--u)) 0;">
+          <div style="display:flex;align-items:flex-end;gap:calc(16*var(--u));">
+            <div class="pct">90.0%</div>
+            <div class="pct-label">设计交付</div>
+          </div>
+          <div class="grad-line"></div>
+          <div style="display:flex;flex-direction:column;gap:calc(24*var(--u));">
+            <div style="display:flex;flex-direction:column;gap:calc(4*var(--u));">
+              <div class="result-title">新机型OS设计交付效率明显提升</div>
+              <div class="result-title">5人日降低至0.5人日</div>
+            </div>
+            <div class="result-bg">背景：OS侧对素材的要求和软件侧不同，每出一款新的机型，都要针对性地出图以满足适配要求，设计师花时间在改尺寸、改颜色等基础操作上</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- col2: 75% — 设置 -->
+      <div class="result-col">
+        <div class="video-area" data-video style="width:100%;height:calc(258.75*var(--u));">
+          <video muted loop playsinline preload="metadata" src="assets/设计规范/设置.mp4"></video>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:calc(24*var(--u));padding:calc(20*var(--u)) 0;">
+          <div style="display:flex;align-items:flex-end;gap:calc(16*var(--u));">
+            <div class="pct">75.0%</div>
+            <div class="pct-label">迁移适配</div>
+          </div>
+          <div class="grad-line"></div>
+          <div style="display:flex;flex-direction:column;gap:calc(24*var(--u));">
+            <div class="result-title">旧项目在新机型上的迁移效率</div>
+            <div class="result-bg">
+              背景：硬件有屏幕尺寸、比例、屏幕密度等多因素影响适配逻辑。其中字体适配和元素尺寸是两套适配。想真正做到一套代码更好地适配所有机型，需要针对该机型的字体映射关系和数值映射比例进行配置</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- col3: 30% — 产品演示 -->
+      <div class="result-col">
+        <div class="video-area" data-video style="width:100%;height:calc(258.75*var(--u));">
+          <video muted loop playsinline preload="metadata" src="assets/设计规范/产品演示.mp4"></video>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:calc(24*var(--u));padding:calc(20*var(--u)) 0;">
+          <div style="display:flex;align-items:flex-end;gap:calc(16*var(--u));">
+            <div class="pct">30.0%</div>
+            <div class="pct-label">开发走查</div>
+          </div>
+          <div class="grad-line"></div>
+          <div style="display:flex;flex-direction:column;gap:calc(24*var(--u));">
+            <div class="result-bg">新项目使用组件，开发效率和走查效率均有提升</div>
+            <div style="display:flex;gap:calc(24*var(--u));">
+              <span class="chip">提效挺多的</span>
+              <span class="chip">省得自己封装组件了</span>
+            </div>
+            <div style="display:flex;gap:calc(24*var(--u));">
+              <span class="chip">后期应该会更快</span>
+              <span class="chip">这个很不错👍</span>
+            </div>
+            <span class="chip">30%差不多</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── Why ── -->
+    <div class="abs" style="left:calc(627*var(--u));top:calc(7781*var(--u));">
+      <div class="h-section">Why：问题&amp;现状</div>
+    </div>
+    <div class="abs"
+      style="left:calc(363*var(--u));top:calc(7861*var(--u));width:calc(874*var(--u));text-align:center;">
+      <div class="body-cc">设计团队在OS层面自驱做的事，希望在提升用户体验的同时提升团队内的协作效率</div>
+    </div>
+    <img class="abs" src="assets/设计规范/gf-4.png" alt="" draggable="false"
+      style="left:calc(180*var(--u));top:calc(7969*var(--u));width:calc(1240*var(--u));height:calc(240*var(--u));">
+    <img class="abs" src="assets/设计规范/gf-5.png" alt="" draggable="false"
+      style="left:0;top:calc(8349*var(--u));width:calc(1600*var(--u));height:calc(801*var(--u));">
+
+    <!-- ── 难点：适配 ── -->
+    <div class="abs" style="left:calc(692*var(--u));top:calc(9379*var(--u));">
+      <div class="h-section">难点：适配</div>
+    </div>
+    <div class="abs"
+      style="left:calc(440*var(--u));top:calc(9441*var(--u));width:calc(720*var(--u));text-align:justify;text-align-last:justify;">
+      <div class="body-cc">每个机器的屏幕分辨率、屏幕密度、宽高比不同。做好适配至关重要</div>
+    </div>
+    <div class="abs"
+      style="left:calc(538*var(--u));top:calc(9530*var(--u));width:calc(524*var(--u));text-align:center;white-space:nowrap;">
+      <div class="q-grad">如何让一套组件代码兼容所有机型？</div>
+    </div>
+
+    <!-- 3 images (gf-6.x) -->
+    <img class="abs" src="assets/设计规范/gf-6.1.png" alt="" draggable="false"
+      style="left:calc(-21*var(--u));top:calc(9720*var(--u));width:calc(592*var(--u));height:calc(339*var(--u));border-radius:calc(24*var(--u));object-fit:cover;">
+    <img class="abs" src="assets/设计规范/gf-6.2.png" alt="" draggable="false"
+      style="left:calc(595*var(--u));top:calc(9720*var(--u));width:calc(538*var(--u));height:calc(346*var(--u));border-radius:calc(8*var(--u));object-fit:cover;">
+    <img class="abs" src="assets/设计规范/gf-6.3.png" alt="" draggable="false"
+      style="left:calc(1157*var(--u));top:calc(9720*var(--u));width:calc(443*var(--u));height:calc(346*var(--u));border-radius:calc(8*var(--u));object-fit:cover;">
+
+    <!-- step numbers 1/2/3 -->
+    <div class="abs step-num" style="left:calc(97*var(--u));top:calc(10096*var(--u));width:calc(480*var(--u));">
+      1、全机型验证，确定适配方案</div>
+    <div class="abs step-num" style="left:calc(631*var(--u));top:calc(10096*var(--u));width:calc(580*var(--u));">
+      2、Token表：字体、数值映射规则</div>
+    <div class="abs step-num" style="left:calc(1300*var(--u));top:calc(10096*var(--u));width:calc(280*var(--u));">3、生产组件
+    </div>
+
+    <!-- ── 执行过程 ── -->
+    <div class="abs" style="left:calc(714*var(--u));top:calc(10518*var(--u));">
+      <div class="h-section">执行过程</div>
+    </div>
+
+    <!-- timeline vertical line -->
+    <div class="timeline-line" style="left:calc(172*var(--u));top:calc(10687*var(--u));height:calc(4292*var(--u));">
+    </div>
+
+    <!-- Step1 -->
+    <div class="abs"
+      style="left:calc(49*var(--u));top:calc(10669*var(--u));display:flex;gap:calc(52*var(--u));align-items:flex-start;">
+      <div class="step-label" style="text-align:right;width:calc(80*var(--u));">Step1</div>
+      <div style="display:flex;flex-direction:column;gap:calc(12*var(--u));width:calc(1000*var(--u));">
+        <div class="step-title">组件分类与层级架构</div>
+        <div class="step-desc">组件分类的调研 &amp; 已有样式的梳理 ——&gt; 制定4层架构6种类型</div>
+      </div>
+    </div>
+    <img class="abs" src="assets/设计规范/gf-7.1.png" alt="" draggable="false"
+      style="left:calc(193*var(--u));top:calc(10764*var(--u));width:calc(1311*var(--u));height:calc(1186*var(--u));border-radius:calc(8*var(--u));object-fit:cover;">
+
+    <!-- Step2 -->
+    <div class="abs"
+      style="left:calc(49*var(--u));top:calc(12041*var(--u));display:flex;gap:calc(52*var(--u));align-items:flex-start;">
+      <div class="step-label" style="text-align:right;width:calc(80*var(--u));">Step2</div>
+      <div style="display:flex;flex-direction:column;gap:calc(12*var(--u));width:calc(1000*var(--u));">
+        <div class="step-title">跨机型效果，寻找映射关系兼容适配</div>
+        <div class="step-desc">字体在不同设备上的字号映射、间距圆角宽度高度在不同设备上的数值映射、颜色在深浅模式下的映射</div>
+      </div>
+    </div>
+    <img class="abs" src="assets/设计规范/gf-8.1.png" alt="" draggable="false"
+      style="left:calc(186*var(--u));top:calc(12143*var(--u));width:calc(622*var(--u));height:calc(346*var(--u));border-radius:calc(8*var(--u));object-fit:cover;">
+    <img class="abs" src="assets/设计规范/gf-8.2.png" alt="" draggable="false"
+      style="left:calc(843*var(--u));top:calc(12143*var(--u));width:calc(657*var(--u));height:calc(346*var(--u));border-radius:calc(8*var(--u));object-fit:cover;">
+
+    <!-- Step3 -->
+    <div class="abs"
+      style="left:calc(49*var(--u));top:calc(12596*var(--u));display:flex;gap:calc(52*var(--u));align-items:flex-start;">
+      <div class="step-label" style="text-align:right;width:calc(80*var(--u));">Step3</div>
+      <div style="display:flex;flex-direction:column;gap:calc(12*var(--u));width:calc(1000*var(--u));">
+        <div class="step-title">组件生产 &amp; 需求评审</div>
+        <div class="step-desc">设计验证，保障效果后再提需</div>
+      </div>
+    </div>
+    <img class="abs" src="assets/设计规范/gf-9.png" alt="" draggable="false"
+      style="left:calc(188*var(--u));top:calc(12712*var(--u));width:calc(1309*var(--u));height:calc(1551*var(--u));border-radius:calc(8*var(--u));object-fit:cover;">
+
+    <!-- Step4 -->
+    <div class="abs"
+      style="left:calc(49*var(--u));top:calc(14345*var(--u));display:flex;gap:calc(52*var(--u));align-items:flex-start;">
+      <div class="step-label" style="text-align:right;width:calc(80*var(--u));">Step4</div>
+      <div style="display:flex;flex-direction:column;gap:calc(12*var(--u));width:calc(1000*var(--u));">
+        <div class="step-title">全机型验证与走查</div>
+        <div class="step-desc">组件分类的调研 &amp; 已有样式的梳理 ——&gt; 制定4层架构6种类型</div>
+      </div>
+    </div>
+    <img class="abs" src="assets/设计规范/gf-10.png" alt="" draggable="false"
+      style="left:0;top:calc(14414*var(--u));width:calc(1600*var(--u));height:calc(531*var(--u));object-fit:cover;">
+
+    <!-- Step5 -->
+    <div class="abs"
+      style="left:calc(49*var(--u));top:calc(14961*var(--u));display:flex;gap:calc(52*var(--u));align-items:flex-start;">
+      <div class="step-label" style="text-align:right;width:calc(80*var(--u));">Step5</div>
+      <div style="display:flex;flex-direction:column;gap:calc(12*var(--u));width:calc(1000*var(--u));">
+        <div class="step-title">落地应用 &amp; 效果验证</div>
+      </div>
+    </div>
+
+    <!-- ── 节奏与排期 ── -->
+    <div class="abs" style="left:calc(692*var(--u));top:calc(15205*var(--u));">
+      <div class="h-section">节奏与排期</div>
+    </div>
+    <div class="abs" id="schedule"
+      style="left:calc(100*var(--u));top:calc(15305*var(--u));width:calc(1400*var(--u));height:calc(788*var(--u));">
+      <img src="assets/设计规范/gf-11.png" alt="" draggable="false"
+        style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;border-radius:calc(12*var(--u));">
+      <div class="sched-block"
+        style="left:calc(484*var(--u));top:calc(122*var(--u));width:calc(120*var(--u));height:calc(45*var(--u));background:#6966bd;"
+        data-d="0"></div>
+      <div class="sched-block"
+        style="left:calc(616*var(--u));top:calc(222*var(--u));width:calc(60*var(--u));height:calc(45*var(--u));background:#ce6466;"
+        data-d="1"></div>
+      <div class="sched-block"
+        style="left:calc(688*var(--u));top:calc(321*var(--u));width:calc(240*var(--u));height:calc(45*var(--u));background:#548a5e;"
+        data-d="2"></div>
+      <div class="sched-block"
+        style="left:calc(940*var(--u));top:calc(422*var(--u));width:calc(180*var(--u));height:calc(45*var(--u));background:#c9a45e;"
+        data-d="3"></div>
+      <div class="sched-block"
+        style="left:calc(688*var(--u));top:calc(516*var(--u));width:calc(240*var(--u));height:calc(45*var(--u));background:#6966bd;"
+        data-d="4"></div>
+      <div class="sched-block"
+        style="left:calc(940*var(--u));top:calc(622*var(--u));width:calc(60*var(--u));height:calc(45*var(--u));background:#ce6466;"
+        data-d="5"></div>
+      <div class="sched-block"
+        style="left:calc(1132*var(--u));top:calc(722*var(--u));width:calc(240*var(--u));height:calc(45*var(--u));background:#548a5e;"
+        data-d="6"></div>
+    </div>
+
+    <!-- ── Ai搭建 group ── -->
+    <div class="abs"
+      style="left:calc(315*var(--u));top:calc(16304*var(--u));width:calc(970*var(--u));text-align:center;">
+      <div
+        style="font-family:'FZHanZhenGuangBiaoS-GB',serif;font-size:calc(100*var(--u));color:rgba(221,234,255,.2);line-height:1.2;">
+        04</div>
+      <div class="h-section" style="margin-top:calc(12*var(--u));">Ai搭建</div>
+      <div
+        style="font-family:'FZHanZhenGuangBiaoS-GB',serif;font-size:calc(30*var(--u));color:#ddeaff;letter-spacing:calc(3*var(--u));margin-top:calc(40*var(--u));">
+        Figma设计图 - Ai提炼规范 - 新需求新页面</div>
+      <div
+        style="font-size:calc(26*var(--u));color:rgba(221,234,255,.8);font-weight:500;letter-spacing:calc(2.6*var(--u));margin-top:calc(20*var(--u));white-space:nowrap;">
+        Ai在制定设计系统时的效率与精准度远超人力，交互与体验还是需要人力主导</div>
+    </div>
+
+    <!-- UI生产 tag -->
+    <div class="abs" style="left:calc(877*var(--u));top:calc(16362*var(--u));">
+      <span class="tag-outline">UI生产</span>
+    </div>
+
+    <!-- ── 4 spec cards (gf-11.1-11.4) ── -->
+    <div class="spec-card"
+      style="left:calc(410*var(--u));top:calc(16784*var(--u));width:calc(385*var(--u));height:calc(355*var(--u));z-index:3;">
+      <img src="assets/设计规范/gf-11.1.png" alt="设计规范 色彩" draggable="false">
+    </div>
+    <div class="spec-card"
+      style="left:calc(805*var(--u));top:calc(16784*var(--u));width:calc(385*var(--u));height:calc(355*var(--u));z-index:3;">
+      <img src="assets/设计规范/gf-11.2.png" alt="设计规范 字体排版" draggable="false">
+    </div>
+    <div class="spec-card"
+      style="left:calc(410*var(--u));top:calc(17149*var(--u));width:calc(385*var(--u));height:calc(355*var(--u));z-index:3;">
+      <img src="assets/设计规范/gf-11.3.png" alt="设计规范 间距与圆角" draggable="false">
+    </div>
+    <div class="spec-card"
+      style="left:calc(805*var(--u));top:calc(17149*var(--u));width:calc(385*var(--u));height:calc(355*var(--u));z-index:3;">
+      <img src="assets/设计规范/gf-11.4.png" alt="设计规范 组件模式" draggable="false">
+    </div>
+
+    <!-- ── bottom 4 images (gf-11.5-11.8) — sequential reveal ── -->
+    <div class="abs" id="bottomImgs"
+      style="left:0;top:calc(16660*var(--u));width:100vw;height:calc(1300*var(--u));z-index:1;">
+      <img class="bottom-img" src="assets/设计规范/gf-11.5.png" alt="" draggable="false" data-d="0"
+        style="left:calc(65*var(--u));top:calc(0*var(--u));width:calc(400*var(--u));height:calc(546*var(--u));">
+      <img class="bottom-img" src="assets/设计规范/gf-11.7.png" alt="" draggable="false" data-d="1"
+        style="left:calc(1108*var(--u));top:calc(22*var(--u));width:calc(396*var(--u));height:calc(546*var(--u));">
+      <img class="bottom-img" src="assets/设计规范/gf-11.6.png" alt="" draggable="false" data-d="2"
+        style="left:calc(192*var(--u));top:calc(610*var(--u));width:calc(403*var(--u));height:calc(546*var(--u));">
+      <img class="bottom-img" src="assets/设计规范/gf-11.8.png" alt="" draggable="false" data-d="3"
+        style="left:calc(1240*var(--u));top:calc(704*var(--u));width:calc(400*var(--u));height:calc(546*var(--u));">
+    </div>
+
+  </div>
+
+  <script src="components/popup/popup.js"></script>
+  <script>
+    /* STICKY TABS + BACK-TOP */
+    var stickyTabs = document.getElementById('sticky-tabs');
+    var backTop = document.getElementById('back-top');
+    function navThreshold() { return window.innerWidth * (260 / 1600); }
+    function onScroll() {
+      var scrollY = window.scrollY;
+      stickyTabs.classList.toggle('visible', scrollY > navThreshold());
+      backTop.classList.toggle('visible', scrollY > window.innerHeight * 0.6);
+      updateActiveTab();
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    backTop.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+
+    /* SCROLLSPY + CLICK — unified design-px targets (anchor == jump target) */
+    var TARGETS = [500, 1480, 5200, 16200]; /* design px @ 1600 width */
+    function dpx(d) { return d * window.innerWidth / 1600; }
+    var allTabs = Array.from(document.querySelectorAll('.tab-btn'));
+    function updateActiveTab() {
+      var line = window.scrollY;
+      var idx = 0;
+      for (var i = 0; i < TARGETS.length; i++) {
+        if (dpx(TARGETS[i]) <= line + 2) idx = i;
+      }
+      allTabs.forEach(function (t) {
+        t.classList.toggle('active', parseInt(t.getAttribute('data-i')) === idx);
+      });
+    }
+    allTabs.forEach(function (t) {
+      t.addEventListener('click', function (e) {
+        e.preventDefault();
+        var i = parseInt(t.getAttribute('data-i'));
+        window.scrollTo({ top: Math.max(0, dpx(TARGETS[i])), behavior: 'smooth' });
+      });
+    });
+    onScroll();
+
+    var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var hasIO = 'IntersectionObserver' in window;
+
+    /* VIDEO — autoplay when in view, pause when out */
+    (function () {
+      var areas = Array.from(document.querySelectorAll('[data-video]'));
+      areas.forEach(function (area) {
+        var v = area.querySelector('video');
+        if (!v) return;
+        if (!hasIO || reduce) { v.play().catch(function () { }); return; }
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) { v.play().catch(function () { }); }
+            else { v.pause(); }
+          });
+        }, { threshold: 0.45 });
+        io.observe(area);
+      });
+    })();
+
+    /* SCHEDULE — 7 colored blocks reveal sequentially */
+    (function () {
+      var sched = document.getElementById('schedule');
+      var blocks = Array.from(sched.querySelectorAll('.sched-block'));
+      if (reduce || !hasIO) { blocks.forEach(function (b) { b.classList.add('revealed'); }); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          blocks.forEach(function (b, i) {
+            setTimeout(function () { b.classList.add('revealed'); }, i * 200);
+          });
+          io.unobserve(e.target);
+        });
+      }, { threshold: 0.3 });
+      io.observe(sched);
+    })();
+
+    /* BOTTOM 4 IMAGES — reveal sequentially */
+    (function () {
+      var wrap = document.getElementById('bottomImgs');
+      var imgs = Array.from(wrap.querySelectorAll('.bottom-img'));
+      if (reduce || !hasIO) { imgs.forEach(function (b) { b.classList.add('revealed'); }); return; }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          imgs.forEach(function (b, i) {
+            setTimeout(function () { b.classList.add('revealed'); }, i * 220);
+          });
+          io.unobserve(e.target);
+        });
+      }, { threshold: 0.2 });
+      io.observe(wrap);
+    })();
+
+    /* POPUP (可视化完整内容) — 引用 components/popup */
+    (function () {
+      var opener = document.getElementById('ksh-opener');
+      if (!opener) return;
+      var IMAGES = ['ksh-1.png', 'ksh-2.png', 'ksh-3.png', 'ksh-4.png',
+        'ksh-5.png', 'ksh-6.png', 'ksh-7.png', 'ksh-8.png']
+        .map(function (f) { return 'assets/设计规范/可视化/' + f; });
+      opener.addEventListener('click', function (e) {
+        e.preventDefault();
+        var frag = document.createDocumentFragment();
+        IMAGES.forEach(function (src, i) {
+          var img = document.createElement('img');
+          img.src = src; img.alt = ''; img.draggable = false;
+          if (i === 0) img.style.borderRadius = 'calc(20 / 1600 * 100vw)';
+          frag.appendChild(img);
+        });
+        Popup.open({ title: '数据可视化', content: frag });
+      });
+    })();
+  </script>
+</body>
+
+</html>

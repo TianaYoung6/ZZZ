@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B端产品 · 蓝图体验升级</title>
+  <link rel="stylesheet" href="fonts.css">
+  <script>document.documentElement.className += ' js';</script>
+  <style>
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       B端产品页 — 基于 vibecodingZPJ.pen「new-B端」画板 1:1 还原
+       设计宽 1600，背景 #edf5ff
+       全部尺寸/坐标用 calc(N/1600*100vw) 流式适配
+       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --ink: #161a27;
+      --bg: #edf5ff;
+      --purple: #633bff;
+    }
+
+    html, body {
+      background: var(--bg);
+      color: var(--ink);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── 舞台：纵向堆叠各 section，margin 还原设计稿间距（含负值重叠） ── */
+    .bd-stage {
+      width: 100%;
+      background: var(--bg);
+    }
+
+    /* ── 通用全宽图 section ── */
+    .bd-sec {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+    }
+    .bd-sec > img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+
+    /* ── 入场动效：滚动到视口淡入上移，子项可错峰 ── */
+    .js [data-reveal] {
+      opacity: 0;
+      transform: translateY(calc(40 / 1600 * 100vw));
+      transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+      transition-delay: calc(var(--i, 0) * 0.08s);
+      will-change: opacity, transform;
+    }
+    .js [data-reveal].is-visible {
+      opacity: 1;
+      transform: none;
+    }
+    /* b-2 错落网格：左图从左、右图从右进入，两列同时从两侧移入 */
+    .js [data-reveal].from-left { transform: translateX(calc(-100 / 1600 * 100vw)); }
+    .js [data-reveal].from-right { transform: translateX(calc(100 / 1600 * 100vw)); }
+    .js [data-reveal].from-left.is-visible,
+    .js [data-reveal].from-right.is-visible { transform: none; }
+
+    /* ── 图片框 ── */
+    .img-frame { position: relative; overflow: hidden; }
+    .img-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       1. Hero  b-1  1600×1646
+       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .bd-hero { margin-top: 0; }
+    .bd-hero > img { aspect-ratio: 1600 / 1646; }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       2. 错落网格  b-2.x  区域 1742→4456 (高 2714)
+       左列 b-2.1 / b-2.3，右列 b-2.2 / b-2.3-1
+       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .bd-grid2 {
+      position: relative;
+      width: 100%;
+      height: calc(2714 / 1600 * 100vw);
+      margin-top: calc(96 / 1600 * 100vw);
+    }
+    .bd-grid2 .img-frame { position: absolute; }
+    .bd-grid2 .g21 {
+      left: calc(84 / 1600 * 100vw);
+      top: calc(4 / 1600 * 100vw);
+      width: calc(760 / 1600 * 100vw);
+      height: calc(934.5 / 1600 * 100vw);
+    }
+    .bd-grid2 .g22 {
+      left: calc(684 / 1600 * 100vw);
+      top: 0;
+      width: calc(840 / 1600 * 100vw);
+      height: calc(1670 / 1600 * 100vw);
+    }
+    .bd-grid2 .g23 {
+      left: calc(84 / 1600 * 100vw);
+      top: calc(977 / 1600 * 100vw);
+      width: calc(740 / 1600 * 100vw);
+      height: calc(1737 / 1600 * 100vw);
+    }
+    .bd-grid2 .g231 {
+      left: calc(684 / 1600 * 100vw);
+      top: calc(1671 / 1600 * 100vw);
+      width: calc(840 / 1600 * 100vw);
+      height: calc(1025.5 / 1600 * 100vw);
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       3. b-3  1600×1819
+       4. b-4  1600×118  （与 b-3 底部重叠 35）
+       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .bd-3 { margin-top: calc(21 / 1600 * 100vw); }
+    .bd-3 > img { aspect-ratio: 1600 / 1819; }
+    .bd-4 { margin-top: calc(-35 / 1600 * 100vw); position: relative; z-index: 2; }
+    .bd-4 > img { aspect-ratio: 1600 / 1180; }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       5. b-5  1600×1540  + 玻璃提示卡 + b-5.1 叠加
+       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .bd-5 { margin-top: calc(96 / 1600 * 100vw); }
+    .bd-5 > img { aspect-ratio: 1600 / 1540; }
+
+    /* b-5.1 小图叠加 @ (741,528) —— 缩小并与玻璃卡同步入场 */
+    .bd-51 {
+      position: absolute;
+      left: calc(741 / 1600 * 100vw);
+      top: calc(528 / 1600 * 100vw);
+      width: calc(240 / 1600 * 100vw);
+      aspect-ratio: 358.5 / 464.5;
+      object-fit: cover;
+      pointer-events: none;
+      filter: drop-shadow(0 calc(20 / 1600 * 100vw) calc(48 / 1600 * 100vw) rgba(20, 40, 80, 0.18));
+      opacity: 0;
+      transform: translateY(calc(24 / 1600 * 100vw)) scale(0.9);
+      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+      transition-delay: 0.25s;
+    }
+    .bd-5.scene-in .bd-51 {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* 玻璃提示卡  @ (1100,260)  竖排：警示语 + 两枚按钮 */
+    .bd-glass {
+      position: absolute;
+      left: calc(1100 / 1600 * 100vw);
+      top: calc(260 / 1600 * 100vw);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: calc(9 / 1600 * 100vw);
+      padding: calc(16 / 1600 * 100vw) calc(24 / 1600 * 100vw);
+      border-radius: calc(20 / 1600 * 100vw);
+      background: rgba(255, 255, 255, 0.10);
+      border: 2px solid #ffffff;
+      -webkit-backdrop-filter: blur(calc(8.75 / 1600 * 100vw));
+      backdrop-filter: blur(calc(8.75 / 1600 * 100vw));
+      box-shadow: 0 calc(20 / 1600 * 100vw) calc(60 / 1600 * 100vw) rgba(10, 30, 60, 0.18);
+      animation: glass-pulse 4.5s ease-in-out 2.5s infinite;
+      opacity: 0;
+      transform: translateY(calc(20 / 1600 * 100vw)) scale(0.94);
+      transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+      transition-delay: 0.25s;
+    }
+    .bd-5.scene-in .bd-glass {
+      opacity: 1;
+      transform: none;
+    }
+    @keyframes glass-pulse {
+      0%, 100% { box-shadow: 0 calc(20 / 1600 * 100vw) calc(60 / 1600 * 100vw) rgba(10,30,60,0.18),
+                            0 0 0 0 rgba(255,255,255,0.0); }
+      50%      { box-shadow: 0 calc(20 / 1600 * 100vw) calc(60 / 1600 * 100vw) rgba(10,30,60,0.22),
+                            0 0 calc(24 / 1600 * 100vw) calc(4 / 1600 * 100vw) rgba(255,255,255,0.35); }
+    }
+    .bd-glass .warn {
+      width: calc(316 / 1600 * 100vw);
+      font-family: 'PingFang SC', var(--font-default);
+      font-size: clamp(14px, calc(24 / 1600 * 100vw), 24px);
+      font-weight: 400;
+      line-height: 1.5;
+      letter-spacing: 0.02em;
+      color: #15294a;
+    }
+    /* 警示语逐字入场 */
+    .bd-glass .warn .ch {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(0.4em);
+      transition: opacity 0.34s var(--ease), transform 0.34s var(--ease);
+    }
+    .bd-5.scene-in .bd-glass .warn .ch {
+      opacity: 1;
+      transform: none;
+      transition-delay: calc(1s + var(--ci, 0) * 0.06s);
+    }
+    .bd-glass .btn-row {
+      display: flex;
+      align-items: center;
+      gap: calc(20 / 1600 * 100vw);
+    }
+    .bd-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: calc(10 / 1600 * 100vw);
+      padding: calc(12 / 1600 * 100vw) calc(16 / 1600 * 100vw);
+      border-radius: calc(8 / 1600 * 100vw);
+      background: rgba(255, 255, 255, 0.60);
+      border: 1px solid #ffffff;
+      font-family: 'PingFang SC', var(--font-default);
+      font-size: clamp(12px, calc(18 / 1600 * 100vw), 18px);
+      font-weight: 500;
+      color: var(--ink);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: transform 0.35s var(--ease), background 0.35s var(--ease),
+                  box-shadow 0.35s var(--ease);
+    }
+    .bd-btn:hover {
+      background: rgba(255, 255, 255, 0.92);
+      transform: translateY(calc(-2 / 1600 * 100vw));
+      box-shadow: 0 calc(10 / 1600 * 100vw) calc(28 / 1600 * 100vw) rgba(10, 30, 60, 0.22);
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       6. b-6  1600×1029
+       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .bd-6 { margin-top: 0; }
+    .bd-6 > img { aspect-ratio: 1600 / 1029; }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       7. 黑底面板  1400×3176 @ y9904（与 b-6 底部重叠 202）
+       标题 + 副标题 + 4 张 UI 图纵向堆叠
+       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .bd-panel {
+      position: relative;
+      width: calc(1400 / 1600 * 100vw);
+      height: calc(3176 / 1600 * 100vw);
+      margin: calc(-202 / 1600 * 100vw) auto 0;
+      background: #000;
+      border-radius: calc(40 / 1600 * 100vw);
+      overflow: hidden;
+      z-index: 3;
+    }
+    .bd-panel .p-title,
+    .bd-panel .p-sub {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      font-family: 'SourceHanSansCN', sans-serif;
+      background: linear-gradient(120deg, var(--purple) 0%, #ffffff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      line-height: 1;
+    }
+    .bd-panel .p-title {
+      top: calc(56 / 1600 * 100vw);
+      font-size: calc(40 / 1600 * 100vw);
+      font-weight: 700;
+    }
+    .bd-panel .p-sub {
+      top: calc(119 / 1600 * 100vw);
+      font-size: calc(24 / 1600 * 100vw);
+      font-weight: 400;
+      letter-spacing: 0.04em;
+    }
+    .bd-panel .img-frame { position: absolute; }
+    .bd-panel .p71 {
+      left: calc(100 / 1600 * 100vw);
+      top: calc(213 / 1600 * 100vw);
+      width: calc(1200 / 1600 * 100vw);
+      height: calc(664 / 1600 * 100vw);
+    }
+    .bd-panel .p72 {
+      left: 0;
+      top: calc(996 / 1600 * 100vw);
+      width: calc(1340 / 1600 * 100vw);
+      height: calc(625.5 / 1600 * 100vw);
+    }
+    .bd-panel .p73 {
+      left: calc(100 / 1600 * 100vw);
+      top: calc(1716 / 1600 * 100vw);
+      width: calc(1200 / 1600 * 100vw);
+      height: calc(612 / 1600 * 100vw);
+    }
+    .bd-panel .p74 {
+      left: calc(80 / 1600 * 100vw);
+      top: calc(2445 / 1600 * 100vw);
+      width: calc(1260 / 1600 * 100vw);
+      height: calc(575 / 1600 * 100vw);
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       8. b-8  1600×1298
+       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .bd-8 { margin-top: calc(98 / 1600 * 100vw); }
+    .bd-8 > img { aspect-ratio: 1600 / 1298; }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       响应式 — 平板
+       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    @media (max-width: 1024px) {
+      .bd-panel { width: calc(1400 / 1600 * 100vw); }
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       响应式 — 手机：错落网格与黑底面板改为纵向流式堆叠
+       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    @media (max-width: 768px) {
+      /* 全宽图 section 不变，aspect-ratio 自然缩放 */
+
+      /* b-2 错落网格 → 单列纵排 */
+      .bd-grid2 {
+        height: auto;
+        margin-top: 28px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+      }
+      .bd-grid2 .img-frame {
+        position: relative;
+        left: auto; top: auto;
+        width: 92%;
+        height: auto;
+      }
+      .bd-grid2 .g21 { aspect-ratio: 760 / 934.5; }
+      .bd-grid2 .g22 { aspect-ratio: 840 / 1670; }
+      .bd-grid2 .g23 { aspect-ratio: 740 / 1737; }
+      .bd-grid2 .g231 { aspect-ratio: 840 / 1025.5; }
+
+      /* b-4 重叠缩为 0 */
+      .bd-4 { margin-top: 0; }
+
+      /* b-5 玻璃卡：居中、可读 */
+      .bd-glass {
+        left: 50%;
+        top: 38%;
+        transform: translateX(-50%);
+        width: 78%;
+        align-items: center;
+      }
+      .bd-glass .warn { width: 100%; font-size: 15px; }
+      .bd-glass .btn-row { gap: 12px; }
+      .bd-btn { padding: 9px 14px; font-size: 13px; }
+      .bd-51 { width: 30%; height: auto; aspect-ratio: 358.5 / 464.5; }
+
+      /* 黑底面板：满宽、px 字号、图纵排 */
+      .bd-panel {
+        width: 92%;
+        height: auto;
+        margin: -40px auto 0;
+        padding-bottom: 24px;
+        border-radius: 20px;
+      }
+      .bd-panel .p-title,
+      .bd-panel .p-sub {
+        position: relative;
+        top: auto;
+        font-size: 22px;
+      }
+      .bd-panel .p-title { margin-top: 28px; }
+      .bd-panel .p-sub { margin-top: 10px; font-size: 14px; }
+      .bd-panel .img-frame {
+        position: relative;
+        left: auto; top: auto;
+        width: 92%;
+        height: auto;
+        margin: 14px auto 0;
+      }
+      .bd-panel .p71 { aspect-ratio: 1200 / 664; }
+      .bd-panel .p72 { aspect-ratio: 1340 / 625.5; }
+      .bd-panel .p73 { aspect-ratio: 1200 / 612; }
+      .bd-panel .p74 { aspect-ratio: 1260 / 575; }
+    }
+
+    /* 尊重「减少动态」偏好：关闭动画但直接显示终态 */
+    @media (prefers-reduced-motion: reduce) {
+      [data-reveal] { opacity: 1 !important; transform: none !important; transition: none !important; }
+      .bd-glass { animation: none !important; }
+      .bd-51, .bd-glass, .bd-5 .ch { opacity: 1 !important; transform: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="bd-stage">
+
+    <!-- ─── 1. 主视觉 b-1 ─── -->
+    <section class="bd-sec bd-hero" data-reveal>
+      <img src="assets/B端/b-1.png" alt="B端产品主视觉" draggable="false">
+    </section>
+
+    <!-- ─── 2. 错落网格 b-2.x ─── -->
+    <section class="bd-grid2">
+      <div class="img-frame g21 from-left" data-reveal="1" style="--i:0; z-index:3">
+        <img class="zoomable" src="assets/B端/b-2.1.png" alt="" draggable="false">
+      </div>
+      <div class="img-frame g22 from-right" data-reveal="1" style="--i:0; z-index:1">
+        <img class="zoomable" src="assets/B端/b-2.2.png" alt="" draggable="false">
+      </div>
+      <div class="img-frame g23 from-left" data-reveal="1" style="--i:1; z-index:2">
+        <img class="zoomable" src="assets/B端/b-2.3.png" alt="" draggable="false">
+      </div>
+      <div class="img-frame g231 from-right" data-reveal="1" style="--i:1; z-index:4">
+        <img class="zoomable" src="assets/B端/b-2.3-1.png" alt="" draggable="false">
+      </div>
+    </section>
+
+    <!-- ─── 3. b-3 ─── -->
+    <section class="bd-sec bd-3" data-reveal>
+      <img src="assets/B端/b-3.png" alt="" draggable="false">
+    </section>
+
+    <!-- ─── 4. b-4（叠压 b-3 底部） ─── -->
+    <section class="bd-sec bd-4" data-reveal>
+      <img src="assets/B端/b-4.png" alt="" draggable="false">
+    </section>
+
+    <!-- ─── 5. b-5 + 玻璃提示卡 + b-5.1 ─── -->
+    <section class="bd-sec bd-5">
+      <img data-reveal src="assets/B端/b-5.png" alt="" draggable="false">
+
+      <!-- b-5.1 装饰小图（与玻璃卡同步入场） -->
+      <img class="bd-51" src="assets/B端/b-5.1.png" alt="" draggable="false">
+
+      <!-- 玻璃提示卡 -->
+      <div class="bd-glass">
+        <p class="warn">王宫重地，不可随意走动，速速离开！</p>
+        <div class="btn-row">
+          <button class="bd-btn" type="button">好的</button>
+          <button class="bd-btn" type="button">我有书信一封</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── 6. b-6 ─── -->
+    <section class="bd-sec bd-6" data-reveal>
+      <img src="assets/B端/b-6.png" alt="" draggable="false">
+    </section>
+
+    <!-- ─── 7. 黑底面板：蓝图体验升级 ─── -->
+    <section class="bd-panel" data-reveal>
+      <h2 class="p-title">蓝图体验升级</h2>
+      <p class="p-sub">持续降低用户理解 &amp; 使用成本</p>
+      <div class="img-frame p71" data-reveal="1" style="--i:0">
+        <img class="zoomable" src="assets/B端/b-7.1.png" alt="" draggable="false">
+      </div>
+      <div class="img-frame p72" data-reveal="1" style="--i:1">
+        <img class="zoomable" src="assets/B端/b-7.2.png" alt="" draggable="false">
+      </div>
+      <div class="img-frame p73" data-reveal="1" style="--i:2">
+        <img class="zoomable" src="assets/B端/b-7.3.png" alt="" draggable="false">
+      </div>
+      <div class="img-frame p74" data-reveal="1" style="--i:3">
+        <img class="zoomable" src="assets/B端/b-7.4.png" alt="" draggable="false">
+      </div>
+    </section>
+
+    <!-- ─── 8. b-8 ─── -->
+    <section class="bd-sec bd-8" data-reveal>
+      <img src="assets/B端/b-8.png" alt="" draggable="false">
+    </section>
+
+  </main>
+
+  <script>
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       B端产品页交互
+       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+    /* 滚动入场：进入视口一次性触发，子项按 --i 错峰 */
+    function setupReveal() {
+      const els = document.querySelectorAll('[data-reveal]');
+      if (!els.length) return;
+      if (!('IntersectionObserver' in window)) {
+        els.forEach(el => el.classList.add('is-visible'));
+        return;
+      }
+      let io;
+      try {
+        io = new IntersectionObserver((entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add('is-visible');
+              io.unobserve(e.target);
+            }
+          });
+        }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+      } catch (e) {
+        els.forEach(el => el.classList.add('is-visible'));
+        return;
+      }
+      els.forEach(el => io.observe(el));
+    }
+
+    /* 玻璃卡按钮：点击「好的」轻轻收起，「我有书信一封」高亮呼应 */
+    function setupGlass() {
+      const card = document.querySelector('.bd-glass');
+      if (!card) return;
+      const btns = card.querySelectorAll('.bd-btn');
+      btns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          btn.animate(
+            [{ transform: 'scale(0.94)' }, { transform: 'scale(1)' }],
+            { duration: 220, easing: 'cubic-bezier(0.22,1,0.36,1)' }
+          );
+        });
+      });
+    }
+
+    setupReveal();
+    setupGlass();
+  </script>
+
+</body>
+
+</html>

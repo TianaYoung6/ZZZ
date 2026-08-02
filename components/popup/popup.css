@@ -1,0 +1,147 @@
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Popup 组件 — 基于 vibecodingZPJ.pen「new-可视化弹窗」1:1 还原
+   设计宽 1600；卡片 1200 居中、白底、顶部圆角 40
+   用法：<link rel="stylesheet" href=".../popup.css">
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.popup-overlay,
+.popup-overlay *,
+.popup-overlay *::before,
+.popup-overlay *::after {
+  box-sizing: border-box;
+}
+
+/* 弹窗打开时锁背景滚动 */
+html.popup-lock { overflow: hidden; }
+
+/* 遮罩：#000000b2 */
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #000000b2;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: calc(60 / 1600 * 100vw) 0 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.28s ease, visibility 0s linear 0.28s;
+}
+.popup-overlay.is-open {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.28s ease, visibility 0s linear 0s;
+}
+
+/* 卡片：1200×自适应，白底，顶部圆角 40 */
+.popup-card {
+  width: calc(1200 / 1600 * 100vw);
+  background: #fff;
+  border-radius: calc(40 / 1600 * 100vw) calc(40 / 1600 * 100vw) 0 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - (60 / 1600 * 100vw));
+  max-height: calc(100dvh - (60 / 1600 * 100vw));
+  transform: translateY(12px) scale(0.97);
+  opacity: 0;
+  transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.34s ease;
+}
+.popup-overlay.is-open .popup-card {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+/* 标题区：80 高，标题居中 */
+.popup-titlebar {
+  position: relative;
+  height: calc(80 / 1600 * 100vw);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.popup-title {
+  font-family: 'PingFang SC', 'SourceHanSansCN', -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  font-size: clamp(20px, calc(32 / 1600 * 100vw), 32px);
+  font-weight: 400;
+  letter-spacing: calc(3.2 / 1600 * 100vw);
+  color: #000;
+  line-height: 1;
+  text-align: center;
+  padding: 0 calc(120 / 1600 * 100vw);
+}
+
+/* 关闭按钮：右上，28.125 命中区，X 图标 14.728，浅灰圆形背景 */
+.popup-close {
+  position: absolute;
+  right: calc(28.125 / 1600 * 100vw);
+  top: 50%;
+  transform: translateY(-50%);
+  width: calc(28.125 / 1600 * 100vw);
+  height: calc(28.125 / 1600 * 100vw);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  background: #f0f0f0;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 0.2s ease;
+}
+.popup-close svg {
+  width: calc(14.728 / 1600 * 100vw);
+  height: calc(14.728 / 1600 * 100vw);
+  fill: #000000e5;
+  fill-rule: evenodd;
+}
+.popup-close:hover { background: #e8e8e8; }
+.popup-close:active { background: #dadada; }
+
+/* 内容区：左右 padding 40，纵向滚动（标题栏固定） */
+.popup-content {
+  padding: 0 calc(40 / 1600 * 100vw);
+  overflow-y: auto;
+  flex: 1 1 auto;
+  min-height: 0;
+  -webkit-overflow-scrolling: touch;
+}
+.popup-content img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   响应式 — 平板/手机
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+@media (max-width: 768px) {
+  .popup-overlay { padding: 16px 0 0; }
+  .popup-card {
+    width: calc(100% - 32px);
+    max-height: calc(100vh - 16px);
+    max-height: calc(100dvh - 16px);
+    border-radius: 24px 24px 0 0;
+  }
+  .popup-titlebar { height: 56px; }
+  .popup-title { font-size: 20px; letter-spacing: 2px; padding: 0 56px; }
+  .popup-close { right: 16px; width: 24px; height: 24px; }
+  .popup-close svg { width: 13px; height: 13px; }
+  .popup-content { padding: 0 20px; }
+}
+
+@media (max-width: 480px) {
+  .popup-card { width: calc(100% - 24px); border-radius: 20px 20px 0 0; }
+  .popup-title { font-size: 18px; padding: 0 48px; }
+}
+
+/* 尊重「减少动态」偏好 */
+@media (prefers-reduced-motion: reduce) {
+  .popup-overlay,
+  .popup-overlay .popup-card { transition: none !important; transform: none !important; }
+}

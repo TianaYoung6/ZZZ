@@ -56,14 +56,21 @@ function setupOrbitObserver() {
 }
 
 /* ─── 滚动条图片 ───
-   在此数组增删即可改数量（"配置多少张就展示多少张"）。
-   滚入视口时按 1-2-3-4-5 依次入场，间隔 2s。 */
+   按顺序展示 assets/首页/滚动/ 下的图片，1.png → 11.png。
+   进入视口后从右向左无缝循环滚动。
+   若增删图片，同步修改此数组即可。 */
 const MARQUEE_IMAGES = [
   'assets/首页/滚动/1.png',
   'assets/首页/滚动/2.png',
   'assets/首页/滚动/3.png',
   'assets/首页/滚动/4.png',
   'assets/首页/滚动/5.png',
+  'assets/首页/滚动/6.png',
+  'assets/首页/滚动/7.png',
+  'assets/首页/滚动/8.png',
+  'assets/首页/滚动/9.png',
+  'assets/首页/滚动/10.png',
+  'assets/首页/滚动/11.png',
 ];
 
 function renderMarquee() {

@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vibe Coding</title>
+  <title>Ai Skill</title>
   <style>
     @font-face {
       font-family: 'FZHanZhenGuangBiaoS-GB';
@@ -30,7 +30,20 @@
       overflow-x: hidden;
     }
 
-    /* ── STICKY HEADER ── */
+    button {
+      font: inherit;
+    }
+
+    /* ── PANE (tab content switch) ── */
+    .pane {
+      position: relative;
+    }
+
+    .pane[hidden] {
+      display: none;
+    }
+
+    /* ── STICKY HEADER (shared) ── */
     #sticky-header {
       position: fixed;
       top: 0;
@@ -127,7 +140,7 @@
       transform: scale(.97);
     }
 
-    /* ── HERO (VibeCoding1) ── */
+    /* ── HERO (shared) ── */
     .section-hero {
       position: relative;
       width: 100%;
@@ -153,6 +166,12 @@
       padding: 0 clamp(16px, 3.75vw, 60px);
     }
 
+    .section-img {
+      width: 100%;
+      display: block;
+    }
+
+    /* ── Vibe Coding: logos overlay on hero ── */
     .logos-overlay {
       position: absolute;
       top: calc(740 / 800 * 100%);
@@ -175,13 +194,13 @@
       height: calc(80 / 1600 * 100vw);
     }
 
-    /* ── VibeCoding2 + H5 iframe ── */
-    .section-2 {
+    /* ── Vibe Coding: VibeCoding2 + H5 iframe ── */
+    .vc-section-2 {
       position: relative;
       width: 100%;
     }
 
-    .section-2 .bg {
+    .vc-section-2 .bg {
       width: 100%;
       display: block;
     }
@@ -203,17 +222,12 @@
       display: block;
     }
 
-    /* ── dark blur band (ILaWu, 400px) — replaces old 100px fade ── */
+    /* ── dark blur band ── */
     .section-blur-band {
       height: calc(100 / 1600 * 100vw);
       background: rgba(0, 0, 0, 0.8);
       backdrop-filter: blur(17.5px);
       -webkit-backdrop-filter: blur(17.5px);
-    }
-
-    .section-img {
-      width: 100%;
-      display: block;
     }
 
     .vc-wrap {
@@ -316,7 +330,7 @@
       transition: opacity .5s ease, transform .5s ease;
     }
 
-    /* ── standalone zV5Jg + flow row ── */
+    /* ── VC standalone zV5Jg + flow row ── */
     .standalone-img {
       display: block;
     }
@@ -370,7 +384,6 @@
       transform: translateY(-50%) rotate(45deg);
     }
 
-    /* ── handwriting animation ── */
     @keyframes writeReveal {
       0% {
         clip-path: inset(0 100% 0 0);
@@ -399,16 +412,597 @@
       animation: penMove 2.4s cubic-bezier(.45, 0, .55, 1) forwards;
     }
 
-    @media (prefers-reduced-motion: reduce) {
-      .handwriting {
-        clip-path: inset(0 0 0 0);
-        animation: none;
-      }
+    /* ── Ai内容生产: logos row + 4-image groups ── */
+    .logos-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: calc(40 / 1600 * 100vw);
+      margin-top: calc(81 / 1600 * 100vw);
+    }
 
-      .hand-pen {
-        transform: translateX(0);
-        animation: none;
-      }
+    .logos-row img {
+      width: calc(120 / 1600 * 100vw);
+      height: calc(120 / 1600 * 100vw);
+      object-fit: contain;
+      border-radius: 50%;
+    }
+
+    .four-img-group {
+      position: relative;
+      width: calc(1480 / 1600 * 100%);
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    #nr-group3 {
+      aspect-ratio: 1480 / 697;
+    }
+
+    #nr-group6 {
+      aspect-ratio: 1480 / 697.5;
+    }
+
+    .four-img-group .fi {
+      position: absolute;
+      height: auto;
+      object-fit: contain;
+      opacity: 0;
+      transform: translateX(-40px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .four-img-group.revealed .fi {
+      opacity: 1;
+      transform: none;
+    }
+
+    .four-img-group.revealed .fi:nth-child(1) {
+      transition-delay: 0s;
+    }
+
+    .four-img-group.revealed .fi:nth-child(2) {
+      transition-delay: .22s;
+    }
+
+    .four-img-group.revealed .fi:nth-child(3) {
+      transition-delay: .44s;
+    }
+
+    .four-img-group.revealed .fi:nth-child(4) {
+      transition-delay: .66s;
+    }
+
+    #nr-group3 .fi-1 {
+      left: 0%;
+      top: 11.45%;
+      width: 24.49%;
+    }
+
+    #nr-group3 .fi-2 {
+      left: 25.46%;
+      top: 0%;
+      width: 24.56%;
+    }
+
+    #nr-group3 .fi-3 {
+      left: 50.86%;
+      top: 7.26%;
+      width: 24.56%;
+    }
+
+    #nr-group3 .fi-4 {
+      left: 76.25%;
+      top: 16.76%;
+      width: 23.75%;
+    }
+
+    #nr-group6 .fi-1 {
+      left: 0%;
+      top: 0%;
+      width: 24.56%;
+    }
+
+    #nr-group6 .fi-2 {
+      left: 25.41%;
+      top: 8.66%;
+      width: 24.56%;
+    }
+
+    #nr-group6 .fi-3 {
+      left: 50.82%;
+      top: 6.70%;
+      width: 24.49%;
+    }
+
+    #nr-group6 .fi-4 {
+      left: 76.23%;
+      top: 1.40%;
+      width: 23.78%;
+    }
+
+    /* ── VIDEO PLAYER area (shared by Ai内容生产 + Ai项目&赛事) ── */
+    .video-area {
+      position: relative;
+      width: calc(1100 / 1600 * 100%);
+      margin-left: auto;
+      margin-right: auto;
+      aspect-ratio: 1100 / 619;
+      background: #d9d9d9;
+      overflow: hidden;
+    }
+
+    .video-area.r16 {
+      aspect-ratio: 1100 / 687.5;
+    }
+
+    .video-area video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .video-area .mute-btn {
+      position: absolute;
+      right: clamp(8px, 1vw, 16px);
+      bottom: clamp(8px, 1vw, 16px);
+      width: clamp(30px, 2.2vw, 42px);
+      height: clamp(30px, 2.2vw, 42px);
+      border: none;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, .45);
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      transition: background .2s ease, transform .12s ease;
+    }
+
+    .video-area .mute-btn:hover {
+      background: rgba(0, 0, 0, .65);
+    }
+
+    .video-area .mute-btn:active {
+      transform: scale(.92);
+    }
+
+    .video-area .mute-btn img,
+    .video-area .mute-btn svg {
+      width: 62%;
+      height: 62%;
+      object-fit: contain;
+    }
+
+    .video-area .mute-btn .icon-unmuted {
+      display: none;
+    }
+
+    .video-area.unmuted .mute-btn .icon-muted {
+      display: none;
+    }
+
+    .video-area.unmuted .mute-btn .icon-unmuted {
+      display: inline-block;
+    }
+
+    /* ── Ai赛事自驱 (旧版上半部分) ── */
+    .race-hero-bg {
+      width: 100%;
+      aspect-ratio: 1600 / 800;
+      background: #080818;
+    }
+
+    .race-s2 {
+      width: 100%;
+    }
+
+    /* laptop mockup + video overlay — all % relative to image width */
+    .race-laptop-wrap {
+      position: relative;
+      width: 100%;
+    }
+
+    .race-laptop-frame {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .race-laptop-screen {
+      position: absolute;
+      top: 19.5%;
+      left: 7.5%;
+      width: 43.125%;
+      aspect-ratio: 16/10;
+      overflow: hidden;
+    }
+
+    .race-laptop-screen video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .race-laptop-screen video::-webkit-media-controls-fullscreen-button,
+    .race-laptop-screen video::-webkit-media-controls-overflow-button {
+      display: none !important;
+    }
+
+    .race-pl {
+      width: 100%;
+      background: #06060f;
+    }
+
+    .race-wechat {
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+      background: #111;
+    }
+
+    .race-wechat iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      border: none;
+      display: block;
+      transform-origin: top left;
+    }
+
+    /* ── 3D 卡片扇形展示 ── */
+    .race-fan-section {
+      background: #fefefe;
+      width: 100%;
+      aspect-ratio: 1600/660;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .race-fan-stage {
+      position: relative;
+      width: 100%;
+      height: 90%;
+      perspective: 48vw;
+      perspective-origin: 42% 48%;
+    }
+
+    .race-fan-deck {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transform: rotateX(-15deg) rotateY(-20deg);
+    }
+
+    .race-fan-card {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 25vw;
+      aspect-ratio: 1280/800;
+      border-radius: 1vw;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.65s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+        opacity 0.55s ease,
+        box-shadow 0.5s ease;
+    }
+
+    .race-fan-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      pointer-events: none;
+    }
+
+    /* ── 3.jpg + 圆形卡片叠层 ── */
+    .race-s3-wrap {
+      position: relative;
+      width: 100%;
+    }
+
+    .race-cards-row {
+      position: absolute;
+      top: 52.54%;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: calc(40 / 1600 * 100vw);
+    }
+
+    .race-card {
+      position: relative;
+      width: calc(260 / 1600 * 100vw);
+      height: calc(260 / 1600 * 100vw);
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.10);
+      border: 1px solid transparent;
+      background-clip: padding-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: calc(30 / 1600 * 100vw);
+      box-sizing: border-box;
+      gap: calc(7.2 / 1600 * 100vw);
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .race-card::after {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(to bottom, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.2));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    .race-card-title {
+      font-family: 'PingFang SC', -apple-system, sans-serif;
+      font-size: calc(27 / 1600 * 100vw);
+      color: #f4d198;
+      font-weight: normal;
+      line-height: 1.2;
+      text-align: center;
+      margin: 0;
+    }
+
+    .race-card-desc {
+      font-family: 'PingFang SC', -apple-system, sans-serif;
+      font-size: calc(20 / 1600 * 100vw);
+      color: #fdfcf8;
+      letter-spacing: 0.1em;
+      line-height: 1.5;
+      text-align: center;
+      margin: 0;
+    }
+
+    /* ── Ai项目&赛事: design-matched layout ── */
+    .ri {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .revealed>.ri {
+      opacity: 1;
+      transform: none;
+    }
+
+    .revealed>.ri:nth-child(1) { transition-delay: 0s; }
+    .revealed>.ri:nth-child(2) { transition-delay: .16s; }
+    .revealed>.ri:nth-child(3) { transition-delay: .32s; }
+    .revealed>.ri:nth-child(4) { transition-delay: .48s; }
+
+    .ap-title {
+      font-family: 'FZHanZhenGuangBiaoS-GB', serif;
+      font-size: calc(40 / 1600 * 100vw);
+      line-height: 1.2;
+      letter-spacing: calc(4 / 1600 * 100vw);
+      text-align: center;
+      color: #fff;
+    }
+    .ap-title.dde { color: #ddeaff; }
+
+    .ap-caption {
+      font-family: 'Poppins', 'PingFang SC', sans-serif;
+      font-style: italic;
+      font-weight: 600;
+      font-size: calc(30 / 1600 * 100vw);
+      color: #fcb356;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    /* numhead: 183-tall box, 3 centered rows at y0/73/152 (design overlap) */
+    .ap-numhead {
+      position: relative;
+      width: 100%;
+      height: calc(183 / 1600 * 100vw);
+      line-height: 1.2;
+    }
+    .ap-numhead .num {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      text-align: center;
+      font-family: 'FZHanZhenGuangBiaoS-GB', serif;
+      font-size: calc(100 / 1600 * 100vw);
+      color: rgba(221, 234, 255, .2);
+      line-height: 1.1;
+    }
+    .ap-numhead .h {
+      position: absolute;
+      top: calc(73 / 1600 * 100vw);
+      left: 0; right: 0;
+      text-align: center;
+      font-family: 'FZHanZhenGuangBiaoS-GB', serif;
+      font-size: calc(40 / 1600 * 100vw);
+      color: #ddeaff;
+      letter-spacing: calc(4 / 1600 * 100vw);
+    }
+    .ap-numhead .sub {
+      position: absolute;
+      top: calc(152 / 1600 * 100vw);
+      left: 0; right: 0;
+      text-align: center;
+      font-family: 'PingFang SC', sans-serif;
+      font-weight: 500;
+      font-size: calc(26 / 1600 * 100vw);
+      color: rgba(221, 234, 255, .8);
+      letter-spacing: calc(2.6 / 1600 * 100vw);
+    }
+
+    /* ss-电脑 (left, 584) + hackathon card (right); section height driven by .pc */
+    .ap-hackathon {
+      display: flex;
+      gap: calc(60 / 1600 * 100vw);
+      align-items: flex-start;
+    }
+    .ap-hackathon .pc {
+      width: calc(900 / 1600 * 100%);
+      flex: 0 0 auto;
+      height: calc(584 / 1600 * 100vw);
+      object-fit: cover;
+      object-position: top;
+    }
+    .ap-hackathon .card {
+      width: calc(640 / 1600 * 100%);
+      margin-top: calc(18 / 1600 * 100vw);
+    }
+    .ap-hackathon .card h3 {
+      font-family: 'Source Han Sans CN', 'PingFang SC', sans-serif;
+      font-weight: 700;
+      font-size: calc(30 / 1600 * 100vw);
+      color: #fff;
+      letter-spacing: calc(3 / 1600 * 100vw);
+      line-height: 1.2;
+    }
+    .ap-hackathon .card .logos {
+      display: flex;
+      gap: calc(32 / 1600 * 100vw);
+      margin-top: calc(41 / 1600 * 100vw);
+    }
+    .ap-hackathon .card .logos img {
+      width: calc(80 / 1600 * 100vw);
+      height: calc(80 / 1600 * 100vw);
+      object-fit: contain;
+      border-radius: 50%;
+    }
+    .ap-hackathon .card .lede {
+      font-family: 'PingFang SC', sans-serif;
+      font-weight: 400;
+      font-size: calc(24 / 1600 * 100vw);
+      color: rgba(255, 255, 255, .8);
+      line-height: 1;
+      margin-top: calc(62 / 1600 * 100vw);
+    }
+    .ap-pills {
+      display: flex;
+      flex-direction: column;
+      gap: calc(24 / 1600 * 100vw);
+      margin-top: calc(48 / 1600 * 100vw);
+    }
+    .ap-pill {
+      display: flex;
+      align-items: center;
+      gap: calc(20 / 1600 * 100vw);
+      padding: calc(20 / 1600 * 100vw) calc(16 / 1600 * 100vw);
+      border-radius: calc(8 / 1600 * 100vw) 0 0 calc(8 / 1600 * 100vw);
+      background: linear-gradient(90deg, rgba(254, 232, 201, .2), rgba(254, 232, 201, 0));
+      border: 1px solid rgba(255, 255, 255, .3);
+    }
+    .ap-pill .lbl {
+      font-family: 'PingFang SC', sans-serif;
+      font-size: calc(20 / 1600 * 100vw);
+      color: #fff;
+      flex: 0 0 calc(80 / 1600 * 100vw);
+      line-height: 1;
+    }
+    .ap-pill .desc {
+      font-family: 'PingFang SC', sans-serif;
+      font-size: calc(20 / 1600 * 100vw);
+      color: #fff;
+      line-height: 1;
+    }
+
+    /* blur band (239): transparent→black gradient + backdrop blur */
+    .ap-blur-band {
+      height: calc(239 / 1600 * 100vw);
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 60%, rgba(0, 0, 0, 1) 100%);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+    }
+
+    /* 4 phone screens, top-aligned, explicit heights */
+    .ap-phones {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: calc(25 / 1600 * 100vw);
+    }
+    .ap-phones .ri {
+      width: calc(277 / 1600 * 100%);
+      object-fit: cover;
+      object-position: top;
+      display: block;
+    }
+
+    /* 3-image trio, centered, explicit height */
+    .ap-trio {
+      display: flex;
+      justify-content: center;
+      gap: calc(30 / 1600 * 100vw);
+    }
+    .ap-trio .ri {
+      width: calc(460 / 1600 * 100%);
+      height: calc(372 / 1600 * 100vw);
+      object-fit: cover;
+      display: block;
+    }
+
+    /* wechat demo: iframe only (background band removed per design) */
+    .ap-wechat-band {
+      position: relative;
+      width: 100%;
+      height: calc(852 / 1600 * 100vw);
+      overflow: hidden;
+    }
+    .ap-wechat-band iframe { border: none; display: block; }
+
+    /* ss-8 constellation (1232) + 03 overlay + 6 waves + 12 labels */
+    .ap-constellation {
+      position: relative;
+      width: 100%;
+      height: calc(1232 / 1600 * 100vw);
+    }
+    .ap-constellation .bg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .ap-constellation .wave {
+      position: absolute;
+      width: calc(187 / 1600 * 100vw);
+      height: calc(133.5 / 1600 * 100vw);
+      object-fit: cover;
+    }
+    .ap-constellation .term {
+      position: absolute;
+      font-family: 'Poppins', 'PingFang SC', sans-serif;
+      font-weight: 500;
+      font-size: calc(30 / 1600 * 100vw);
+      color: #fcb356;
+      white-space: nowrap;
+      line-height: 1;
+    }
+
+    /* 3 portrait cards (ss-9.x): full-bleed, 60 side padding, 20 gap */
+    .ap-cards {
+      display: flex;
+      gap: calc(20 / 1600 * 100vw);
+      padding: 0 calc(60 / 1600 * 100vw);
+      align-items: flex-start;
+    }
+    .ap-cards .ri {
+      width: calc(480 / 1600 * 100vw);
+      height: auto;
+      object-fit: cover;
+      display: block;
     }
 
     /* ── back to top ── */
@@ -447,6 +1041,42 @@
       width: 18px;
       height: 18px;
     }
+
+    @media (max-width: 900px) {
+      .ap-hackathon { flex-direction: column; }
+      .ap-hackathon .pc { width: 100%; height: auto; object-fit: contain; }
+      .ap-hackathon .card { width: 100%; margin-top: 0; }
+      .ap-phones .ri { width: 44%; height: auto; }
+      .ap-trio .ri { width: 44%; height: auto; }
+      .ap-cards { flex-direction: column; }
+      .ap-cards .ri { width: 100%; height: auto; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .handwriting,
+      .hand-pen {
+        animation: none;
+      }
+
+      .handwriting {
+        clip-path: inset(0 0 0 0);
+      }
+
+      .hand-pen {
+        transform: translateX(0);
+      }
+
+      .ri,
+      .four-img-group .fi,
+      .flow-item,
+      .discuss-row,
+      .discuss-divider {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+    }
   </style>
 </head>
 
@@ -454,108 +1084,359 @@
 
   <header id="sticky-header">
     <div class="nav-title">
-      <span>01</span>
-      <span class="nav-title-name">Ai赋能篇</span>
+      <span class="nav-title-name">Ai Skill</span>
     </div>
     <nav class="tabs-row" aria-label="主导航">
-      <button class="tab-btn active">Vibe Coding</button>
-      <button class="tab-btn">Ai内容生产</button>
-      <button class="tab-btn">Ai赛事自驱</button>
+      <button class="tab-btn" data-tab="vibe-coding" type="button">Vibe Coding</button>
+      <button class="tab-btn" data-tab="ai-content" type="button">Ai内容生产</button>
+      <button class="tab-btn" data-tab="ai-project" type="button">Ai项目&amp;赛事</button>
     </nav>
   </header>
 
   <button id="back-top" title="回到顶部" aria-label="回到顶部">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"
-      stroke-linejoin="round">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
       <polyline points="18 15 12 9 6 15" />
     </svg>
   </button>
 
-  <!-- SECTION 1: VibeCoding1 hero -->
-  <section class="section-hero">
-    <img class="bg" src="assets/Ai技能/Vibe Coding/VibeCoding1.png" alt="Vibe Coding Hero" draggable="false">
-    <div class="nav-overlay" id="nav-overlay">
-      <div class="nav-title">
-        <span>01</span>
-        <span class="nav-title-name">Ai赋能篇</span>
+  <!-- ═════════ PANE 1: Vibe Coding ═════════ -->
+  <main class="pane" data-pane="vibe-coding">
+
+    <!-- SECTION 1: VibeCoding1 hero -->
+    <section class="section-hero">
+      <img class="bg" src="assets/Ai技能/Vibe Coding/VibeCoding1.png" alt="Vibe Coding Hero" draggable="false">
+      <div class="nav-overlay" id="vc-nav-overlay">
+        <div class="nav-title">
+          <span class="nav-title-name">Ai Skill</span>
+        </div>
+        <nav class="tabs-row" aria-label="内容分类">
+          <button class="tab-btn active" data-tab="vibe-coding" type="button" aria-current="page">Vibe Coding</button>
+          <button class="tab-btn" data-tab="ai-content" type="button">Ai内容生产</button>
+          <button class="tab-btn" data-tab="ai-project" type="button">Ai项目&amp;赛事</button>
+        </nav>
       </div>
-      <nav class="tabs-row" aria-label="内容分类">
-        <button class="tab-btn active">Vibe Coding</button>
-        <button class="tab-btn">Ai内容生产</button>
-        <button class="tab-btn">Ai赛事自驱</button>
-      </nav>
-    </div>
-    <div class="logos-overlay" aria-hidden="true">
-      <img src="assets/Ai技能/Vibe Coding/Antigravity.png" alt="Antigravity">
-      <img src="assets/Ai技能/Vibe Coding/ClaudeCode.png" alt="Claude Code">
-      <img src="assets/Ai技能/Vibe Coding/Codex.png" alt="Codex">
-    </div>
-  </section>
+      <div class="logos-overlay" aria-hidden="true">
+        <img src="assets/Ai技能/Vibe Coding/Antigravity.png" alt="Antigravity">
+        <img src="assets/Ai技能/Vibe Coding/ClaudeCode.png" alt="Claude Code">
+        <img src="assets/Ai技能/Vibe Coding/Codex.png" alt="Codex">
+      </div>
+    </section>
 
-  <div class="section-gap"></div>
+    <div class="section-gap"></div>
 
-  <!-- SECTION 2: VibeCoding2 + H5 iframe -->
-  <section class="section-2" id="section-2">
-    <img class="bg" src="assets/Ai技能/Vibe Coding/VibeCoding2.png" alt="" draggable="false">
-    <div class="h5-container" id="h5-container">
-      <iframe id="h5-iframe" src="assets/Ai技能/Vibe Coding/h5/index.html" title="内嵌 H5 展示" allowfullscreen
+    <!-- SECTION 2: VibeCoding2 + H5 iframe -->
+    <section class="vc-section-2" id="vc-section-2">
+      <img class="bg" src="assets/Ai技能/Vibe Coding/VibeCoding2.png" alt="" draggable="false">
+      <div class="h5-container" id="vc-h5-container">
+        <iframe id="vc-h5-iframe" src="assets/Ai技能/Vibe Coding/h5/index.html" title="内嵌 H5 展示" allowfullscreen
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"
+          sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups"></iframe>
+      </div>
+    </section>
+
+    <!-- dark blur band -->
+    <div class="section-blur-band"></div>
+
+    <!-- VibeCoding3 + handwriting overlays -->
+    <div class="vc-wrap" id="vc3">
+      <img class="bg" src="assets/Ai技能/Vibe Coding/VibeCoding3.png" alt="" draggable="false">
+      <img class="handwriting" id="handwriting" src="assets/Ai技能/Vibe Coding/字迹.png" alt="" draggable="false">
+      <img class="hand-pen" id="handPen" src="assets/Ai技能/Vibe Coding/手写笔.png" alt="" draggable="false">
+    </div>
+
+    <!-- VibeCoding4 + 难点讨论 card -->
+    <div class="vc-wrap" id="vc4">
+      <img class="bg" src="assets/Ai技能/Vibe Coding/VibeCoding4.png" alt="" draggable="false">
+      <div class="discuss-card" id="discussCard">
+        <img class="discuss-bg" src="assets/Ai技能/Vibe Coding/难点讨论-底图.png" alt="" draggable="false">
+        <div class="discuss-list" id="discussList">
+          <img class="discuss-row" src="assets/Ai技能/Vibe Coding/难点-1.png" alt="" draggable="false">
+          <img class="discuss-row" src="assets/Ai技能/Vibe Coding/难点-2.png" alt="" draggable="false">
+          <div class="discuss-divider"></div>
+          <img class="discuss-row" src="assets/Ai技能/Vibe Coding/难点-3.png" alt="" draggable="false">
+          <img class="discuss-row" src="assets/Ai技能/Vibe Coding/难点-4.png" alt="" draggable="false">
+          <img class="discuss-row" src="assets/Ai技能/Vibe Coding/难点-5.png" alt="" draggable="false">
+        </div>
+      </div>
+    </div>
+
+    <!-- zV5Jg -->
+    <img class="standalone-img" id="zv5jg" src="assets/Ai技能/Vibe Coding/逆向工作流.png" alt="逆向工作流" draggable="false"
+      style="width: calc(876.5 / 1600 * 100%); margin: 0 auto calc(80 / 1600 * 100vw);">
+
+    <!-- flow row: 6 imgs + 5 arrows -->
+    <div class="flow-row" id="flowRow">
+      <img class="flow-item" src="assets/Ai技能/Vibe Coding/流程-1.png" alt="" draggable="false">
+      <span class="flow-arrow"></span>
+      <img class="flow-item" src="assets/Ai技能/Vibe Coding/流程-2.png" alt="" draggable="false">
+      <span class="flow-arrow"></span>
+      <img class="flow-item" src="assets/Ai技能/Vibe Coding/流程-3.png" alt="" draggable="false">
+      <span class="flow-arrow"></span>
+      <img class="flow-item" src="assets/Ai技能/Vibe Coding/流程-4.png" alt="" draggable="false">
+      <span class="flow-arrow"></span>
+      <img class="flow-item" src="assets/Ai技能/Vibe Coding/流程-5.png" alt="" draggable="false">
+      <span class="flow-arrow"></span>
+      <img class="flow-item" src="assets/Ai技能/Vibe Coding/流程-6.png" alt="" draggable="false">
+    </div>
+
+    <!-- VibeCoding5 / 6 / 7 -->
+    <img class="section-img" src="assets/Ai技能/Vibe Coding/VibeCoding5.png" alt="" draggable="false">
+    <img class="section-img" src="assets/Ai技能/Vibe Coding/VibeCoding6.png" alt="" draggable="false">
+    <img class="section-img" src="assets/Ai技能/Vibe Coding/VibeCoding7.png" alt="" draggable="false">
+
+  </main>
+
+  <!-- ═════════ PANE 2: Ai内容生产 ═════════ -->
+  <main class="pane" data-pane="ai-content" hidden>
+
+    <!-- SECTION 1: hero (nr-1) + nav overlay + logos -->
+    <section class="section-hero">
+      <img class="bg" src="assets/Ai技能/Ai内容生产/nr-1.png" alt="Ai内容生产 Hero" draggable="false">
+      <div class="nav-overlay" id="nr-nav-overlay">
+        <div class="nav-title">
+          <span class="nav-title-name">Ai Skill</span>
+        </div>
+        <nav class="tabs-row" aria-label="内容分类">
+          <button class="tab-btn" data-tab="vibe-coding" type="button">Vibe Coding</button>
+          <button class="tab-btn active" data-tab="ai-content" type="button" aria-current="page">Ai内容生产</button>
+          <button class="tab-btn" data-tab="ai-project" type="button">Ai项目&amp;赛事</button>
+        </nav>
+      </div>
+    </section>
+
+    <!-- 4 tool logos -->
+    <div class="logos-row" aria-hidden="true">
+      <img src="assets/Ai技能/Ai内容生产/logos/logo-1.png" alt="" draggable="false">
+      <img src="assets/Ai技能/Ai内容生产/logos/logo-2.png" alt="" draggable="false">
+      <img src="assets/Ai技能/Ai内容生产/logos/logo-3.png" alt="" draggable="false">
+      <img src="assets/Ai技能/Ai内容生产/logos/logo-4.png" alt="" draggable="false">
+    </div>
+
+    <!-- SECTION 2: nr-2 -->
+    <img class="section-img" src="assets/Ai技能/Ai内容生产/nr-2.png" alt="" draggable="false"
+      style="margin-top: calc(110 / 1600 * 100vw);">
+
+    <!-- SECTION 3: 4-image group (left→right reveal) -->
+    <section class="four-img-group" id="nr-group3" style="margin-top: calc(181 / 1600 * 100vw);">
+      <img class="fi fi-1" src="assets/Ai技能/Ai内容生产/nr-3.1.png" alt="" draggable="false">
+      <img class="fi fi-2" src="assets/Ai技能/Ai内容生产/nr-3.2.png" alt="" draggable="false">
+      <img class="fi fi-3" src="assets/Ai技能/Ai内容生产/nr-3.3.png" alt="" draggable="false">
+      <img class="fi fi-4" src="assets/Ai技能/Ai内容生产/nr-3.4.png" alt="" draggable="false">
+    </section>
+
+    <!-- SECTION 4: nr-4 (centered) -->
+    <img class="section-img" src="assets/Ai技能/Ai内容生产/nr-4.png" alt="" draggable="false"
+      style="width: calc(1332 / 1600 * 100%); margin: calc(140 / 1600 * 100vw) auto 0;">
+
+    <!-- SECTION 5: nr-5 -->
+    <img class="section-img" src="assets/Ai技能/Ai内容生产/nr-5.png" alt="" draggable="false"
+      style="margin-top: calc(196 / 1600 * 100vw);">
+
+    <!-- SECTION 6: title (nr-6) + 4-image group -->
+    <img class="section-img" src="assets/Ai技能/Ai内容生产/nr-6.png" alt="" draggable="false"
+      style="width: calc(517.5 / 1600 * 100%); margin: calc(149 / 1600 * 100vw) auto 0;">
+    <section class="four-img-group" id="nr-group6" style="margin-top: calc(19 / 1600 * 100vw);">
+      <img class="fi fi-1" src="assets/Ai技能/Ai内容生产/nr-7.1.png" alt="" draggable="false">
+      <img class="fi fi-2" src="assets/Ai技能/Ai内容生产/nr-7.2.png" alt="" draggable="false">
+      <img class="fi fi-3" src="assets/Ai技能/Ai内容生产/nr-7.3.png" alt="" draggable="false">
+      <img class="fi fi-4" src="assets/Ai技能/Ai内容生产/nr-7.4.png" alt="" draggable="false">
+    </section>
+
+    <!-- SECTION 7: title (nr-8) + white video area -->
+    <img class="section-img" src="assets/Ai技能/Ai内容生产/nr-8.png" alt="" draggable="false"
+      style="width: calc(395 / 1600 * 100%); margin: calc(191 / 1600 * 100vw) auto 0;">
+    <div class="video-area" id="nr-videoArea" style="margin-top: calc(66 / 1600 * 100vw);">
+      <video id="nr-vcVideo" src="assets/Ai技能/Ai内容生产/几何讲解_三角形中线.mp4" muted loop playsinline
+        preload="metadata"></video>
+      <button class="mute-btn" id="nr-muteBtn" type="button" aria-label="开启声音" title="开启声音">
+        <img class="icon-muted" src="assets/Ai技能/Ai内容生产/静音.png" alt="" draggable="false">
+        <img class="icon-unmuted" src="assets/Ai技能/Ai内容生产/声音.png" alt="" draggable="false">
+      </button>
+    </div>
+
+    <!-- SECTION 8: nr-9 -->
+    <img class="section-img" src="assets/Ai技能/Ai内容生产/nr-9.png" alt="" draggable="false"
+      style="margin-top: calc(189 / 1600 * 100vw);">
+
+    <div style="height: calc(323 / 1600 * 100vw);" aria-hidden="true"></div>
+
+  </main>
+
+  <!-- ═════════ PANE 3: Ai项目&赛事 ═════════ -->
+  <main class="pane" data-pane="ai-project" hidden>
+
+    <!-- SECTION 1: hero (ss-1) + nav overlay -->
+    <section class="section-hero">
+      <img class="bg" src="assets/Ai技能/Ai项目&amp;赛事/旧版/头图.jpg" alt="Ai项目&amp;赛事 Hero" draggable="false">
+      <div class="nav-overlay" id="ap-nav-overlay">
+        <div class="nav-title">
+          <span class="nav-title-name">Ai Skill</span>
+        </div>
+        <nav class="tabs-row" aria-label="内容分类">
+          <button class="tab-btn" data-tab="vibe-coding" type="button">Vibe Coding</button>
+          <button class="tab-btn" data-tab="ai-content" type="button">Ai内容生产</button>
+          <button class="tab-btn active" data-tab="ai-project" type="button" aria-current="page">Ai项目&amp;赛事</button>
+        </nav>
+      </div>
+    </section>
+
+    <!-- ── Section 2 : laptop mockup + video (1599×660) ── -->
+    <section class="race-s2">
+      <div class="race-laptop-wrap">
+        <img class="race-laptop-frame" src="assets/Ai技能/Ai项目&amp;赛事/旧版/1.jpg" alt="" draggable="false">
+        <div class="race-laptop-screen">
+          <video playsinline controls controlslist="nofullscreen nodownload noremoteplayback">
+            <source src="assets/Ai技能/Ai项目&amp;赛事/旧版/讲解体验差异.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2.jpg 1600×820 -->
+    <img class="section-img" src="assets/Ai技能/Ai项目&amp;赛事/旧版/2.jpg" alt="" draggable="false">
+
+    <!-- 3.jpg 1600×1595 + 圆形卡片叠层 -->
+    <div class="race-s3-wrap">
+      <img class="section-img" src="assets/Ai技能/Ai项目&amp;赛事/旧版/3.jpg" alt="" draggable="false">
+      <div class="race-cards-row">
+        <div class="race-card">
+          <p class="race-card-title">接模型</p>
+          <p class="race-card-desc">接入Gemini API<br>多模处理好</p>
+        </div>
+        <div class="race-card">
+          <p class="race-card-title">找声音</p>
+          <p class="race-card-desc">不同角色的声音<br>不同年龄的声音</p>
+        </div>
+        <div class="race-card">
+          <p class="race-card-title">开发</p>
+          <p class="race-card-desc">Gemini对前端<br>处理得更好</p>
+        </div>
+        <div class="race-card">
+          <p class="race-card-title">修复Bug</p>
+          <p class="race-card-desc">解决功能层面主要<br>Bug</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3D 卡片扇形展示 (1600×660) -->
+    <section class="race-fan-section">
+      <div class="race-fan-stage">
+        <div class="race-fan-deck" id="raceFanDeck">
+          <div class="race-fan-card"><img src="assets/Ai技能/Ai项目&amp;赛事/旧版/展示/1.png" alt="" draggable="false"></div>
+          <div class="race-fan-card"><img src="assets/Ai技能/Ai项目&amp;赛事/旧版/展示/2.png" alt="" draggable="false"></div>
+          <div class="race-fan-card"><img src="assets/Ai技能/Ai项目&amp;赛事/旧版/展示/3.png" alt="" draggable="false"></div>
+          <div class="race-fan-card"><img src="assets/Ai技能/Ai项目&amp;赛事/旧版/展示/4.png" alt="" draggable="false"></div>
+          <div class="race-fan-card"><img src="assets/Ai技能/Ai项目&amp;赛事/旧版/展示/5.png" alt="" draggable="false"></div>
+          <div class="race-fan-card"><img src="assets/Ai技能/Ai项目&amp;赛事/旧版/展示/6.png" alt="" draggable="false"></div>
+          <div class="race-fan-card"><img src="assets/Ai技能/Ai项目&amp;赛事/旧版/展示/7.png" alt="" draggable="false"></div>
+          <div class="race-fan-card"><img src="assets/Ai技能/Ai项目&amp;赛事/旧版/展示/8.png" alt="" draggable="false"></div>
+          <div class="race-fan-card"><img src="assets/Ai技能/Ai项目&amp;赛事/旧版/展示/9.png" alt="" draggable="false"></div>
+          <div class="race-fan-card"><img src="assets/Ai技能/Ai项目&amp;赛事/旧版/展示/10.png" alt="" draggable="false"></div>
+          <div class="race-fan-card"><img src="assets/Ai技能/Ai项目&amp;赛事/旧版/展示/11.png" alt="" draggable="false"></div>
+          <div class="race-fan-card"><img src="assets/Ai技能/Ai项目&amp;赛事/旧版/展示/12.png" alt="" draggable="false"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4.jpg separator 1600×200 -->
+    <img class="section-img" src="assets/Ai技能/Ai项目&amp;赛事/旧版/4.jpg" alt="" draggable="false">
+
+    <!-- ── WeChat H5 embed ── -->
+    <section class="race-wechat">
+      <iframe src="assets/Ai技能/Ai项目&amp;赛事/wechat/wechat-demo.html" title="微信 H5" allowfullscreen
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"
         sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups"></iframe>
-    </div>
-  </section>
+    </section>
 
-  <!-- dark blur band (ILaWu) -->
-  <div class="section-blur-band"></div>
+    <!-- 为什么要做顾问龙虾？ title -->
+    <h2 class="ap-title dde" style="margin-top: calc(181.5 / 1600 * 100vw);">为什么要做顾问龙虾？</h2>
 
-  <!-- VibeCoding3 + handwriting overlays -->
-  <div class="vc-wrap" id="vc3">
-    <img class="bg" src="assets/Ai技能/Vibe Coding/VibeCoding3.png" alt="" draggable="false">
-    <img class="handwriting" id="handwriting" src="assets/Ai技能/Vibe Coding/字迹.png" alt="" draggable="false">
-    <img class="hand-pen" id="handPen" src="assets/Ai技能/Vibe Coding/手写笔.png" alt="" draggable="false">
-  </div>
+    <!-- ss-6 (centered, 311) -->
+    <img class="section-img ri" src="assets/Ai技能/Ai项目&amp;赛事/ss-6.png" alt="" draggable="false"
+      style="width: calc(1400 / 1600 * 100%); height: calc(311 / 1600 * 100vw); object-fit: cover; margin: calc(110 / 1600 * 100vw) auto 0;">
 
-  <!-- VibeCoding4 + 难点讨论 card -->
-  <div class="vc-wrap" id="vc4">
-    <img class="bg" src="assets/Ai技能/Vibe Coding/VibeCoding4.png" alt="" draggable="false">
-    <div class="discuss-card" id="discussCard">
-      <img class="discuss-bg" src="assets/Ai技能/Vibe Coding/难点讨论-底图.png" alt="" draggable="false">
-      <div class="discuss-list" id="discussList">
-        <img class="discuss-row" src="assets/Ai技能/Vibe Coding/难点-1.png" alt="" draggable="false">
-        <img class="discuss-row" src="assets/Ai技能/Vibe Coding/难点-2.png" alt="" draggable="false">
-        <div class="discuss-divider"></div>
-        <img class="discuss-row" src="assets/Ai技能/Vibe Coding/难点-3.png" alt="" draggable="false">
-        <img class="discuss-row" src="assets/Ai技能/Vibe Coding/难点-4.png" alt="" draggable="false">
-        <img class="discuss-row" src="assets/Ai技能/Vibe Coding/难点-5.png" alt="" draggable="false">
+    <!-- 有什么不足 title -->
+    <h2 class="ap-title dde" style="margin-top: calc(79 / 1600 * 100vw);">有什么不足</h2>
+
+    <!-- 3-image trio (372) -->
+    <section class="ap-trio" data-reveal style="margin-top: calc(58 / 1600 * 100vw);">
+      <img class="ri" src="assets/Ai技能/Ai项目&amp;赛事/ss-7.1.png" alt="" draggable="false">
+      <img class="ri" src="assets/Ai技能/Ai项目&amp;赛事/ss-7.2.png" alt="" draggable="false">
+      <img class="ri" src="assets/Ai技能/Ai项目&amp;赛事/ss-7.3.png" alt="" draggable="false">
+    </section>
+
+    <!-- caption: 总结 Tool Calling Agent -->
+    <p class="ap-caption" style="margin-top: calc(128 / 1600 * 100vw);">总结：Tool Calling 型对话 Agent（26年）</p>
+
+    <!-- ss-8 constellation (1232) + 03 overlay + 6 waves + 12 labels -->
+    <section class="ap-constellation" data-reveal style="margin-top: calc(154 / 1600 * 100vw);">
+      <img class="bg" src="assets/Ai技能/Ai项目&amp;赛事/ss-8.png" alt="" draggable="false">
+      <div class="ap-numhead" style="position: absolute; top: 8.93%; left: 0; right: 0; margin: 0;">
+        <span class="num">03</span>
+        <span class="h">日常需求</span>
+        <span class="sub">参与的Ai需求</span>
       </div>
-    </div>
-  </div>
+      <img class="wave" src="assets/Ai技能/Ai项目&amp;赛事/extras/wave-1.png" alt="" style="left: 7.49%; top: 54.31%;">
+      <img class="wave" src="assets/Ai技能/Ai项目&amp;赛事/extras/wave-2.png" alt="" style="left: 18.13%; top: 37.82%;">
+      <img class="wave" src="assets/Ai技能/Ai项目&amp;赛事/extras/wave-3.png" alt="" style="left: 35%; top: 29.14%;">
+      <img class="wave" src="assets/Ai技能/Ai项目&amp;赛事/extras/wave-4.png" alt="" style="left: 53.31%; top: 29.14%;">
+      <img class="wave" src="assets/Ai技能/Ai项目&amp;赛事/extras/wave-5.png" alt="" style="left: 70.88%; top: 37.82%;">
+      <img class="wave" src="assets/Ai技能/Ai项目&amp;赛事/extras/wave-6.png" alt="" style="left: 82.19%; top: 54.31%;">
+      <span class="term" style="left: 47%; top: 42.42%;">表现层</span>
+      <span class="term" style="left: 9.31%; top: 76.68%;">OCR</span>
+      <span class="term" style="left: 14.94%; top: 83.85%;">CV</span>
+      <span class="term" style="left: 18.875%; top: 94.73%;">ASR</span>
+      <span class="term" style="left: 31.25%; top: 99.84%;">Stroke</span>
+      <span class="term" style="left: 43.19%; top: 99.84%;">TTS</span>
+      <span class="term" style="left: 52.375%; top: 99.84%;">多模态</span>
+      <span class="term" style="left: 63.94%; top: 99.84%;">风控</span>
+      <span class="term" style="left: 8.69%; top: 90.75%;">意图识别</span>
+      <span class="term" style="left: 77.5%; top: 94.12%;">RAG</span>
+      <span class="term" style="left: 78.94%; top: 85.55%;">LLM</span>
+      <span class="term" style="left: 82%; top: 77.35%;">九章</span>
+    </section>
 
-  <!-- zV5Jg -->
-  <img class="standalone-img" id="zv5jg" src="assets/Ai技能/Vibe Coding/逆向工作流.png" alt="逆向工作流" draggable="false"
-    style="width: calc(876.5 / 1600 * 100%); margin: 0 auto calc(80 / 1600 * 100vw);">
+    <!-- 3 portrait cards (ss-9.x) -->
+    <section class="ap-cards" data-reveal style="margin-top: calc(144 / 1600 * 100vw);">
+      <img class="ri" src="assets/Ai技能/Ai项目&amp;赛事/ss-9.1.png" alt="" draggable="false">
+      <img class="ri" src="assets/Ai技能/Ai项目&amp;赛事/ss-9.2.png" alt="" draggable="false">
+      <img class="ri" src="assets/Ai技能/Ai项目&amp;赛事/ss-9.3.png" alt="" draggable="false">
+    </section>
 
-  <!-- flow row: 6 imgs + 5 arrows -->
-  <div class="flow-row" id="flowRow">
-    <img class="flow-item" src="assets/Ai技能/Vibe Coding/流程-1.png" alt="" draggable="false">
-    <span class="flow-arrow"></span>
-    <img class="flow-item" src="assets/Ai技能/Vibe Coding/流程-2.png" alt="" draggable="false">
-    <span class="flow-arrow"></span>
-    <img class="flow-item" src="assets/Ai技能/Vibe Coding/流程-3.png" alt="" draggable="false">
-    <span class="flow-arrow"></span>
-    <img class="flow-item" src="assets/Ai技能/Vibe Coding/流程-4.png" alt="" draggable="false">
-    <span class="flow-arrow"></span>
-    <img class="flow-item" src="assets/Ai技能/Vibe Coding/流程-5.png" alt="" draggable="false">
-    <span class="flow-arrow"></span>
-    <img class="flow-item" src="assets/Ai技能/Vibe Coding/流程-6.png" alt="" draggable="false">
-  </div>
+    <div style="height: calc(120 / 1600 * 100vw);" aria-hidden="true"></div>
 
-  <!-- VibeCoding5 / 6 / 7 -->
-  <img class="section-img" src="assets/Ai技能/Vibe Coding/VibeCoding5.png" alt="" draggable="false">
-  <img class="section-img" src="assets/Ai技能/Vibe Coding/VibeCoding6.png" alt="" draggable="false">
-  <img class="section-img" src="assets/Ai技能/Vibe Coding/VibeCoding7.png" alt="" draggable="false">
+  </main>
 
   <script>
-    /* STICKY HEADER + BACK-TOP */
+    /* ── TAB SWITCHING + HASH ── */
+    const PANES = Array.from(document.querySelectorAll('.pane[data-pane]'));
+    const TAB_BTNS = Array.from(document.querySelectorAll('.tab-btn[data-tab]'));
+
+    function setActiveTab(tab, scrollToTop) {
+      PANES.forEach(p => { p.hidden = (p.dataset.pane !== tab); });
+      TAB_BTNS.forEach(b => {
+        const on = b.dataset.tab === tab;
+        b.classList.toggle('active', on);
+        if (on) b.setAttribute('aria-current', 'page');
+        else b.removeAttribute('aria-current');
+      });
+      if (scrollToTop) window.scrollTo({ top: 0, behavior: 'auto' });
+      if (location.hash !== '#' + tab) history.replaceState(null, '', '#' + tab);
+      // re-run iframe sizing for the now-visible pane
+      window.dispatchEvent(new Event('resize'));
+    }
+
+    TAB_BTNS.forEach(b => {
+      b.addEventListener('click', () => setActiveTab(b.dataset.tab, true));
+    });
+
+    (function initFromHash() {
+      const valid = new Set(['vibe-coding', 'ai-content', 'ai-project']);
+      const h = location.hash.slice(1);
+      setActiveTab(valid.has(h) ? h : 'vibe-coding', false);
+    })();
+
+    /* ── STICKY HEADER + BACK-TOP ── */
     const stickyHeader = document.getElementById('sticky-header');
     const backTop = document.getElementById('back-top');
     function navThreshold() { return window.innerWidth * (260 / 1600); }
@@ -568,26 +1449,51 @@
     onScroll();
     backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-    /* H5 IFRAME scale-to-fit (375×812 design) */
-    const iframe = document.getElementById('h5-iframe');
-    const h5Container = document.getElementById('h5-container');
-    const H5_W = 375, H5_H = 812;
-    function scaleH5() {
-      if (!h5Container || !iframe) return;
-      const cW = h5Container.clientWidth, cH = h5Container.clientHeight;
-      if (cW === 0 || cH === 0) return;
-      const scale = Math.min(cW / H5_W, cH / H5_H);
-      const offX = (cW - H5_W * scale) / 2;
-      iframe.style.width = H5_W + 'px';
-      iframe.style.height = H5_H + 'px';
-      iframe.style.transform = `translateX(${offX}px) scale(${scale})`;
-      iframe.style.transformOrigin = 'top left';
-    }
-    if (window.ResizeObserver) { new ResizeObserver(scaleH5).observe(h5Container); }
-    window.addEventListener('resize', scaleH5, { passive: true });
-    window.addEventListener('load', scaleH5);
+    /* ── GENERIC REVEAL: [data-reveal] + .four-img-group ── */
+    (function () {
+      const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const targets = Array.from(document.querySelectorAll('.four-img-group, [data-reveal]'));
+      if (reduce || !('IntersectionObserver' in window)) {
+        targets.forEach(t => t.classList.add('revealed'));
+        return;
+      }
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          e.target.classList.add('revealed');
+          io.unobserve(e.target);
+        });
+      }, { threshold: 0.2 });
+      targets.forEach(t => io.observe(t));
+    })();
 
-    /* INTERACTION A — handwriting reveal (once) */
+    /* ── IFRAME scale-to-fit (VC H5 + AP wechat) ── */
+    function scaleIframe(containerId, iframeId, dw, dh) {
+      const c = document.getElementById(containerId);
+      const f = document.getElementById(iframeId);
+      if (!c || !f) return;
+      const cW = c.clientWidth, cH = c.clientHeight;
+      if (cW === 0 || cH === 0) return;
+      const scale = Math.min(cW / dw, cH / dh);
+      const offX = (cW - dw * scale) / 2;
+      const offY = (cH - dh * scale) / 2;
+      f.style.width = dw + 'px';
+      f.style.height = dh + 'px';
+      f.style.transform = `translate(${offX}px, ${offY}px) scale(${scale})`;
+      f.style.transformOrigin = 'top left';
+    }
+    function scaleAllIframes() {
+      scaleIframe('vc-h5-container', 'vc-h5-iframe', 375, 812);
+      scaleIframe('ap-wechat-container', 'ap-wechat-iframe', 940, 800);
+    }
+    const vcH5c = document.getElementById('vc-h5-container');
+    if (window.ResizeObserver && vcH5c) new ResizeObserver(scaleAllIframes).observe(vcH5c);
+    const apWc = document.getElementById('ap-wechat-container');
+    if (window.ResizeObserver && apWc) new ResizeObserver(scaleAllIframes).observe(apWc);
+    window.addEventListener('resize', scaleAllIframes, { passive: true });
+    window.addEventListener('load', scaleAllIframes);
+
+    /* ── VC: handwriting reveal (once) ── */
     (function () {
       const hw = document.getElementById('handwriting');
       const pen = document.getElementById('handPen');
@@ -609,8 +1515,7 @@
       io.observe(vc3);
     })();
 
-    /* INTERACTION B — 难点讨论 list (top→bottom), zV5Jg, flow row (left→right).
-       Each item reveals on scroll-in; once-only. */
+    /* ── VC: 难点讨论 list + zV5Jg + flow row ── */
     (function () {
       const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
       const reveal = (el) => el.classList.add('revealed');
@@ -630,7 +1535,6 @@
         });
       }, { threshold: 0.5 });
       rows.forEach((r) => io.observe(r));
-      // Flow row: stagger reveal left→right when the row enters view.
       const flowRow = document.getElementById('flowRow');
       if (flowRow) {
         const fio = new IntersectionObserver((entries) => {
@@ -654,6 +1558,118 @@
         }, { threshold: 0.4 });
         zio.observe(zv5);
       }
+    })();
+
+    /* ── VIDEO: auto-play in view + loop + mute toggle ── */
+    function setupVideo(areaId, videoId, muteBtnId) {
+      const video = document.getElementById(videoId);
+      const area = document.getElementById(areaId);
+      const muteBtn = document.getElementById(muteBtnId);
+      if (!video || !area) return;
+      if (!('IntersectionObserver' in window)) {
+        video.play().catch(() => { });
+      } else {
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              video.play().catch(() => { });
+            } else {
+              video.pause();
+            }
+          });
+        }, { threshold: 0.45 });
+        io.observe(area);
+      }
+      if (muteBtn) {
+        const sync = () => {
+          const on = !video.muted;
+          area.classList.toggle('unmuted', on);
+          muteBtn.setAttribute('aria-label', on ? '静音' : '开启声音');
+          muteBtn.title = on ? '静音' : '开启声音';
+        };
+        muteBtn.addEventListener('click', () => {
+          video.muted = !video.muted;
+          sync();
+        });
+        video.addEventListener('volumechange', sync);
+        sync();
+      }
+    }
+    setupVideo('nr-videoArea', 'nr-vcVideo', 'nr-muteBtn');
+
+    /* ── RACE WECHAT IFRAME · scale-to-fit (ResizeObserver so it rescales when pane becomes visible) ── */
+    (function () {
+      const RACE_W = 1100, RACE_H = 924;
+      const raceSection = document.querySelector('.race-wechat');
+      const raceFrame = raceSection && raceSection.querySelector('iframe');
+      if (!raceSection || !raceFrame) return;
+      function scaleRaceWechat() {
+        const cw = raceSection.clientWidth;
+        if (!cw) return;
+        const scale = Math.min(1, cw / RACE_W);
+        const offsetX = (cw - RACE_W * scale) / 2;
+        raceFrame.style.width = RACE_W + 'px';
+        raceFrame.style.height = RACE_H + 'px';
+        raceFrame.style.transformOrigin = 'top left';
+        raceFrame.style.transform = `translateX(${offsetX}px) scale(${scale})`;
+        raceSection.style.height = Math.ceil(RACE_H * scale) + 'px';
+      }
+      if (window.ResizeObserver) new ResizeObserver(scaleRaceWechat).observe(raceSection);
+      window.addEventListener('resize', scaleRaceWechat, { passive: true });
+      scaleRaceWechat();
+    })();
+
+    /* ── 苹果风格斜向纵深轮播 (race fan deck) ── */
+    (function () {
+      const deck = document.getElementById('raceFanDeck');
+      if (!deck) return;
+      const cards = Array.from(deck.querySelectorAll('.race-fan-card'));
+      const N = cards.length;
+      const SHOW = 6;
+      const DX = 3.8;
+      const DY = 2.8;
+      const DZ = 5.0;
+      const CW = 25;
+      const CH = CW * 800 / 1280;
+      const OX = -((SHOW - 1) * DX) / 2;
+      const OY = ((SHOW - 1) * DY) / 2;
+      let frontIdx = 0;
+      let timer = null;
+      function pos(i) { return (i - frontIdx + N) % N; }
+      function applyPos(card, p, instant) {
+        if (instant) card.style.transition = 'none';
+        const visible = p < SHOW;
+        card.style.opacity = visible ? String(1 - p * 0.07) : '0';
+        card.style.pointerEvents = p === 0 ? 'auto' : 'none';
+        card.style.zIndex = String(visible ? SHOW - p + 5 : 0);
+        const px = OX + p * DX - CW / 2;
+        const py = OY - p * DY - CH / 2;
+        const pz = -p * DZ;
+        const sh = p === 0
+          ? '0 1.2vw 3.5vw rgba(0,0,0,0.45)'
+          : `0 0.4vw ${0.8 + p * 0.3}vw rgba(0,0,0,0.25)`;
+        card.style.transform = `translateX(${px}vw) translateY(${py}vw) translateZ(${pz}vw)`;
+        card.style.boxShadow = sh;
+        if (instant) requestAnimationFrame(() =>
+          requestAnimationFrame(() => { card.style.transition = ''; })
+        );
+      }
+      function renderAll() { cards.forEach((c, i) => applyPos(c, pos(i), false)); }
+      function advance() {
+        const old = cards[frontIdx];
+        frontIdx = (frontIdx + 1) % N;
+        applyPos(old, SHOW, true);
+        requestAnimationFrame(() =>
+          requestAnimationFrame(() => renderAll())
+        );
+      }
+      function startAuto() { timer = setInterval(advance, 3200); }
+      function stopAuto() { clearInterval(timer); timer = null; }
+      cards.forEach((c, i) => applyPos(c, i, true));
+      deck.addEventListener('click', () => { advance(); stopAuto(); startAuto(); });
+      deck.addEventListener('mouseenter', stopAuto);
+      deck.addEventListener('mouseleave', startAuto);
+      startAuto();
     })();
   </script>
 </body>

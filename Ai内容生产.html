@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ai内容生产</title>
+  <style>
+    @font-face {
+      font-family: 'FZHanZhenGuangBiaoS-GB';
+      src: url('FZHZGBJW.TTF') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      background: #01020d;
+      color: #fff;
+      font-family: 'PingFang SC', -apple-system, 'Helvetica Neue', Arial, sans-serif;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    /* ── STICKY HEADER (shared tab component) ── */
+    #sticky-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: clamp(48px, 5vw, 80px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: clamp(12px, 2.5vw, 40px);
+      padding: 0 clamp(16px, 3.75vw, 60px);
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.88) 0%, rgba(0, 0, 0, 0) 100%);
+      z-index: 1000;
+      opacity: 0;
+      transform: translateY(-8px);
+      transition: opacity .35s ease, transform .35s ease;
+      pointer-events: none;
+    }
+
+    #sticky-header.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: all;
+    }
+
+    .nav-title {
+      display: flex;
+      align-items: center;
+      gap: clamp(12px, 2.5vw, 40px);
+      flex-shrink: 1;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .nav-title span {
+      font-family: 'FZHanZhenGuangBiaoS-GB', 'STZhongsong', 'Noto Serif SC', serif;
+      font-size: clamp(22px, 3.75vw, 60px);
+      font-weight: normal;
+      color: #ddeaff;
+      line-height: 1.2;
+    }
+
+    .nav-title .nav-title-name {
+      letter-spacing: clamp(2px, .375vw, 6px);
+    }
+
+    #sticky-header .nav-title span {
+      font-size: clamp(13px, 2.0625vw, 33px);
+    }
+
+    .tabs-row {
+      display: flex;
+      align-items: center;
+      gap: clamp(8px, 1.5vw, 24px);
+      flex-shrink: 0;
+      flex-wrap: nowrap;
+    }
+
+    .tab-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(5px, .75vw, 12px) clamp(10px, 1.5vw, 24px);
+      border-radius: 9999px;
+      border: 1.2px solid rgba(221, 234, 255, .85);
+      background: rgba(255, 255, 255, .10);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      color: #fff;
+      font-family: 'PingFang SC', -apple-system, sans-serif;
+      font-size: clamp(10px, 1.5vw, 24px);
+      font-weight: 400;
+      line-height: 1;
+      white-space: nowrap;
+      cursor: pointer;
+      opacity: .9;
+      transition: background .22s ease, opacity .22s ease, transform .12s ease;
+      -webkit-appearance: none;
+      appearance: none;
+      user-select: none;
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(90deg, #3c91ff 0%, #619de6 38%, #7684ea 76%, #3c91ff 100%);
+      opacity: .9;
+    }
+
+    .tab-btn:hover {
+      opacity: 1;
+      transform: scale(1.03);
+    }
+
+    .tab-btn:active {
+      transform: scale(.97);
+    }
+
+    /* ── HERO (nr-1) + nav overlay + logos ── */
+    .section-hero {
+      position: relative;
+      width: 100%;
+      z-index: 1;
+    }
+
+    .section-hero .bg {
+      width: 100%;
+      display: block;
+    }
+
+    .nav-overlay {
+      position: absolute;
+      top: calc(60 / 800 * 100%);
+      left: 0;
+      right: 0;
+      height: calc(200 / 800 * 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(12px, 2.5vw, 40px);
+      padding: 0 clamp(16px, 3.75vw, 60px);
+    }
+
+    .logos-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: calc(40 / 1600 * 100vw);
+      margin-top: calc(81 / 1600 * 100vw);
+    }
+
+    .logos-row img {
+      width: calc(120 / 1600 * 100vw);
+      height: calc(120 / 1600 * 100vw);
+      object-fit: contain;
+      border-radius: 50%;
+    }
+
+    /* ── full-width & centered section images ── */
+    .section-img {
+      width: 100%;
+      display: block;
+    }
+
+    /* ── MODULE 3 & 6: 4-image staggered groups ── */
+    .four-img-group {
+      position: relative;
+      width: calc(1480 / 1600 * 100%);
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    #group3 {
+      aspect-ratio: 1480 / 697;
+    }
+
+    #group6 {
+      aspect-ratio: 1480 / 697.5;
+    }
+
+    .four-img-group .fi {
+      position: absolute;
+      height: auto;
+      object-fit: contain;
+      opacity: 0;
+      transform: translateX(-40px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .four-img-group.revealed .fi {
+      opacity: 1;
+      transform: none;
+    }
+
+    .four-img-group.revealed .fi:nth-child(1) {
+      transition-delay: 0s;
+    }
+
+    .four-img-group.revealed .fi:nth-child(2) {
+      transition-delay: .22s;
+    }
+
+    .four-img-group.revealed .fi:nth-child(3) {
+      transition-delay: .44s;
+    }
+
+    .four-img-group.revealed .fi:nth-child(4) {
+      transition-delay: .66s;
+    }
+
+    /* group3 (nr-3.x) image positions within 1480×697 box */
+    #group3 .fi-1 {
+      left: 0%;
+      top: 11.45%;
+      width: 24.49%;
+    }
+
+    #group3 .fi-2 {
+      left: 25.46%;
+      top: 0%;
+      width: 24.56%;
+    }
+
+    #group3 .fi-3 {
+      left: 50.86%;
+      top: 7.26%;
+      width: 24.56%;
+    }
+
+    #group3 .fi-4 {
+      left: 76.25%;
+      top: 16.76%;
+      width: 23.75%;
+    }
+
+    /* group6 (nr-7.x) image positions within 1480×697.5 box */
+    #group6 .fi-1 {
+      left: 0%;
+      top: 0%;
+      width: 24.56%;
+    }
+
+    #group6 .fi-2 {
+      left: 25.41%;
+      top: 8.66%;
+      width: 24.56%;
+    }
+
+    #group6 .fi-3 {
+      left: 50.82%;
+      top: 6.70%;
+      width: 24.49%;
+    }
+
+    #group6 .fi-4 {
+      left: 76.23%;
+      top: 1.40%;
+      width: 23.78%;
+    }
+
+    /* ── VIDEO PLAYER area (white card G2QEER) ── */
+    .video-area {
+      position: relative;
+      width: calc(1100 / 1600 * 100%);
+      margin-left: auto;
+      margin-right: auto;
+      aspect-ratio: 1100 / 619;
+      background: #d9d9d9;
+      overflow: hidden;
+    }
+
+    .video-area video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .video-area .mute-btn {
+      position: absolute;
+      right: clamp(8px, 1vw, 16px);
+      bottom: clamp(8px, 1vw, 16px);
+      width: clamp(30px, 2.2vw, 42px);
+      height: clamp(30px, 2.2vw, 42px);
+      border: none;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, .45);
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      transition: background .2s ease, transform .12s ease;
+    }
+
+    .video-area .mute-btn:hover {
+      background: rgba(0, 0, 0, .65);
+    }
+
+    .video-area .mute-btn:active {
+      transform: scale(.92);
+    }
+
+    .video-area .mute-btn img {
+      width: 62%;
+      height: 62%;
+      object-fit: contain;
+    }
+
+    .video-area .mute-btn .icon-unmuted {
+      display: none;
+    }
+
+    .video-area.unmuted .mute-btn .icon-muted {
+      display: none;
+    }
+
+    .video-area.unmuted .mute-btn .icon-unmuted {
+      display: inline-block;
+    }
+
+    /* ── back to top ── */
+    #back-top {
+      position: fixed;
+      bottom: clamp(16px, 3vw, 40px);
+      right: clamp(16px, 3vw, 40px);
+      width: clamp(36px, 3vw, 48px);
+      height: clamp(36px, 3vw, 48px);
+      border-radius: 50%;
+      background: rgba(60, 145, 255, .7);
+      backdrop-filter: blur(8px);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity .3s, transform .3s;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    #back-top.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: all;
+    }
+
+    #back-top:hover {
+      background: rgba(60, 145, 255, .9);
+    }
+
+    #back-top svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .four-img-group .fi {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header id="sticky-header">
+    <div class="nav-title">
+      <span class="nav-title-name">Ai Skill</span>
+    </div>
+    <nav class="tabs-row" aria-label="主导航">
+      <a class="tab-btn" href="Vibe Coding.html">Vibe Coding</a>
+      <a class="tab-btn active" href="Ai内容生产.html" aria-current="page">Ai内容生产</a>
+      <a class="tab-btn" href="Ai项目&amp;赛事.html">Ai项目&amp;赛事</a>
+    </nav>
+  </header>
+
+  <button id="back-top" title="回到顶部" aria-label="回到顶部">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"
+      stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15" />
+    </svg>
+  </button>
+
+  <!-- SECTION 1: hero (nr-1) + nav overlay + logos -->
+  <section class="section-hero">
+    <img class="bg" src="assets/Ai技能/Ai内容生产/nr-1.png" alt="Ai内容生产 Hero" draggable="false">
+    <div class="nav-overlay" id="nav-overlay">
+      <div class="nav-title">
+        <span class="nav-title-name">Ai Skill</span>
+      </div>
+      <nav class="tabs-row" aria-label="内容分类">
+        <a class="tab-btn" href="Vibe Coding.html">Vibe Coding</a>
+        <a class="tab-btn active" href="Ai内容生产.html" aria-current="page">Ai内容生产</a>
+        <a class="tab-btn" href="Ai项目&amp;赛事.html">Ai项目&amp;赛事</a>
+      </nav>
+    </div>
+  </section>
+
+  <!-- 4 tool logos (float below hero on dark bg) -->
+  <div class="logos-row" aria-hidden="true">
+    <img src="assets/Ai技能/Ai内容生产/logos/logo-1.png" alt="" draggable="false">
+    <img src="assets/Ai技能/Ai内容生产/logos/logo-2.png" alt="" draggable="false">
+    <img src="assets/Ai技能/Ai内容生产/logos/logo-3.png" alt="" draggable="false">
+    <img src="assets/Ai技能/Ai内容生产/logos/logo-4.png" alt="" draggable="false">
+  </div>
+
+  <!-- SECTION 2: nr-2 -->
+  <img class="section-img" src="assets/Ai技能/Ai内容生产/nr-2.png" alt="" draggable="false"
+    style="margin-top: calc(110 / 1600 * 100vw);">
+
+  <!-- SECTION 3: 4-image group (left→right reveal, once) -->
+  <section class="four-img-group" id="group3" style="margin-top: calc(181 / 1600 * 100vw);">
+    <img class="fi fi-1" src="assets/Ai技能/Ai内容生产/nr-3.1.png" alt="" draggable="false">
+    <img class="fi fi-2" src="assets/Ai技能/Ai内容生产/nr-3.2.png" alt="" draggable="false">
+    <img class="fi fi-3" src="assets/Ai技能/Ai内容生产/nr-3.3.png" alt="" draggable="false">
+    <img class="fi fi-4" src="assets/Ai技能/Ai内容生产/nr-3.4.png" alt="" draggable="false">
+  </section>
+
+  <!-- SECTION 4: nr-4 (centered) -->
+  <img class="section-img" src="assets/Ai技能/Ai内容生产/nr-4.png" alt="" draggable="false"
+    style="width: calc(1332 / 1600 * 100%); margin: calc(140 / 1600 * 100vw) auto 0;">
+
+  <!-- SECTION 5: nr-5 -->
+  <img class="section-img" src="assets/Ai技能/Ai内容生产/nr-5.png" alt="" draggable="false"
+    style="margin-top: calc(196 / 1600 * 100vw);">
+
+  <!-- SECTION 6: title (nr-6) + 4-image group (left→right reveal, once) -->
+  <img class="section-img" src="assets/Ai技能/Ai内容生产/nr-6.png" alt="" draggable="false"
+    style="width: calc(517.5 / 1600 * 100%); margin: calc(149 / 1600 * 100vw) auto 0;">
+  <section class="four-img-group" id="group6" style="margin-top: calc(19 / 1600 * 100vw);">
+    <img class="fi fi-1" src="assets/Ai技能/Ai内容生产/nr-7.1.png" alt="" draggable="false">
+    <img class="fi fi-2" src="assets/Ai技能/Ai内容生产/nr-7.2.png" alt="" draggable="false">
+    <img class="fi fi-3" src="assets/Ai技能/Ai内容生产/nr-7.3.png" alt="" draggable="false">
+    <img class="fi fi-4" src="assets/Ai技能/Ai内容生产/nr-7.4.png" alt="" draggable="false">
+  </section>
+
+  <!-- SECTION 7: title (nr-8) + white video area -->
+  <img class="section-img" src="assets/Ai技能/Ai内容生产/nr-8.png" alt="" draggable="false"
+    style="width: calc(395 / 1600 * 100%); margin: calc(191 / 1600 * 100vw) auto 0;">
+  <div class="video-area" id="videoArea" style="margin-top: calc(66 / 1600 * 100vw);">
+    <video id="vcVideo" src="assets/Ai技能/Ai内容生产/几何讲解_三角形中线.mp4" muted loop playsinline
+      preload="metadata"></video>
+    <button class="mute-btn" id="muteBtn" type="button" aria-label="开启声音" title="开启声音">
+      <img class="icon-muted" src="assets/Ai技能/Ai内容生产/静音.png" alt="" draggable="false">
+      <img class="icon-unmuted" src="assets/Ai技能/Ai内容生产/声音.png" alt="" draggable="false">
+    </button>
+  </div>
+
+  <!-- SECTION 8: nr-9 -->
+  <img class="section-img" src="assets/Ai技能/Ai内容生产/nr-9.png" alt="" draggable="false"
+    style="margin-top: calc(189 / 1600 * 100vw);">
+
+  <div style="height: calc(323 / 1600 * 100vw);" aria-hidden="true"></div>
+
+  <script>
+    /* STICKY HEADER + BACK-TOP */
+    const stickyHeader = document.getElementById('sticky-header');
+    const backTop = document.getElementById('back-top');
+    function navThreshold() { return window.innerWidth * (260 / 1600); }
+    function onScroll() {
+      const scrollY = window.scrollY;
+      stickyHeader.classList.toggle('visible', scrollY > navThreshold());
+      backTop.classList.toggle('visible', scrollY > window.innerHeight * 0.6);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    /* 4-IMAGE GROUPS — left→right staggered reveal, once on scroll-in */
+    (function () {
+      const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const groups = Array.from(document.querySelectorAll('.four-img-group'));
+      if (reduce || !('IntersectionObserver' in window)) {
+        groups.forEach(g => g.classList.add('revealed'));
+        return;
+      }
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          e.target.classList.add('revealed');
+          io.unobserve(e.target);
+        });
+      }, { threshold: 0.2 });
+      groups.forEach(g => io.observe(g));
+    })();
+
+    /* VIDEO — auto-play when scrolled into view, loop, pause when out; mute toggle */
+    (function () {
+      const video = document.getElementById('vcVideo');
+      const area = document.getElementById('videoArea');
+      const muteBtn = document.getElementById('muteBtn');
+      if (!video || !area) return;
+      if (!('IntersectionObserver' in window)) {
+        video.play().catch(() => { });
+      } else {
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              video.play().catch(() => { });
+            } else {
+              video.pause();
+            }
+          });
+        }, { threshold: 0.45 });
+        io.observe(area);
+      }
+      if (muteBtn) {
+        const sync = () => {
+          const on = !video.muted;
+          area.classList.toggle('unmuted', on);
+          muteBtn.setAttribute('aria-label', on ? '静音' : '开启声音');
+          muteBtn.title = on ? '静音' : '开启声音';
+        };
+        muteBtn.addEventListener('click', () => {
+          video.muted = !video.muted;
+          sync();
+        });
+        video.addEventListener('volumechange', sync);
+        sync();
+      }
+    })();
+  </script>
+</body>
+
+</html>
