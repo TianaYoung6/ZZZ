@@ -17,6 +17,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>sticky-tabs 组件示例</title>
   <link rel="stylesheet" href="sticky-tabs.css">
+  <style>
+    /* ── 示例页 demo 覆盖（不影响组件本身）── */
+    /* hero 撑高度便于滚动 demo（叠真实图，无 CSS 黑底；黑底只在吸顶条） */
+    .st-pane > section { min-height: 80vh; }
+    .st-pane > section > img { min-height: 80vh; object-fit: cover; }
+    /* 示例页内容不足，补足高度便于滚动触发吸顶条 */
+    .st-pane { min-height: 180vh; }
+    .st-pane::after {
+      content: "↓ 继续向下滚动，触发顶部吸顶条";
+      display: flex; align-items: flex-end; justify-content: center;
+      min-height: 100vh; padding-bottom: 12vh; color: #9aa; font-size: 14px;
+    }
+  </style>
 </head>
 
 <body>
@@ -24,6 +37,7 @@
   <!-- ─── 吸顶条（页面级，单例，放 body 顶部） ─── -->
   <!-- data-show-at 可选：滚过该 px 后吸顶条显现；缺省按视口宽自适应 -->
   <header class="st-header" data-show-at="260">
+    <div class="st-bg" aria-hidden="true"></div>
     <div class="st-title">
       <span class="st-title-name">页面名</span>
     </div>
@@ -46,7 +60,7 @@
 
     <!-- 首屏 hero：标题 + tabs 叠在其上 -->
     <section style="position:relative;">
-      <img src="hero-a.png" alt="" draggable="false" style="width:100%;display:block;">
+      <img src="../../assets/Ai技能/Vibe Coding/VibeCoding1.png" alt="" draggable="false" style="width:100%;display:block;">
       <div class="st-overlay">
         <div class="st-title">
           <span class="st-title-name">页面名</span>
@@ -65,7 +79,7 @@
   <!-- ═════════ PANE B（默认隐藏） ═════════ -->
   <main class="st-pane" data-pane="tab-b" hidden>
     <section style="position:relative;">
-      <img src="hero-b.png" alt="" draggable="false" style="width:100%;display:block;">
+      <img src="../../assets/Ai技能/Vibe Coding/VibeCoding2.png" alt="" draggable="false" style="width:100%;display:block;">
       <div class="st-overlay">
         <div class="st-title">
           <span class="st-title-name">页面名</span>

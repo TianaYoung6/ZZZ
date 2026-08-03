@@ -20,8 +20,10 @@
 
   var header = document.querySelector('.st-header');
   var backTop = document.querySelector('.st-back-top');
+  var hasPaneMode = TABS.length > 0 && PANES.length > 0;
+  var alwaysVisible = !!(header && header.hasAttribute('data-always'));
 
-  /* ── tab 切换 + hash 同步 ── */
+  /* ── pane 模式：tab 切换 + hash 同步（仅当页面含 .st-tab[data-tab] + .st-pane） ── */
   function setActiveTab(tab, scrollToTop) {
     PANES.forEach(function (p) { p.hidden = (p.dataset.pane !== tab); });
     TABS.forEach(function (b) {
@@ -37,16 +39,31 @@
     window.dispatchEvent(new CustomEvent('st:tabchange', { detail: { tab: tab } }));
   }
 
-  TABS.forEach(function (b) {
-    b.addEventListener('click', function () { setActiveTab(b.dataset.tab, true); });
-  });
+  if (hasPaneMode) {
+    TABS.forEach(function (b) {
+      b.addEventListener('click', function () { setActiveTab(b.dataset.tab, true); });
+    });
 
-  /* ── 初始化：从 hash 选 tab ── */
-  (function initFromHash() {
-    var h = location.hash.slice(1);
-    var fallback = VALID[0] || '';
-    setActiveTab(VALID.indexOf(h) > -1 ? h : fallback, false);
-  })();
+    /* ── 初始化：从 hash 选 tab ── */
+    (function initFromHash() {
+      var h = location.hash.slice(1);
+      var fallback = VALID[0] || '';
+      setActiveTab(VALID.indexOf(h) > -1 ? h : fallback, false);
+    })();
+  }
+
+  /* ── 链接模式：当前页按钮自动高亮（按钮为 <a href> 跨页跳转时） ── */
+  var here = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+  Array.prototype.forEach.call(
+    document.querySelectorAll('.st-tabs > a.st-tab[href]'),
+    function (a) {
+      var target = (a.getAttribute('href') || '').split('#')[0].toLowerCase();
+      if (target && target === here) {
+        a.classList.add('is-active');
+        a.setAttribute('aria-current', 'page');
+      }
+    }
+  );
 
   /* ── 吸顶条 + 回到顶部：滚动显现 ── */
   function showAt() {
@@ -58,7 +75,7 @@
 
   function onScroll() {
     var y = window.scrollY;
-    if (header) header.classList.toggle('is-visible', y > showAt());
+    if (header) header.classList.toggle('is-visible', alwaysVisible || y > showAt());
     if (backTop) backTop.classList.toggle('is-visible', y > window.innerHeight * 0.6);
   }
   window.addEventListener('scroll', onScroll, { passive: true });

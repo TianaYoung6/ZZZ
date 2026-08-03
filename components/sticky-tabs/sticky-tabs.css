@@ -25,7 +25,6 @@
   justify-content: space-between;
   gap: clamp(12px, 2.5vw, 40px);
   padding: 0 clamp(16px, 3.75vw, 60px);
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.88) 0%, rgba(0, 0, 0, 0) 100%);
   z-index: 1000;
   opacity: 0;
   transform: translateY(-8px);
@@ -39,8 +38,26 @@
   pointer-events: all;
 }
 
+/* ── 常驻模式（data-always）：不依赖滚动，默认可见，防首屏闪烁 ── */
+.st-header[data-always] {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
+
+/* ── 底（吸顶条背景层，独立元素，便于换肤/换底） ── */
+.st-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.88) 0%, rgba(0, 0, 0, 0) 100%);
+  pointer-events: none;
+}
+
 /* ── 标题（吸顶条 + overlay 共用） ── */
 .st-title {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   gap: clamp(12px, 2.5vw, 40px);
@@ -68,6 +85,8 @@
 
 /* ── TAB 行 ── */
 .st-tabs {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   gap: clamp(8px, 1.5vw, 24px);
@@ -91,6 +110,7 @@
   font-weight: 400;
   line-height: 1;
   white-space: nowrap;
+  text-decoration: none;
   cursor: pointer;
   opacity: .9;
   transition: background .22s ease, opacity .22s ease, transform .12s ease;

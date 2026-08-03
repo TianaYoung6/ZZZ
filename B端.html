@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>B端产品 · 蓝图体验升级</title>
   <link rel="stylesheet" href="fonts.css">
+  <link rel="stylesheet" href="components/sticky-tabs/sticky-tabs.css">
   <script>document.documentElement.className += ' js';</script>
   <style>
     /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -402,6 +403,21 @@
 </head>
 
 <body>
+  <header class="st-header" data-show-at="260" data-always>
+    <div class="st-bg" aria-hidden="true"></div>
+    <div class="st-title"><span class="st-title-name">项目案例</span></div>
+    <nav class="st-tabs" aria-label="页面导航">
+      <a class="st-tab" href="1V1.html">小思1V1</a>
+      <a class="st-tab" href="OS-软硬一体.html">OS系统</a>
+      <a class="st-tab" href="B端.html">B端</a>
+      <a class="st-tab" href="APP.html">APP</a>
+    </nav>
+  </header>
+  <button class="st-back-top" title="回到顶部" aria-label="回到顶部">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15" />
+    </svg>
+  </button>
 
   <main class="bd-stage">
 
@@ -574,6 +590,7 @@
     setupScenes();
     setupGlass();
   </script>
+  <script src="components/sticky-tabs/sticky-tabs.js"></script>
 
 </body>
 
