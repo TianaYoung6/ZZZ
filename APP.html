@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>APP · 学习/工具类应用</title>
+  <link rel="stylesheet" href="fonts.css">
+  <script>document.documentElement.className += ' js';</script>
+  <style>
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       APP产品页 — 基于 vibecodingZPJ.pen「new-app」画板 1:1 还原
+       画板 1600×9967，深色背景 #05050f
+       全部尺寸/坐标取自画板，calc(N/1600*100vw) 流式适配
+       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --bg: #05050f;
+    }
+
+    /* overflow-x: clip（非 hidden）隐藏横向溢出但不破坏根滚动器的惯性/顺滑 */
+    html {
+      scroll-behavior: smooth;
+      overflow-x: clip;
+    }
+    html, body {
+      background: var(--bg);
+      overflow-x: clip;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+
+    .ap-stage { width: 100%; background: var(--bg); }
+
+    /* ── 通用图片框：原图 mode=fill → object-fit:cover；hover 微放大 ── */
+    .img-frame { position: relative; overflow: hidden; }
+    .img-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .zoomable { transition: transform 0.6s var(--ease); will-change: transform; }
+    .img-frame:hover { z-index: 30; }
+    .img-frame:hover .zoomable { transform: scale(1.04); }
+    /* Hero 手机 hover 放大时不被画框裁剪：让图片溢出可见 */
+    .ap-hero .img-frame { overflow: visible; }
+
+    /* ── 入场：滚动到视口淡入上移，子项按 --i 错峰 ── */
+    .js [data-reveal] {
+      opacity: 0;
+      transform: translateY(calc(40 / 1600 * 100vw));
+      transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+      transition-delay: calc(var(--i, 0) * 0.08s);
+      will-change: opacity, transform;
+    }
+    .js [data-reveal].is-visible { opacity: 1; transform: none; }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       1. Hero  app-1 1600×1076 + 两台手机叠放
+       app-1.2 @ (692,305) 544×660；app-1.1 @ (376,305) 494×660
+       画板层级：app-1 < app-1.2 < app-1.1
+       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .ap-hero {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1600 / 1076;
+      overflow: hidden;
+    }
+    .ap-hero .hero-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+    }
+    .ap-hero .ph12 { /* 右手机 app-1.2，下层 */
+      position: absolute;
+      left: calc(692 / 1600 * 100vw);
+      top: calc(305 / 1600 * 100vw);
+      width: calc(544 / 1600 * 100vw);
+      height: calc(660 / 1600 * 100vw);
+      z-index: 2;
+    }
+    .ap-hero .ph11 { /* 左手机 app-1.1，上层 */
+      position: absolute;
+      left: calc(376 / 1600 * 100vw);
+      top: calc(305 / 1600 * 100vw);
+      width: calc(494 / 1600 * 100vw);
+      height: calc(660 / 1600 * 100vw);
+      z-index: 3;
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       2. Banner  app-2 1600×746 @ y1118（间距 42）
+       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .ap-banner {
+      width: 100%;
+      margin-top: calc(42 / 1600 * 100vw);
+      aspect-ratio: 1600 / 746;
+      overflow: hidden;
+    }
+    .ap-banner img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       3. app-3 群组  Group @ (116,1979)（间距 115）
+       高 1451.5；6 个子元素按画板绝对坐标定位
+       画板层级：app-3.1 < app-3.2 < app-3 < 减少屏占 < 每日推送 < app-3.3
+       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .ap-cluster {
+      position: relative;
+      width: 100%;
+      height: calc(1451.5 / 1600 * 100vw);
+      margin-top: calc(115 / 1600 * 100vw);
+      overflow: hidden;
+    }
+    .ap-cluster .img-frame { position: absolute; overflow: visible; }
+    .ap-cluster .c31 {  /* app-3.1 @ rel(0,144.6) 539×532.5 */
+      left: calc(116 / 1600 * 100vw);
+      top: calc(144.6 / 1600 * 100vw);
+      width: calc(539 / 1600 * 100vw);
+      height: calc(532.5 / 1600 * 100vw);
+      z-index: 2;
+    }
+    .ap-cluster .c32 {  /* app-3.2 @ rel(28.4,969.3) 450×355 */
+      left: calc(144.4 / 1600 * 100vw);
+      top: calc(969.3 / 1600 * 100vw);
+      width: calc(450 / 1600 * 100vw);
+      height: calc(355 / 1600 * 100vw);
+      z-index: 3;
+    }
+    .ap-cluster .c3  {  /* app-3 @ rel(274.4,0) 807.5×1451.5 长屏手机 */
+      left: calc(390.4 / 1600 * 100vw);
+      top: 0;
+      width: calc(807.5 / 1600 * 100vw);
+      height: calc(1451.5 / 1600 * 100vw);
+      z-index: 4;
+    }
+    .ap-cluster .creduce {  /* 减少屏占 @ rel(916.8,1227) 261.5×97 */
+      left: calc(1032.8 / 1600 * 100vw);
+      top: calc(1227 / 1600 * 100vw);
+      width: calc(261.5 / 1600 * 100vw);
+      height: calc(97 / 1600 * 100vw);
+      z-index: 5;
+    }
+    .ap-cluster .cdaily {  /* 每日推送 @ rel(881.8,368) 292×150 */
+      left: calc(997.8 / 1600 * 100vw);
+      top: calc(368 / 1600 * 100vw);
+      width: calc(292 / 1600 * 100vw);
+      height: calc(150 / 1600 * 100vw);
+      z-index: 6;
+    }
+    .ap-cluster .c33 {  /* app-3.3 @ rel(846.8,667.9) 521×536.5 最上层 */
+      left: calc(962.8 / 1600 * 100vw);
+      top: calc(667.9 / 1600 * 100vw);
+      width: calc(521 / 1600 * 100vw);
+      height: calc(536.5 / 1600 * 100vw);
+      z-index: 7;
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       4. app-4  1420×1439 @ (90,3620)（间距 189.5）居中
+       5. app-5  1414.5×1298.5 @ (93,5262)（间距 203）居中
+       6. app-6  1600×1556 @ (0,6812)（间距 251.5）满宽
+       7. app-7  1600×1503 @ (0,8464)（间距 96）满宽
+       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .ap-4 {
+      width: calc(1420 / 1600 * 100vw);
+      aspect-ratio: 1420 / 1439;
+      margin: calc(189.5 / 1600 * 100vw) auto 0;
+      overflow: hidden;
+    }
+    .ap-5 {
+      width: calc(1414.5 / 1600 * 100vw);
+      aspect-ratio: 1414.5 / 1298.5;
+      margin: calc(203 / 1600 * 100vw) auto 0;
+      overflow: hidden;
+    }
+    .ap-6 {
+      width: 100%;
+      aspect-ratio: 1600 / 1556;
+      margin-top: calc(251.5 / 1600 * 100vw);
+      overflow: hidden;
+    }
+    .ap-7 {
+      width: 100%;
+      aspect-ratio: 1600 / 1503;
+      margin-top: calc(96 / 1600 * 100vw);
+      overflow: hidden;
+    }
+    .ap-4 img, .ap-5 img, .ap-6 img, .ap-7 img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       响应式 — 手机：Hero 手机与 app-3 群组改为纵向流式堆叠
+       （桌面为 1:1 画板还原；移动端按全站惯例拆解为可读单列）
+       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    @media (max-width: 768px) {
+      /* Hero：主图满宽，两台手机居中纵排 */
+      .ap-hero { aspect-ratio: 1600 / 1076; }
+      .ap-hero .ph12,
+      .ap-hero .ph11 {
+        position: relative;
+        left: auto; top: auto;
+        width: 50%;
+        height: auto;
+        aspect-ratio: 544 / 660;
+        margin: 14px auto 0;
+        display: block;
+      }
+      .ap-hero .ph11 { aspect-ratio: 494 / 660; margin-top: 14px; }
+
+      /* app-3 群组：拆为单列，按画板纵向顺序排（app-3 居中为主角） */
+      .ap-cluster {
+        height: auto;
+        margin-top: 32px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+      }
+      .ap-cluster .img-frame {
+        position: relative;
+        left: auto; top: auto;
+        width: 70%;
+        height: auto;
+      }
+      .ap-cluster .c3   { width: 60%; aspect-ratio: 807.5 / 1451.5; order: 0; z-index: auto; }
+      .ap-cluster .c31  { width: 70%; aspect-ratio: 539 / 532.5;   order: 1; z-index: auto; }
+      .ap-cluster .cdaily { width: 60%; aspect-ratio: 292 / 150;    order: 2; z-index: auto; }
+      .ap-cluster .c33  { width: 70%; aspect-ratio: 521 / 536.5;   order: 3; z-index: auto; }
+      .ap-cluster .c32  { width: 70%; aspect-ratio: 450 / 355;      order: 4; z-index: auto; }
+      .ap-cluster .creduce { width: 60%; aspect-ratio: 261.5 / 97;  order: 5; z-index: auto; }
+
+      /* 大图间距收紧 */
+      .ap-4 { margin-top: 32px; }
+      .ap-5 { margin-top: 32px; }
+      .ap-6 { margin-top: 32px; }
+      .ap-7 { margin-top: 32px; }
+    }
+
+    @media (max-width: 480px) {
+      .ap-hero .ph12, .ap-hero .ph11 { width: 62%; }
+      .ap-cluster .c3 { width: 68%; }
+      .ap-cluster .img-frame { width: 80%; }
+      .ap-cluster .cdaily, .ap-cluster .creduce { width: 72%; }
+    }
+
+    /* 尊重「减少动态」偏好：关闭动画但直接显示终态 */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      [data-reveal] { opacity: 1 !important; transform: none !important; transition: none !important; }
+      .zoomable { transition: none !important; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="ap-stage">
+
+    <!-- ─── 1. Hero app-1 + app-1.1/1.2 双手机 ─── -->
+    <section class="ap-hero">
+      <img class="hero-bg" src="assets/APP/app-1.png" alt="APP产品主视觉" draggable="false">
+      <div class="img-frame ph12" data-reveal="1" style="--i:1">
+        <img class="zoomable" src="assets/APP/app-1.2.png" alt="APP界面 · 屏二" draggable="false" loading="lazy">
+      </div>
+      <div class="img-frame ph11" data-reveal="1" style="--i:2">
+        <img class="zoomable" src="assets/APP/app-1.1.png" alt="APP界面 · 屏一" draggable="false" loading="lazy">
+      </div>
+    </section>
+
+    <!-- ─── 2. Banner app-2 ─── -->
+    <section class="ap-banner" data-reveal>
+      <img src="assets/APP/app-2.png" alt="APP产品横幅" draggable="false" loading="lazy">
+    </section>
+
+    <!-- ─── 3. app-3 群组：长屏手机 + 细节 + 功能点 ─── -->
+    <section class="ap-cluster">
+      <div class="img-frame c31" data-reveal="1" style="--i:0">
+        <img class="zoomable" src="assets/APP/app-3.1.png" alt="APP细节 · 一" draggable="false" loading="lazy">
+      </div>
+      <div class="img-frame c32" data-reveal="1" style="--i:2">
+        <img class="zoomable" src="assets/APP/app-3.2.png" alt="APP细节 · 二" draggable="false" loading="lazy">
+      </div>
+      <div class="img-frame c3" data-reveal="1" style="--i:1">
+        <img src="assets/APP/app-3.png" alt="APP主界面" draggable="false" loading="lazy">
+      </div>
+      <div class="img-frame creduce" data-reveal="1" style="--i:3">
+        <img class="zoomable" src="assets/APP/减少屏占.png" alt="功能点 · 减少屏占" draggable="false" loading="lazy">
+      </div>
+      <div class="img-frame cdaily" data-reveal="1" style="--i:4">
+        <img class="zoomable" src="assets/APP/每日推送.png" alt="功能点 · 每日推送" draggable="false" loading="lazy">
+      </div>
+      <div class="img-frame c33" data-reveal="1" style="--i:5">
+        <img class="zoomable" src="assets/APP/app-3.3.png" alt="APP细节 · 三" draggable="false" loading="lazy">
+      </div>
+    </section>
+
+    <!-- ─── 4. app-4 ─── -->
+    <section class="ap-4" data-reveal>
+      <img class="zoomable" src="assets/APP/app-4.png" alt="APP功能界面 · 4" draggable="false" loading="lazy">
+    </section>
+
+    <!-- ─── 5. app-5 ─── -->
+    <section class="ap-5" data-reveal>
+      <img class="zoomable" src="assets/APP/app-5.png" alt="APP功能界面 · 5" draggable="false" loading="lazy">
+    </section>
+
+    <!-- ─── 6. app-6 ─── -->
+    <section class="ap-6" data-reveal>
+      <img class="zoomable" src="assets/APP/app-6.png" alt="APP功能界面 · 6" draggable="false" loading="lazy">
+    </section>
+
+    <!-- ─── 7. app-7 ─── -->
+    <section class="ap-7" data-reveal>
+      <img class="zoomable" src="assets/APP/app-7.png" alt="APP功能界面 · 7" draggable="false" loading="lazy">
+    </section>
+
+  </main>
+
+  <script>
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       APP产品页交互
+       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+    /* 滚动入场：进入视口一次性触发，子项按 --i 错峰 */
+    function setupReveal() {
+      const els = document.querySelectorAll('[data-reveal]');
+      if (!els.length) return;
+      if (!('IntersectionObserver' in window)) {
+        els.forEach(el => el.classList.add('is-visible'));
+        return;
+      }
+      let io;
+      try {
+        io = new IntersectionObserver((entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add('is-visible');
+              io.unobserve(e.target);
+            }
+          });
+        }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+      } catch (e) {
+        els.forEach(el => el.classList.add('is-visible'));
+        return;
+      }
+      els.forEach(el => io.observe(el));
+    }
+
+    setupReveal();
+  </script>
+
+</body>
+
+</html>

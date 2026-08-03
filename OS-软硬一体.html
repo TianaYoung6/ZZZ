@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OS 软硬一体</title>
+  <link rel="stylesheet" href="fonts.css">
+  <style>
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       OS 软硬一体 — 基于 vibecodingZPJ.pen / new-os 画板 1:1 还原
+       设计宽 1600 × 高 10831，白底 #ffffff
+       桌面端：calc(N/1600*100vw) 等比缩放；图片 width:100%/height:auto 保持原生比例
+       移动端：≤768 字号回落 px，视频区左右留边
+       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      background: #fff;
+      color: #000;
+      font-family: 'PingFang SC', 'SourceHanSansCN', -apple-system, 'Helvetica Neue', Arial, sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { display: block; width: 100%; height: auto; }
+
+    .page {
+      position: relative;
+      width: 100%;
+      background: #fff;
+    }
+
+    /* 纵向间距：基于 1600 设计宽等比缩放 */
+    .gap-115 { margin-top: calc(115 / 1600 * 100vw); }
+    .gap-185 { margin-top: calc(185 / 1600 * 100vw); }
+
+    /* os-5 比 160 窄 15（1585），居中 */
+    .os-narrow {
+      width: calc(1585 / 1600 * 100vw);
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ── 视频区：group(100,7386) 宽 1400 ── */
+    .os-vid {
+      margin-left: calc(100 / 1600 * 100vw);
+      width: calc(1400 / 1600 * 100vw);
+      margin-top: calc(185 / 1600 * 100vw);
+    }
+    .tag {
+      display: flex;
+      align-items: flex-start;
+      gap: calc(20 / 1600 * 100vw);
+    }
+    .tag-bar {
+      flex: 0 0 auto;
+      width: calc(10 / 1600 * 100vw);
+      height: calc(60 / 1600 * 100vw);
+      background: #498efd;
+    }
+    .tag-text {
+      font-size: calc(40 / 1600 * 100vw);
+      font-weight: 400;
+      line-height: 1.2;
+      color: #000;
+    }
+    .gtext {
+      margin-top: calc(35 / 1600 * 100vw);
+      font-size: calc(30 / 1600 * 100vw);
+      font-weight: 400;
+      line-height: 1.3;
+      color: #000;
+    }
+    .gtext .hl {
+      background: linear-gradient(90deg, #3c91ff 0%, #73b2ff 38%, #adb6ff 76%, #3c91ff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+    .vid {
+      position: relative;
+      margin-top: calc(37 / 1600 * 100vw);
+      width: 100%;
+      height: calc(820 / 1600 * 100vw);
+      background: #d9d9d9;
+      overflow: hidden;
+    }
+    .vid video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       响应式 — 移动端 ≤768
+       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    @media (max-width: 768px) {
+      .gap-115 { margin-top: 24px; }
+      .gap-185 { margin-top: 24px; }
+
+      .os-narrow { width: 100%; }
+
+      .os-vid {
+        margin-left: 16px;
+        margin-right: 16px;
+        width: auto;
+      }
+      .tag-bar { width: 4px; height: 22px; }
+      .tag-text { font-size: 16px; }
+      .gtext { font-size: 14px; margin-top: 10px; }
+      .vid { margin-top: 14px; height: auto; aspect-ratio: 1400 / 820; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <img src="assets/OS/os-1.png" alt="OS 软硬一体 1">
+    <img class="gap-115" src="assets/OS/os-2.png" alt="OS 软硬一体 2">
+    <img class="gap-185" src="assets/OS/os-3.png" alt="OS 软硬一体 3">
+    <img class="gap-185" src="assets/OS/os-4.png" alt="OS 软硬一体 4">
+    <img class="gap-185 os-narrow" src="assets/OS/os-5.png" alt="OS 软硬一体 5">
+    <img class="gap-185" src="assets/OS/os-6.png" alt="OS 软硬一体 6">
+    <img class="gap-185" src="assets/OS/os-7.png" alt="OS 软硬一体 7">
+
+    <section class="os-vid" aria-label="搭建模版交付提效">
+      <div class="tag">
+        <div class="tag-bar"></div>
+        <div class="tag-text">搭建模版交付提效</div>
+      </div>
+      <div class="gtext">搭建后交付效率提升 <span class="hl">95%：从 5人日 到 0.5人日</span></div>
+      <div class="vid" data-video>
+        <video muted loop playsinline preload="metadata" src="assets/设计规范/三代OS.mp4"></video>
+      </div>
+    </section>
+
+    <img class="gap-185" src="assets/OS/os-8.png" alt="OS 软硬一体 8">
+  </main>
+
+  <script>
+    /* VIDEO — 进入视口自动播放，离开暂停（复用设计系统.html 的逻辑） */
+    (function () {
+      var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var hasIO = 'IntersectionObserver' in window;
+      var areas = Array.from(document.querySelectorAll('[data-video]'));
+      areas.forEach(function (area) {
+        var v = area.querySelector('video');
+        if (!v) return;
+        if (!hasIO || reduce) { v.play().catch(function () {}); return; }
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) { v.play().catch(function () {}); }
+            else { v.pause(); }
+          });
+        }, { threshold: 0.45 });
+        io.observe(area);
+      });
+    })();
+  </script>
+</body>
+
+</html>

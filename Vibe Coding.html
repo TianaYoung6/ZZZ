@@ -1077,7 +1077,12 @@
         transition: none;
       }
     }
+    /* ── ss-6: clickable trigger → 家长端-Ai Agent popup ── */
+    .ss6-trigger { cursor: pointer; transition: opacity .22s ease; }
+    .ss6-trigger:hover { opacity: .85; }
+
   </style>
+  <link rel="stylesheet" href="components/popup/popup.css">
 </head>
 
 <body>
@@ -1351,9 +1356,9 @@
     <!-- 为什么要做顾问龙虾？ title -->
     <h2 class="ap-title dde" style="margin-top: calc(181.5 / 1600 * 100vw);">为什么要做顾问龙虾？</h2>
 
-    <!-- ss-6 (centered, 311) -->
-    <img class="section-img ri" src="assets/Ai技能/Ai项目&amp;赛事/ss-6.png" alt="" draggable="false"
-      style="width: calc(1400 / 1600 * 100%); height: calc(311 / 1600 * 100vw); object-fit: cover; margin: calc(110 / 1600 * 100vw) auto 0;">
+    <!-- ss-6 (centered, 721) — click → 家长端-Ai Agent popup -->
+    <img id="ap-ss6" class="section-img ss6-trigger" src="assets/Ai技能/Ai项目&amp;赛事/ss-6.png" alt="家长端-Ai Agent" draggable="false"
+      style="width: calc(1400 / 1600 * 100%); height: calc(721 / 1600 * 100vw); object-fit: cover; margin: calc(110 / 1600 * 100vw) auto 0;">
 
     <!-- 有什么不足 title -->
     <h2 class="ap-title dde" style="margin-top: calc(79 / 1600 * 100vw);">有什么不足</h2>
@@ -1409,7 +1414,20 @@
 
   </main>
 
+  <script src="components/popup/popup.js"></script>
   <script>
+    /* ── ss-6 → 家长端-Ai Agent popup ── */
+    (function () {
+      const trigger = document.getElementById('ap-ss6');
+      if (!trigger) return;
+      trigger.addEventListener('click', () => {
+        Popup.open({
+          title: '家长端-Ai Agent',
+          content: '<img src="assets/Ai技能/Ai项目&amp;赛事/app弹窗.png" alt="家长端-Ai Agent" draggable="false">'
+        });
+      });
+    })();
+
     /* ── TAB SWITCHING + HASH ── */
     const PANES = Array.from(document.querySelectorAll('.pane[data-pane]'));
     const TAB_BTNS = Array.from(document.querySelectorAll('.tab-btn[data-tab]'));

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<!--
+  sticky-tabs 组件集成模板
+  ─────────────────────────
+  把以下三段拷进目标页面即可：
+    1. <head> 引入 css
+    2. <body> 顶部放吸顶条 + 回到顶部按钮
+    3. 每个 tab 内容包成 .st-pane[data-pane]，首屏 hero 上叠 .st-overlay
+
+  tab 列表无需在 JS 里配置——组件自动读取 DOM 上的 .st-tab[data-tab]。
+-->
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>sticky-tabs 组件示例</title>
+  <link rel="stylesheet" href="sticky-tabs.css">
+</head>
+
+<body>
+
+  <!-- ─── 吸顶条（页面级，单例，放 body 顶部） ─── -->
+  <!-- data-show-at 可选：滚过该 px 后吸顶条显现；缺省按视口宽自适应 -->
+  <header class="st-header" data-show-at="260">
+    <div class="st-title">
+      <span class="st-title-name">页面名</span>
+    </div>
+    <nav class="st-tabs" aria-label="主导航">
+      <button class="st-tab" data-tab="tab-a" type="button">Tab A</button>
+      <button class="st-tab" data-tab="tab-b" type="button">Tab B</button>
+      <button class="st-tab" data-tab="tab-c" type="button">Tab C</button>
+    </nav>
+  </header>
+
+  <!-- ─── 回到顶部（页面级，单例） ─── -->
+  <button class="st-back-top" title="回到顶部" aria-label="回到顶部">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15" />
+    </svg>
+  </button>
+
+  <!-- ═════════ PANE A ═════════ -->
+  <main class="st-pane" data-pane="tab-a">
+
+    <!-- 首屏 hero：标题 + tabs 叠在其上 -->
+    <section style="position:relative;">
+      <img src="hero-a.png" alt="" draggable="false" style="width:100%;display:block;">
+      <div class="st-overlay">
+        <div class="st-title">
+          <span class="st-title-name">页面名</span>
+        </div>
+        <nav class="st-tabs" aria-label="内容分类">
+          <button class="st-tab is-active" data-tab="tab-a" type="button" aria-current="page">Tab A</button>
+          <button class="st-tab" data-tab="tab-b" type="button">Tab B</button>
+          <button class="st-tab" data-tab="tab-c" type="button">Tab C</button>
+        </nav>
+      </div>
+    </section>
+
+    <!-- 其余内容 -->
+  </main>
+
+  <!-- ═════════ PANE B（默认隐藏） ═════════ -->
+  <main class="st-pane" data-pane="tab-b" hidden>
+    <section style="position:relative;">
+      <img src="hero-b.png" alt="" draggable="false" style="width:100%;display:block;">
+      <div class="st-overlay">
+        <div class="st-title">
+          <span class="st-title-name">页面名</span>
+        </div>
+        <nav class="st-tabs" aria-label="内容分类">
+          <button class="st-tab" data-tab="tab-a" type="button">Tab A</button>
+          <button class="st-tab is-active" data-tab="tab-b" type="button" aria-current="page">Tab B</button>
+          <button class="st-tab" data-tab="tab-c" type="button">Tab C</button>
+        </nav>
+      </div>
+    </section>
+  </main>
+
+  <!-- ═════════ PANE C ═════════ -->
+  <main class="st-pane" data-pane="tab-c" hidden>
+    <!-- …同上… -->
+  </main>
+
+  <script src="sticky-tabs.js"></script>
+</body>
+
+</html>

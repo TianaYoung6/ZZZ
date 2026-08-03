@@ -138,13 +138,14 @@
     .bd-5 { margin-top: calc(96 / 1600 * 100vw); }
     .bd-5 > img { aspect-ratio: 1600 / 1540; }
 
-    /* b-5.1 小图叠加 @ (741,528) —— 缩小并与玻璃卡同步入场 */
-    .bd-51 {
+    /* b-5.1 小图叠加 @ (741,528) —— 缩小并与玻璃卡同步入场
+       注意：用 .bd-5 .bd-51 提升至 (0,2,0)，盖过 .bd-sec>img / .bd-5>img 的 (0,1,1) */
+    .bd-5 .bd-51 {
       position: absolute;
       left: calc(741 / 1600 * 100vw);
       top: calc(528 / 1600 * 100vw);
-      width: calc(240 / 1600 * 100vw);
-      aspect-ratio: 358.5 / 464.5;
+      width: calc(360 / 1600 * 100vw);
+      aspect-ratio: 360 / 466;
       object-fit: cover;
       pointer-events: none;
       filter: drop-shadow(0 calc(20 / 1600 * 100vw) calc(48 / 1600 * 100vw) rgba(20, 40, 80, 0.18));
@@ -267,10 +268,7 @@
       width: 100%;
       text-align: center;
       font-family: 'SourceHanSansCN', sans-serif;
-      background: linear-gradient(120deg, var(--purple) 0%, #ffffff 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+      color: #ffffff;
       line-height: 1;
     }
     .bd-panel .p-title {
@@ -530,7 +528,50 @@
       });
     }
 
+    /* 警示语逐字拆分：为 .warn 内文字生成 .ch 字符片段，配 --ci 错峰索引 */
+    function setupWarnText() {
+      const warn = document.querySelector('.bd-glass .warn');
+      if (!warn) return;
+      const text = warn.textContent.trim();
+      if (!text) return;
+      warn.textContent = '';
+      [...text].forEach((ch, i) => {
+        const s = document.createElement('span');
+        s.className = 'ch';
+        s.style.setProperty('--ci', i);
+        s.textContent = ch;
+        warn.appendChild(s);
+      });
+    }
+
+    /* 场景入场：b-5 滚入视口时加 .scene-in，b-5.1 与玻璃卡（含警示语）同步浮现 */
+    function setupScenes() {
+      const scenes = document.querySelectorAll('.bd-5');
+      if (!scenes.length) return;
+      if (!('IntersectionObserver' in window)) {
+        scenes.forEach((el) => el.classList.add('scene-in'));
+        return;
+      }
+      let io;
+      try {
+        io = new IntersectionObserver((entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add('scene-in');
+              io.unobserve(e.target);
+            }
+          });
+        }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+      } catch (e) {
+        scenes.forEach((el) => el.classList.add('scene-in'));
+        return;
+      }
+      scenes.forEach((el) => io.observe(el));
+    }
+
     setupReveal();
+    setupWarnText();
+    setupScenes();
     setupGlass();
   </script>
 
