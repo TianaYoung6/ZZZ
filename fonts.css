@@ -1,7 +1,7 @@
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    SourceHanSansCN (思源黑体 CN)
-   6 weights: Light / Normal / Regular / Medium / Bold / Heavy
-   字体文件位于项目根目录
+   4 weights: Light / Regular / Medium / Bold
+   WOFF2 + 子集化（仅保留页面实际用到的字符）
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 @font-face {
@@ -9,15 +9,7 @@
   font-style: normal;
   font-weight: 300;
   font-display: swap;
-  src: url('SourceHanSansCN-Light.otf') format('opentype');
-}
-
-@font-face {
-  font-family: 'SourceHanSansCN';
-  font-style: normal;
-  font-weight: 350;
-  font-display: swap;
-  src: url('SourceHanSansCN-Normal.otf') format('opentype');
+  src: url('SourceHanSansCN-Light.woff2') format('woff2');
 }
 
 @font-face {
@@ -25,7 +17,7 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('SourceHanSansCN-Regular.otf') format('opentype');
+  src: url('SourceHanSansCN-Regular.woff2') format('woff2');
 }
 
 @font-face {
@@ -33,7 +25,7 @@
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url('SourceHanSansCN-Medium.otf') format('opentype');
+  src: url('SourceHanSansCN-Medium.woff2') format('woff2');
 }
 
 @font-face {
@@ -41,15 +33,7 @@
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url('SourceHanSansCN-Bold.otf') format('opentype');
-}
-
-@font-face {
-  font-family: 'SourceHanSansCN';
-  font-style: normal;
-  font-weight: 900;
-  font-display: swap;
-  src: url('SourceHanSansCN-Heavy.otf') format('opentype');
+  src: url('SourceHanSansCN-Bold.woff2') format('woff2');
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
