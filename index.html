@@ -6,25 +6,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>首页</title>
   <link rel="stylesheet" href="fonts.css">
-  <link rel="stylesheet" href="style.css?v=2">
+  <link rel="stylesheet" href="style.css?v=5">
 </head>
 
 <body>
 
   <!-- ─── 1. 主视觉 ─── -->
   <section class="sec-hero">
-    <img src="assets/首页/主视觉.png" alt="" draggable="false">
+    <img src="assets/首页/1.png" alt="" draggable="false">
   </section>
 
   <!-- ─── 2. 横幅 ─── -->
   <section class="sec-banner">
-    <img src="assets/首页/横幅.png" alt="" draggable="false">
+    <img src="assets/首页/2.png" alt="" draggable="false">
   </section>
 
-  <!-- ─── 3. 能力模型：左文字栏 + 右环形轨道 ─── -->
+  <!-- ─── 3. 能力模型：环形轨道（叠在展示图上） ─── -->
   <section class="sec-orbit">
 
-    <!-- 左：文字栏 -->
+    <!-- 展示图 3.png：轨道区背景大图 -->
+    <img class="orbit-bg" src="assets/首页/3.png" alt="" draggable="false">
+
+    <!-- 左：文字栏（new-首页 设计中已移除，保留代码注释） -->
+    <!--
     <div class="text-col">
       <img class="sec-title" src="assets/首页/我的优势.png" alt="我的优势" draggable="false">
 
@@ -52,8 +56,9 @@
         </div>
       </div>
     </div>
+    -->
 
-    <!-- 右：环形轨道（bleed 出右边，section overflow hidden 裁剪） -->
+    <!-- 环形轨道 -->
     <div class="orbit-wrap">
       <div class="orbit-system" id="orbit">
         <div class="ring r1"></div>
@@ -72,19 +77,18 @@
   <section class="sec-gallery">
     <div class="gallery-inner">
 
-      <!-- 4-1 展示图（不放大） -->
+      <!-- 4-1 展示图（new-首页 设计中已移至轨道区背景，保留代码注释）
       <div class="img-frame showcase">
         <img src="assets/首页/展示图.png" alt="" draggable="false">
       </div>
+      -->
 
-      <!-- 4-2 项目概览组：小标题 + 项目概览主图（播放按钮 + 滚动条叠在图上） -->
+      <!-- 4-2 项目概览组（new-首页 设计中已移除，保留代码注释）
       <div class="group group-overview">
         <img class="grp-title" src="assets/首页/项目概览.png" alt="" draggable="false">
         <div class="img-frame img-overview">
           <img src="assets/首页/项目概览主图.png" alt="" draggable="false">
-          <!-- 暂时隐藏播放按钮，后续配合跳转链接后再展示
           <img class="play-btn" src="assets/首页/播放.png" alt="播放" draggable="false">
-          -->
           <div class="marquee-overlay">
             <div class="marquee" style="--marquee-count:5">
               <div class="marquee-track" id="marquee-track"></div>
@@ -92,10 +96,11 @@
           </div>
         </div>
       </div>
+      -->
 
-      <!-- 4-3 三连图组 + 小标题 -->
+      <!-- 4-3 通用能力：文字标题 + 三连图×2 -->
       <div class="group group-triple">
-        <img class="grp-title" src="assets/首页/三连图-标题.png" alt="" draggable="false">
+        <h2 class="grp-title-text">通用能力</h2>
         <div class="triple-stack">
           <a class="img-frame" href="Vibe Coding.html#vibe-coding" target="_blank" rel="noopener" style="display:block"
             aria-label="Vibe Coding"><img class="zoomable" src="assets/首页/三连图-1.png" alt="Vibe Coding"
@@ -115,17 +120,20 @@
       <div class="group group-grid">
         <img class="grp-title" src="assets/首页/四宫格-标题.png" alt="" draggable="false">
         <div class="grid-4">
-          <a class="img-frame" href="1V1.html" target="_blank" rel="noopener" style="display:block"
-            aria-label="小思1V1"><img class="zoomable" src="assets/首页/四宫格-1.png" alt="小思1V1"
+          <a class="img-frame" href="1V1-new.html" target="_blank" rel="noopener" style="display:block"
+            aria-label="小思1V1"><img class="zoomable" src="assets/首页/项目-小思1V1.png" alt="小思1V1"
               draggable="false"></a>
-          <a class="img-frame" href="OS-软硬一体.html" target="_blank" rel="noopener" style="display:block"
-            aria-label="OS系统 软硬一体"><img class="zoomable" src="assets/首页/四宫格-2.png" alt="OS系统 软硬一体"
+          <a class="img-frame" href="开机.html" target="_blank" rel="noopener" style="display:block"
+            aria-label="开机"><img class="zoomable" src="assets/首页/项目-开机.png" alt="开机"
               draggable="false"></a>
           <a class="img-frame" href="B端.html" target="_blank" rel="noopener" style="display:block"
-            aria-label="B端"><img class="zoomable" src="assets/首页/四宫格-3.png" alt="B端"
+            aria-label="B端"><img class="zoomable" src="assets/首页/项目-B端.png" alt="B端"
               draggable="false"></a>
           <a class="img-frame" href="APP.html" target="_blank" rel="noopener" style="display:block"
-            aria-label="APP"><img class="zoomable" src="assets/首页/四宫格-4.png" alt="APP"
+            aria-label="APP"><img class="zoomable" src="assets/首页/项目-APP.png" alt="APP"
+              draggable="false"></a>
+          <a class="img-frame" href="OS-软硬一体.html" target="_blank" rel="noopener" style="display:block"
+            aria-label="OS系统 软硬一体"><img class="zoomable" src="assets/首页/项目-OS.png" alt="OS系统 软硬一体"
               draggable="false"></a>
         </div>
       </div>
@@ -133,7 +141,7 @@
     </div>
   </section>
 
-  <script src="script.js?v=4"></script>
+  <script src="script.js?v=5"></script>
 </body>
 
 </html>

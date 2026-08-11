@@ -1,0 +1,24 @@
+name: Deploy to Tencent COS
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install COS SDK
+        run: npm install cos-nodejs-sdk-v5
+      - name: Upload to COS
+        env:
+          TENCENT_COS_SECRET_ID: ${{ secrets.TENCENT_COS_SECRET_ID }}
+          TENCENT_COS_SECRET_KEY: ${{ secrets.TENCENT_COS_SECRET_KEY }}
+          TENCENT_COS_BUCKET: ${{ secrets.TENCENT_COS_BUCKET }}
+          TENCENT_COS_REGION: ap-hongkong
+        run: node scripts/deploy-cos.js

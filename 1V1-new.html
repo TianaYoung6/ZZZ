@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>小思1V1 — Ai Agent</title>
+  <link rel="stylesheet" href="fonts.css">
+  <link rel="stylesheet" href="components/sticky-tabs/sticky-tabs.css">
+  <style>
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       1V1-new — 7 张图自上而下 1:1 排列
+       每张图 width:100% height:auto，保持原图比例不裁切
+       aspect-ratio 锁定原生比例，防止加载抖动
+       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      background: #01020d;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      font-family: 'PingFang SC', -apple-system, 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    img {
+      display: block;
+    }
+
+    .page {
+      width: 100%;
+    }
+
+    .scene {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    /* 图片之间 100px 间距（设计坐标 160 基准，等比缩放） */
+    .scene + .scene {
+      margin-top: calc(100 / 1600 * 100vw);
+    }
+
+    /* 2 / 5 / 7 图宽 1400 居中（等比缩放，移动端自适应） */
+    .scene.narrow {
+      width: calc(1400 / 1600 * 100vw);
+      margin-left: auto;
+      margin-right: auto;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="st-header" data-show-at="260" data-always>
+    <div class="st-bg" aria-hidden="true"></div>
+    <div class="st-title"><span class="st-title-name">项目案例</span></div>
+    <nav class="st-tabs" aria-label="页面导航">
+      <a class="st-tab" href="1V1-new.html">小思1V1</a>
+      <a class="st-tab" href="开机.html">开机</a>
+      <a class="st-tab" href="B端.html">B端</a>
+      <a class="st-tab" href="APP.html">APP</a>
+      <a class="st-tab" href="OS-软硬一体.html">OS系统</a>
+    </nav>
+  </header>
+  <button class="st-back-top" title="回到顶部" aria-label="回到顶部">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"
+      stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15" />
+    </svg>
+  </button>
+
+  <main class="page">
+    <img class="scene" style="aspect-ratio:3200/1974" src="assets/1V1new/1.png" alt="" fetchpriority="high">
+    <img class="scene narrow" style="aspect-ratio:2806/1500" src="assets/1V1new/2.png" alt="" loading="lazy">
+    <img class="scene" style="aspect-ratio:3200/3732" src="assets/1V1new/3.png" alt="" loading="lazy">
+    <img class="scene" style="aspect-ratio:3200/1803" src="assets/1V1new/4.png" alt="" loading="lazy">
+    <img class="scene narrow" style="aspect-ratio:2804/2221" src="assets/1V1new/5.png" alt="" loading="lazy">
+    <img class="scene" style="aspect-ratio:3200/3514" src="assets/1V1new/6.png" alt="" loading="lazy">
+    <img class="scene narrow" style="aspect-ratio:2804/2476" src="assets/1V1new/7.png" alt="" loading="lazy">
+  </main>
+
+  <script src="components/sticky-tabs/sticky-tabs.js?v=2"></script>
+</body>
+
+</html>

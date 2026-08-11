@@ -9,7 +9,8 @@
   <link rel="stylesheet" href="components/sticky-tabs/sticky-tabs.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,600&display=swap" rel="stylesheet"
+    media="print" onload="this.media='all'">
   <style>
     /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
        1V1 — 基于 vibecodingZPJ.pen / new-1V1 画板 1:1 还原
@@ -18,9 +19,16 @@
        移动端：≤768 重排为纵向堆叠
        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-    html, body {
+    html,
+    body {
       background: #01020d;
       color: #fff;
       font-family: 'PingFang SC', -apple-system, 'Helvetica Neue', Arial, sans-serif;
@@ -28,7 +36,9 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    img { display: block; }
+    img {
+      display: block;
+    }
 
     /* ── 画布 ── */
     .page {
@@ -44,10 +54,12 @@
       left: calc(var(--x, 0) / 1600 * 100vw);
       top: calc(var(--y, 0) / 1600 * 100vw);
     }
+
     .box {
       width: calc(var(--w) / 1600 * 100vw);
       height: calc(var(--h) / 1600 * 100vw);
     }
+
     .row-center {
       position: absolute;
       top: calc(var(--y, 0) / 1600 * 100vw);
@@ -57,31 +69,98 @@
     }
 
     /* ── 字体 / 字号 / 字重 ── */
-    .h-font { font-family: 'SourceHanSansCN', 'PingFang SC', sans-serif; }
-    .p-font { font-family: 'PingFang SC', -apple-system, sans-serif; }
-    .op9 { opacity: .9; }
-    .ls03 { letter-spacing: .03em; }
-    .ls1 { letter-spacing: .1em; }
-    .lh12 { line-height: 1.2; }
-    .lh2 { line-height: 2; }
-    .w300 { font-weight: 300; } .w400 { font-weight: 400; }
-    .w500 { font-weight: 500; } .w600 { font-weight: 600; }
-    .w700 { font-weight: 700; }
+    .h-font {
+      font-family: 'SourceHanSansCN', 'PingFang SC', sans-serif;
+    }
 
-    .fs50 { font-size: calc(50 / 1600 * 100vw); }
-    .fs48 { font-size: calc(48 / 1600 * 100vw); }
-    .fs40 { font-size: calc(40 / 1600 * 100vw); }
-    .fs32 { font-size: calc(32 / 1600 * 100vw); }
-    .fs30 { font-size: calc(30 / 1600 * 100vw); }
-    .fs24 { font-size: calc(24 / 1600 * 100vw); }
-    .fs20 { font-size: calc(20 / 1600 * 100vw); }
+    .p-font {
+      font-family: 'PingFang SC', -apple-system, sans-serif;
+    }
 
-    .c-white { color: #fff; }
-    .c-dim { color: #d9d9d9; }
+    .op9 {
+      opacity: .9;
+    }
+
+    .ls03 {
+      letter-spacing: .03em;
+    }
+
+    .ls1 {
+      letter-spacing: .1em;
+    }
+
+    .lh12 {
+      line-height: 1.2;
+    }
+
+    .lh2 {
+      line-height: 2;
+    }
+
+    .w300 {
+      font-weight: 300;
+    }
+
+    .w400 {
+      font-weight: 400;
+    }
+
+    .w500 {
+      font-weight: 500;
+    }
+
+    .w600 {
+      font-weight: 600;
+    }
+
+    .w700 {
+      font-weight: 700;
+    }
+
+    .fs50 {
+      font-size: calc(50 / 1600 * 100vw);
+    }
+
+    .fs48 {
+      font-size: calc(48 / 1600 * 100vw);
+    }
+
+    .fs40 {
+      font-size: calc(40 / 1600 * 100vw);
+    }
+
+    .fs32 {
+      font-size: calc(32 / 1600 * 100vw);
+    }
+
+    .fs30 {
+      font-size: calc(30 / 1600 * 100vw);
+    }
+
+    .fs24 {
+      font-size: calc(24 / 1600 * 100vw);
+    }
+
+    .fs20 {
+      font-size: calc(20 / 1600 * 100vw);
+    }
+
+    .c-white {
+      color: #fff;
+    }
+
+    .c-dim {
+      color: #d9d9d9;
+    }
 
     /* ── 图片 ── */
-    .scene { object-fit: cover; }
-    .icon { object-fit: contain; }
+    .scene {
+      object-fit: cover;
+    }
+
+    .icon {
+      object-fit: contain;
+    }
 
     /* ── 阶段图标行 ── */
     .stage-items {
@@ -89,7 +168,11 @@
       display: flex;
       gap: calc(48 / 1600 * 100vw);
     }
-    .stage-items.center { justify-content: center; }
+
+    .stage-items.center {
+      justify-content: center;
+    }
+
     .stage-item {
       flex: 1;
       display: flex;
@@ -97,13 +180,18 @@
       align-items: center;
       gap: calc(16 / 1600 * 100vw);
     }
+
     .stage-item img {
       width: 100%;
       height: auto;
       transition: transform .55s cubic-bezier(.22, 1, .36, 1);
       will-change: transform;
     }
-    .stage-item:hover img { transform: scale(1.06); }
+
+    .stage-item:hover img {
+      transform: scale(1.06);
+    }
+
     .stage-item span {
       font-size: calc(20 / 1600 * 100vw);
       color: #fff;
@@ -120,7 +208,11 @@
       gap: calc(12 / 1600 * 100vw);
       transition: transform .4s cubic-bezier(.22, 1, .36, 1);
     }
-    .overview-col:hover { transform: translateY(calc(-4 / 1600 * 100vw)); }
+
+    .overview-col:hover {
+      transform: translateY(calc(-4 / 1600 * 100vw));
+    }
+
     .overview-col .ov-title {
       font-family: 'SourceHanSansCN', 'PingFang SC', sans-serif;
       font-size: calc(32 / 1600 * 100vw);
@@ -131,6 +223,7 @@
       text-align: center;
       white-space: nowrap;
     }
+
     .overview-col .ov-desc {
       font-size: calc(24 / 1600 * 100vw);
       color: #d9d9d9;
@@ -138,7 +231,10 @@
       line-height: 1.2;
       white-space: nowrap;
     }
-    .overview-col .ov-desc.center { text-align: center; }
+
+    .overview-col .ov-desc.center {
+      text-align: center;
+    }
 
     /* ── 描述段（长文） ── */
     .desc-block {
@@ -153,16 +249,42 @@
       flex-direction: column;
       gap: calc(20 / 1600 * 100vw);
     }
-    .thumb-strip img { width: 100%; height: auto; }
+
+    .thumb-strip img {
+      width: 100%;
+      height: auto;
+    }
 
     /* ── 装饰元素 ── */
-    .deco { }
-    .flipx { transform: scaleX(-1); }
-    .rot-90 { transform: rotate(90deg); transform-origin: 0 0; }
-    .rot-90cw { transform: rotate(-90deg); transform-origin: 0 0; }
-    .rot-pen { transform: rotate(5.48deg); transform-origin: 0 0; }
-    svg.box { width: calc(var(--w) / 1600 * 100vw); height: calc(var(--h) / 1600 * 100vw); }
-    .pen-shadow { filter: drop-shadow(0 2px 7px rgba(0, 0, 0, .1)); }
+    .deco {}
+
+    .flipx {
+      transform: scaleX(-1);
+    }
+
+    .rot-90 {
+      transform: rotate(90deg);
+      transform-origin: 0 0;
+    }
+
+    .rot-90cw {
+      transform: rotate(-90deg);
+      transform-origin: 0 0;
+    }
+
+    .rot-pen {
+      transform: rotate(5.48deg);
+      transform-origin: 0 0;
+    }
+
+    svg.box {
+      width: calc(var(--w) / 1600 * 100vw);
+      height: calc(var(--h) / 1600 * 100vw);
+    }
+
+    .pen-shadow {
+      filter: drop-shadow(0 2px 7px rgba(0, 0, 0, .1));
+    }
 
     /* ── 入场动效 ──
        .reveal 用于普通元素（opacity + translateY）
@@ -171,56 +293,114 @@
       opacity: 0;
       transform: translateY(calc(40 / 1600 * 100vw));
       transition: opacity .85s cubic-bezier(.22, 1, .36, 1),
-                  transform .85s cubic-bezier(.22, 1, .36, 1);
+        transform .85s cubic-bezier(.22, 1, .36, 1);
       will-change: opacity, transform;
     }
-    .reveal.in { opacity: 1; transform: none; }
+
+    .reveal.in {
+      opacity: 1;
+      transform: none;
+    }
+
     .reveal-fade {
       opacity: 0;
       transition: opacity .85s cubic-bezier(.22, 1, .36, 1);
     }
-    .reveal-fade.in { opacity: 1; }
+
+    .reveal-fade.in {
+      opacity: 1;
+    }
 
     /* ── Poppins 斜体 ── */
-    .poppins { font-family: 'Poppins', sans-serif; font-style: italic; font-weight: 600; }
+    .poppins {
+      font-family: 'Poppins', sans-serif;
+      font-style: italic;
+      font-weight: 600;
+    }
 
     /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
        响应式 — 移动端 ≤768 重排
        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
     @media (max-width: 768px) {
-      .page { height: auto; overflow: visible; }
+      .page {
+        height: auto;
+        overflow: visible;
+      }
 
       .abs {
         position: relative;
-        left: auto; top: auto;
-        width: auto; height: auto;
+        left: auto;
+        top: auto;
+        width: auto;
+        height: auto;
         transform: none !important;
       }
+
       .row-center {
         position: relative;
-        top: auto; left: auto;
+        top: auto;
+        left: auto;
         width: 100%;
         text-align: center;
         padding: 32px 16px 0;
       }
-      .box { width: auto; height: auto; }
-      img.box { width: 100%; height: auto; }
-      svg.box { width: 0; height: 0; }
 
-      .deco { display: none; }
+      .box {
+        width: auto;
+        height: auto;
+      }
 
-      .p-text { padding: 10px 16px 0; }
+      img.box {
+        width: 100%;
+        height: auto;
+      }
+
+      svg.box {
+        width: 0;
+        height: 0;
+      }
+
+      .deco {
+        display: none;
+      }
+
+      .p-text {
+        padding: 10px 16px 0;
+      }
 
       /* 字号回落到 px */
-      .fs50 { font-size: 30px; }
-      .fs48 { font-size: 27px; }
-      .fs40 { font-size: 23px; }
-      .fs32 { font-size: 20px; }
-      .fs30 { font-size: 18px; }
-      .fs24 { font-size: 16px; }
-      .fs20 { font-size: 14px; }
+      .fs50 {
+        font-size: 30px;
+      }
 
-      .desc-block { width: 100%; padding: 8px 16px 0; }
+      .fs48 {
+        font-size: 27px;
+      }
+
+      .fs40 {
+        font-size: 23px;
+      }
+
+      .fs32 {
+        font-size: 20px;
+      }
+
+      .fs30 {
+        font-size: 18px;
+      }
+
+      .fs24 {
+        font-size: 16px;
+      }
+
+      .fs20 {
+        font-size: 14px;
+      }
+
+      .desc-block {
+        width: 100%;
+        padding: 8px 16px 0;
+      }
 
       .stage-items {
         width: 100% !important;
@@ -228,17 +408,29 @@
         gap: 16px;
         padding: 12px 16px;
       }
-      .stage-item { flex: 1 1 42%; min-width: 130px; }
-      .stage-item span { white-space: normal; }
+
+      .stage-item {
+        flex: 1 1 42%;
+        min-width: 130px;
+      }
+
+      .stage-item span {
+        white-space: normal;
+      }
 
       .overview-col {
         position: relative;
-        left: auto; top: auto;
+        left: auto;
+        top: auto;
         margin: 10px 16px;
         align-items: flex-start;
       }
+
       .overview-col .ov-title,
-      .overview-col .ov-desc { white-space: normal; text-align: left; }
+      .overview-col .ov-desc {
+        white-space: normal;
+        text-align: left;
+      }
 
       .thumb-strip {
         width: 100%;
@@ -247,18 +439,36 @@
         padding: 12px 16px;
         -webkit-overflow-scrolling: touch;
       }
-      .thumb-strip img { width: 130px; flex: 0 0 auto; }
 
-      .reveal { opacity: 1; transform: none; }
+      .thumb-strip img {
+        width: 130px;
+        flex: 0 0 auto;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
     }
 
     @media (max-width: 480px) {
-      .stage-item { flex: 1 1 100%; }
+      .stage-item {
+        flex: 1 1 100%;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .reveal, .reveal-fade { opacity: 1 !important; transform: none !important; }
-      .stage-item img, .overview-col { transition: none !important; }
+
+      .reveal,
+      .reveal-fade {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+
+      .stage-item img,
+      .overview-col {
+        transition: none !important;
+      }
     }
   </style>
 </head>
@@ -268,14 +478,15 @@
     <div class="st-bg" aria-hidden="true"></div>
     <div class="st-title"><span class="st-title-name">项目案例</span></div>
     <nav class="st-tabs" aria-label="页面导航">
-      <a class="st-tab" href="1V1.html">小思1V1</a>
+      <a class="st-tab" href="1V1-new.html">小思1V1</a>
       <a class="st-tab" href="OS-软硬一体.html">OS系统</a>
       <a class="st-tab" href="B端.html">B端</a>
       <a class="st-tab" href="APP.html">APP</a>
     </nav>
   </header>
   <button class="st-back-top" title="回到顶部" aria-label="回到顶部">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"
+      stroke-linejoin="round">
       <polyline points="18 15 12 9 6 15" />
     </svg>
   </button>
@@ -304,27 +515,27 @@
     <h1 class="row-center h-font fs50 w700 op9 lh12 reveal" style="--y:180">Ai Agent</h1>
 
     <!-- 2. ai-1 主图 -->
-    <img class="abs box scene reveal" style="--x:100;--y:249.675;--w:1400.5;--h:779"
-         src="assets/1V1/ai-1.png" alt="">
+    <img class="abs box scene reveal" style="--x:100;--y:249.675;--w:1400.5;--h:779" src="assets/1V1/ai-1.png" alt="">
 
     <!-- 3. 桌前学习场 -->
     <h2 class="row-center h-font fs48 w700 op9 ls03 lh12 reveal" style="--y:1120">桌前学习场</h2>
 
     <!-- 4. ai-2 全宽大图 -->
-    <img class="abs box scene reveal" style="--x:0;--y:1251;--w:1600;--h:1786"
-         src="assets/1V1/ai-2.png" alt="">
+    <img class="abs box scene reveal" style="--x:0;--y:1251;--w:1600;--h:1786" src="assets/1V1/ai-2.png" alt="">
 
     <!-- 5. 叠在 ai-2 上的说明文字 -->
-    <p class="abs p-font fs20 w300 lh2 c-white reveal p-text"
-       style="--x:226;--y:1433;white-space:pre-line">除了移动端关注的手势交互外
-桌面学习机额外关注空间交互</p>
+    <p class="abs p-font fs20 w300 lh2 c-white reveal p-text" style="--x:226;--y:1433;white-space:pre-line">
+      除了移动端关注的手势交互外
+      桌面学习机额外关注空间交互</p>
 
     <!-- 6. 小思1V1 标题（叠在 ai-2 下半部） -->
     <h2 class="row-center h-font fs48 w700 op9 ls03 lh12 reveal" style="--y:2390">小思1V1</h2>
 
     <!-- 项目背景（小思1V1 与三阶段总览之间） -->
     <p class="abs desc-block p-font fs20 w400 c-dim reveal p-text"
-       style="--x:150;--y:2460;line-height:1.6;width:calc(1300/1600*100vw);padding:calc(36/1600*100vw) 16px 0">项目背景：受制于教育不可能三角，高品质、个性化、普惠化辅导难以兼得，传统真人 1 对 1 成本高昂，市面学习机大多仅提供搜题给答案模式，缺乏启发式引导，基于此学而思打造小思 1V1，落地具备纸屏互动能力的 AI 个性化辅导方案</p>
+      style="--x:150;--y:2460;line-height:1.6;width:calc(1300/1600*100vw);padding:calc(36/1600*100vw) 16px 0">
+      项目背景：受制于教育不可能三角，高品质、个性化、普惠化辅导难以兼得，传统真人 1 对 1 成本高昂，市面学习机大多仅提供搜题给答案模式，缺乏启发式引导，基于此学而思打造小思 1V1，落地具备纸屏互动能力的 AI 个性化辅导方案
+    </p>
 
     <!-- 7-9. 三阶段总览列（从左至右依次出现） -->
     <div class="abs overview-col reveal" style="--x:99;--y:2658">
@@ -341,22 +552,23 @@
     </div>
 
     <!-- 10-13. 总览装饰：蓝色箭头 -->
-    <svg class="abs box deco rot-90 reveal-fade" style="--x:532.15;--y:2667.4;--w:60.34;--h:21.07"
-         viewBox="0 0 104 104" preserveAspectRatio="none">
-      <path d="M0 104l52-104 52 104-104 0z" fill="url(#g-blue)"/>
+    <svg class="abs box deco rot-90 reveal-fade" style="--x:532.15;--y:2667.4;--w:60.34;--h:21.07" viewBox="0 0 104 104"
+      preserveAspectRatio="none">
+      <path d="M0 104l52-104 52 104-104 0z" fill="url(#g-blue)" />
     </svg>
     <svg class="abs box deco rot-90 reveal-fade" style="--x:1101.15;--y:2667.4;--w:60.34;--h:21.07"
-         viewBox="0 0 104 104" preserveAspectRatio="none">
-      <path d="M0 104l52-104 52 104-104 0z" fill="url(#g-blue)"/>
+      viewBox="0 0 104 104" preserveAspectRatio="none">
+      <path d="M0 104l52-104 52 104-104 0z" fill="url(#g-blue)" />
     </svg>
 
     <!-- ── 阶段一：识别与启动 ── -->
     <h2 class="abs h-font fs40 w700 op9 ls1 lh12 reveal p-text" style="--x:100;--y:2977">阶段一：识别与启动</h2>
-    <p class="abs desc-block p-font fs20 c-dim ls1 lh12 reveal p-text" style="--x:100;--y:3067">对 小思1V1 Agent 而言：首次传入的题目信息 = 本次会话的【全局初始上下文锚点 + 领域任务目标】
-它不只是一段文本 / 一张图片，是整轮交互式讲题会话的任务边界、知识基线、约束根信息。简言之：一道题目 = 独立 Agent 会话</p>
-    <p class="abs p-font fs30 c-dim ls1 lh12 reveal p-text" style="--x:100;--y:3194">图像 → OCR 识别题干文字 + 增强回显 + 题目区域裁剪 → 结构化题目信息</p>
-    <img class="abs box scene reveal" style="--x:0;--y:3398;--w:1600;--h:843"
-         src="assets/1V1/ai-3.bg.png" alt="">
+    <p class="abs desc-block p-font fs20 c-dim ls1 lh12 reveal p-text" style="--x:100;--y:3067">对 小思1V1 Agent
+      而言：首次传入的题目信息 = 本次会话的【全局初始上下文锚点 + 领域任务目标】
+      它不只是一段文本 / 一张图片，是整轮交互式讲题会话的任务边界、知识基线、约束根信息。简言之：一道题目 = 独立 Agent 会话</p>
+    <p class="abs p-font fs30 c-dim ls1 lh12 reveal p-text" style="--x:100;--y:3194">图像 → OCR 识别版面 + 增强回显 + 题目区域裁剪 →
+      结构化题目信息</p>
+    <img class="abs box scene reveal" style="--x:0;--y:3398;--w:1600;--h:843" src="assets/1V1/ai-3.bg.png" alt="">
     <div class="abs stage-items reveal" style="--x:100;--y:3280;--w:1400">
       <div class="stage-item"><img class="icon" src="assets/1V1/ai-3.1.png" alt=""><span>唤醒</span></div>
       <div class="stage-item"><img class="icon" src="assets/1V1/ai-3.2.png" alt=""><span>识别</span></div>
@@ -371,11 +583,12 @@
 
     <!-- ── 阶段二：讲解与提问 ── -->
     <h2 class="abs h-font fs40 w700 op9 ls1 lh12 reveal p-text" style="--x:100;--y:4390">阶段二：讲解与提问</h2>
-    <p class="abs desc-block p-font fs20 c-dim ls1 lh12 reveal p-text" style="--x:100;--y:4480">进入讲解环节：完全基于题目信息+上下文进行多轮对话
-在System Prompt中，定义1V1 Agent是一个主动引导学生的专业老师。不同的题目有不同的讲解方式，不同的意图调用不同的工具</p>
-    <p class="abs p-font fs30 c-dim ls1 lh12 reveal p-text" style="--x:100;--y:4607">教学讲解为主线 / 讲解调自研大模型 / 非讲解调LLM / 口算调自研工具……</p>
-    <img class="abs box scene reveal" style="--x:0;--y:4811;--w:1600;--h:843"
-         src="assets/1V1/ai-4.bg.png" alt="">
+    <p class="abs desc-block p-font fs20 c-dim ls1 lh12 reveal p-text" style="--x:100;--y:4480">
+      进入讲解环节：完全基于题目信息+上下文进行多轮对话
+      在System Prompt中，定义1V1 Agent是一个主动引导学生的专业老师。不同的题目有不同的讲解方式，不同的意图调用不同的工具</p>
+    <p class="abs p-font fs30 c-dim ls1 lh12 reveal p-text" style="--x:100;--y:4607">教学讲解为主线 / 讲解调自研大模型 / 非讲解调LLM /
+      口算调自研工具……</p>
+    <img class="abs box scene reveal" style="--x:0;--y:4811;--w:1600;--h:843" src="assets/1V1/ai-4.bg.png" alt="">
     <div class="abs stage-items reveal" style="--x:100;--y:4693;--w:1400">
       <div class="stage-item"><img class="icon" src="assets/1V1/ai-4.1.png" alt=""><span>原题画重点</span></div>
       <div class="stage-item"><img class="icon" src="assets/1V1/ai-4.2.png" alt=""><span>思路讲解</span></div>
@@ -384,15 +597,15 @@
     </div>
     <!-- 笔（旋转 + 阴影） -->
     <img class="abs box deco rot-pen pen-shadow reveal-fade" style="--x:210.3;--y:4670.4;--w:76.46;--h:76.46"
-         src="assets/1V1/ai-4.笔.png" alt="">
+      src="assets/1V1/ai-4.笔.png" alt="">
 
     <!-- ── 阶段三：屏下作答 ── -->
     <h2 class="abs h-font fs40 w700 op9 ls1 lh12 reveal p-text" style="--x:100;--y:5815">阶段三：屏下作答</h2>
     <p class="abs desc-block p-font fs20 c-dim ls1 lh12 reveal p-text" style="--x:100;--y:5905">多模交互：让机器听懂、看懂学生的问题和反馈
-对图片信息的解析和位置识别可以实现【原题圈画】、【原题批改】、【用户作答字迹批改】等功能</p>
-    <p class="abs p-font fs30 c-dim ls1 lh12 reveal p-text" style="--x:100;--y:6032">图像 → OCR 识别字迹 + 对比上一帧变化 → 字迹回显 → 判定对错</p>
-    <img class="abs box scene reveal" style="--x:0;--y:6236;--w:1600;--h:600"
-         src="assets/1V1/ai-5.bg.png" alt="">
+      对图片信息的解析和位置识别可以实现【原题圈画】、【原题批改】、【用户作答字迹批改】等功能</p>
+    <p class="abs p-font fs30 c-dim ls1 lh12 reveal p-text" style="--x:100;--y:6032">图像 → OCR 识别字迹 + 对比上一帧变化 → 字迹回显 →
+      判定对错</p>
+    <img class="abs box scene reveal" style="--x:0;--y:6236;--w:1600;--h:600" src="assets/1V1/ai-5.bg.png" alt="">
     <div class="abs stage-items center reveal" style="--x:100;--y:6118;--w:1400">
       <div class="stage-item"><img class="icon" src="assets/1V1/ai-5.1.png" alt=""><span>原题批改</span></div>
       <div class="stage-item"><img class="icon" src="assets/1V1/ai-5.2.png" alt=""><span>引导纸上答题</span></div>
@@ -400,35 +613,29 @@
       <div class="stage-item"><img class="icon" src="assets/1V1/ai-5.4.png" alt=""><span>作答批改</span></div>
     </div>
     <!-- 屏下叠层（覆盖在 ai-5.3 上） -->
-    <img class="abs box deco scene reveal" style="--x:846;--y:6232;--w:286;--h:218"
-         src="assets/1V1/ai-5.屏下.png" alt="">
+    <img class="abs box deco scene reveal" style="--x:846;--y:6232;--w:286;--h:218" src="assets/1V1/ai-5.屏下.png" alt="">
 
     <!-- 11. ai-6 全宽图 -->
-    <img class="abs box scene reveal" style="--x:0;--y:6934;--w:1600;--h:602"
-         src="assets/1V1/ai-6.png" alt="">
+    <img class="abs box scene reveal" style="--x:0;--y:6934;--w:1600;--h:602" src="assets/1V1/ai-6.png" alt="">
 
     <!-- 12. 迭代优化 -->
     <h2 class="row-center h-font fs48 w700 op9 ls1 lh12 reveal" style="--y:7705">迭代优化</h2>
 
     <!-- 13. ai-7 双图 -->
-    <img class="abs box scene reveal" style="--x:111;--y:7841;--w:660;--h:439.5"
-         src="assets/1V1/ai-7.1.png" alt="">
-    <img class="abs box scene reveal" style="--x:846;--y:7841;--w:660;--h:439.5"
-         src="assets/1V1/ai-7.2.png" alt="">
+    <img class="abs box scene reveal" style="--x:111;--y:7841;--w:660;--h:439.5" src="assets/1V1/ai-7.1.png" alt="">
+    <img class="abs box scene reveal" style="--x:846;--y:7841;--w:660;--h:439.5" src="assets/1V1/ai-7.2.png" alt="">
 
     <!-- 14. 体验问题： -->
     <p class="abs fs30 poppins c-white reveal p-text" style="--x:100;--y:8414">体验问题：</p>
 
     <!-- 15. ai-8 大图 -->
-    <img class="abs box scene reveal" style="--x:100;--y:8498;--w:1501;--h:968"
-         src="assets/1V1/ai-8.png" alt="">
+    <img class="abs box scene reveal" style="--x:100;--y:8498;--w:1501;--h:968" src="assets/1V1/ai-8.png" alt="">
 
     <!-- 16. OS Agent 与 1V1 Agent -->
     <h2 class="row-center h-font fs48 w700 op9 lh12 reveal" style="--y:9711">OS Agent 与 1V1 Agent</h2>
 
     <!-- 17. ai-9 主图 -->
-    <img class="abs box scene reveal" style="--x:100;--y:9820;--w:1326.5;--h:663.5"
-         src="assets/1V1/ai-9.png" alt="">
+    <img class="abs box scene reveal" style="--x:100;--y:9820;--w:1326.5;--h:663.5" src="assets/1V1/ai-9.png" alt="">
 
     <!-- 18. 右侧缩略图条（5 张，叠在 ai-9 右部） -->
     <div class="abs thumb-strip reveal" style="--x:1313;--y:9829">
@@ -444,8 +651,8 @@
 
     <!-- 20. 连接线 Line93 -->
     <svg class="abs box deco rot-90cw reveal-fade" style="--x:1049;--y:10562.5;--w:302.5;--h:147.5"
-         viewBox="0 0 302.5 147.5" preserveAspectRatio="none">
-      <path d="M0 147.5 L0 0 L302.5 0" fill="none" stroke="url(#g-white-v)" stroke-width="1.51"/>
+      viewBox="0 0 302.5 147.5" preserveAspectRatio="none">
+      <path d="M0 147.5 L0 0 L302.5 0" fill="none" stroke="url(#g-white-v)" stroke-width="1.51" />
     </svg>
 
   </main>
@@ -470,7 +677,7 @@
       els.forEach(function (el) { io.observe(el); });
     })();
   </script>
-  <script src="components/sticky-tabs/sticky-tabs.js"></script>
+  <script src="components/sticky-tabs/sticky-tabs.js?v=2"></script>
 </body>
 
 </html>

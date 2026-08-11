@@ -10,7 +10,7 @@
   <style>
     /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
        OS 软硬一体 — 基于 vibecodingZPJ.pen / new-os 画板 1:1 还原
-       设计宽 1600 × 高 10831，白底 #ffffff
+       设计宽 1600 × 高 12593，白底 #ffffff
        桌面端：calc(N/1600*100vw) 等比缩放；图片 width:100%/height:auto 保持原生比例
        移动端：≤768 字号回落 px，视频区左右留边
        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
@@ -34,7 +34,9 @@
     }
 
     /* 纵向间距：基于 1600 设计宽等比缩放 */
-    .gap-115 { margin-top: calc(115 / 1600 * 100vw); }
+    .gap-82 { margin-top: calc(82 / 1600 * 100vw); }
+    .gap-75 { margin-top: calc(75 / 1600 * 100vw); }
+    .gap-114 { margin-top: calc(114 / 1600 * 100vw); }
     .gap-185 { margin-top: calc(185 / 1600 * 100vw); }
 
     /* os-5 比 160 窄 15（1585），居中 */
@@ -44,7 +46,7 @@
       margin-right: auto;
     }
 
-    /* ── 视频区：group(100,7386) 宽 1400 ── */
+    /* ── 视频区：group(100,9148) 宽 1400 ── */
     .os-vid {
       margin-left: calc(100 / 1600 * 100vw);
       width: calc(1400 / 1600 * 100vw);
@@ -100,7 +102,9 @@
        响应式 — 移动端 ≤768
        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
     @media (max-width: 768px) {
-      .gap-115 { margin-top: 24px; }
+      .gap-82 { margin-top: 24px; }
+      .gap-75 { margin-top: 24px; }
+      .gap-114 { margin-top: 24px; }
       .gap-185 { margin-top: 24px; }
 
       .os-narrow { width: 100%; }
@@ -123,10 +127,11 @@
     <div class="st-bg" aria-hidden="true"></div>
     <div class="st-title"><span class="st-title-name">项目案例</span></div>
     <nav class="st-tabs" aria-label="页面导航">
-      <a class="st-tab" href="1V1.html">小思1V1</a>
-      <a class="st-tab" href="OS-软硬一体.html">OS系统</a>
+      <a class="st-tab" href="1V1-new.html">小思1V1</a>
+      <a class="st-tab" href="开机.html">开机</a>
       <a class="st-tab" href="B端.html">B端</a>
       <a class="st-tab" href="APP.html">APP</a>
+      <a class="st-tab" href="OS-软硬一体.html">OS系统</a>
     </nav>
   </header>
   <button class="st-back-top" title="回到顶部" aria-label="回到顶部">
@@ -137,8 +142,9 @@
 
   <main class="page">
     <img src="assets/OS/os-1.png" alt="OS 软硬一体 1">
-    <img class="gap-115" src="assets/OS/os-2.png" alt="OS 软硬一体 2">
-    <img class="gap-185" src="assets/OS/os-3.png" alt="OS 软硬一体 3">
+    <img class="gap-82" src="assets/OS/os-1.5.png" alt="OS 软硬一体 1.5">
+    <img class="gap-75" src="assets/OS/os-2.png" alt="OS 软硬一体 2">
+    <img class="gap-114" src="assets/OS/os-3.png" alt="OS 软硬一体 3">
     <img class="gap-185" src="assets/OS/os-4.png" alt="OS 软硬一体 4">
     <img class="gap-185 os-narrow" src="assets/OS/os-5.png" alt="OS 软硬一体 5">
     <img class="gap-185" src="assets/OS/os-6.png" alt="OS 软硬一体 6">
@@ -178,7 +184,7 @@
       });
     })();
   </script>
-  <script src="components/sticky-tabs/sticky-tabs.js"></script>
+  <script src="components/sticky-tabs/sticky-tabs.js?v=2"></script>
 </body>
 
 </html>

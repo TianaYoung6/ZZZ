@@ -53,7 +53,7 @@
   }
 
   /* ── 链接模式：当前页按钮自动高亮（按钮为 <a href> 跨页跳转时） ── */
-  var here = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+  var here = decodeURIComponent(location.pathname.split('/').pop() || 'index.html').toLowerCase();
   Array.prototype.forEach.call(
     document.querySelectorAll('.st-tabs > a.st-tab[href]'),
     function (a) {

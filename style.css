@@ -41,33 +41,33 @@ img { display: block; max-width: 100%; }
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   1. Hero  1600×810
+   1. Hero  1600×745
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 .sec-hero {
   width: 100%;
-  aspect-ratio: 1600 / 810;
+  aspect-ratio: 1600 / 745;
   overflow: hidden;
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   2. Banner  1200×280 居中
+   2. Banner  1402×635 居中
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 .sec-banner {
-  width: calc(1260 / 1600 * 100vw);
-  margin: calc(87 / 1600 * 100vw) auto 0;
-  aspect-ratio: 2520 / 802;
+  width: calc(1402 / 1600 * 100vw);
+  margin: calc(115 / 1600 * 100vw) auto 0;
+  aspect-ratio: 1402 / 635;
   overflow: hidden;
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   3. 能力模型：左文字栏 + 右环形轨道
-   section 高 = 轨道 950；overflow hidden 裁掉右侧溢出
+   3. 能力模型：环形轨道叠在展示图上
+   section 高 = 展示图 879；overflow hidden
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 .sec-orbit {
   position: relative;
   width: 100%;
-  height: calc(950 / 1600 * 100vw);
-  margin-top: calc(-16 / 1600 * 100vw); /* 轨道顶部 y=1282，与 banner 底(1298)微叠 */
+  height: calc(879 / 1600 * 100vw);
+  margin-top: calc(104 / 1600 * 100vw); /* 展示图顶 y=1599，与 banner 底(1495)留 104 */
   overflow: hidden;
 }
 
@@ -129,16 +129,27 @@ img { display: block; max-width: 100%; }
   opacity: 1;
 }
 
-/* 右：环形轨道系统 ── 950×950 方盒，中心 = 轨道中心(artboard 1516,1692)
-   left = 1516-475 = 1041；整体自旋，标签反向自旋保持正立 */
+/* 展示图 3.png：半透明大图，置于轨道上层（轨道在下层透出） */
+.orbit-bg {
+  position: absolute;
+  left: calc(160 / 1600 * 100vw);
+  top: 0;
+  width: calc(1440 / 1600 * 100vw);
+  aspect-ratio: 1440 / 879;
+  object-fit: cover;
+  z-index: 2;
+}
+
+/* 环形轨道系统 ── 855×855 方盒(代表外圈环)，环左 x=172，在展示图下层透出 */
 .orbit-system {
   position: absolute;
-  left: calc(1072 / 1600 * 100vw);
-  top: 0;
-  width: calc(950 / 1600 * 100vw);
-  height: calc(950 / 1600 * 100vw);
+  left: calc(172 / 1600 * 100vw);
+  top: calc(6 / 1600 * 100vw);
+  width: calc(855 / 1600 * 100vw);
+  height: calc(855 / 1600 * 100vw);
   transform: scale(0.9);
   transform-origin: center;
+  z-index: 1;
 }
 
 .ring {
@@ -220,19 +231,19 @@ img { display: block; max-width: 100%; }
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   4. 底部作品展示区  khYTT x=116 w=1368
+   4. 底部作品展示区  x=200 w=1200
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 .sec-gallery {
   width: 100%;
-  margin-top: calc(108 / 1600 * 100vw); /* 2340-2232 */
+  margin-top: calc(36 / 1600 * 100vw); /* 2514-2478 */
 }
 .gallery-inner {
-  width: calc(1368 / 1600 * 100vw);
+  width: calc(1200 / 1600 * 100vw);
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: calc(240 / 1600 * 100vw);
+  gap: calc(160 / 1600 * 100vw);
 }
 
 /* 项目概览组：小标题 + 1200×630 图（滚动条叠在图上） */
@@ -316,7 +327,7 @@ img { display: block; max-width: 100%; }
   to   { transform: translateX(-50%); }
 }
 
-/* 三连宽图组 + 小标题 */
+/* 三连宽图组 + 标题 */
 .group {
   display: flex;
   flex-direction: column;
@@ -330,20 +341,30 @@ img { display: block; max-width: 100%; }
   gap: calc(50 / 1600 * 100vw);
   width: 100%;
 }
-.triple-stack .img-frame { width: 100%; aspect-ratio: 1000 / 327; }
+.triple-stack .img-frame { width: 100%; aspect-ratio: 1100 / 359; }
 
-/* 四宫格组 + 小标题 */
-.group-grid { width: calc(1000 / 1600 * 100vw); gap: calc(32 / 1600 * 100vw); }
+/* 四宫格组 + 小标题 + 5图网格 */
+.group-grid { width: calc(1200 / 1600 * 100vw); gap: calc(40 / 1600 * 100vw); }
 .group-grid .grp-title { width: calc(170 / 1600 * 100vw); }
 .grid-4 {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: calc(32 / 1600 * 100vw);
+  grid-template-columns: repeat(3, 1fr);
+  gap: calc(40 / 1600 * 100vw);
   width: 100%;
 }
-.grid-4 .img-frame { aspect-ratio: 484 / 550; }
+.grid-4 .img-frame { aspect-ratio: 373 / 424; }
 
 .grp-title { height: auto; }
+
+/* 文字标题（如「通用能力」）—— 设计原字体 FZHanZhenGuangBiaoS-GB 未子集化，暂用 SourceHanSansCN Bold */
+.grp-title-text {
+  font-size: clamp(20px, calc(40 / 1600 * 100vw), 40px);
+  font-weight: 700;
+  letter-spacing: calc(4 / 1600 * 100vw);
+  color: #fff3e9;
+  text-align: center;
+  line-height: 1.2;
+}
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    响应式 — 平板/手机
@@ -361,6 +382,7 @@ img { display: block; max-width: 100%; }
 
   /* 能力模型：文字栏入流、px 字号；轨道缩小居中置于文字下方 */
   .sec-orbit { height: auto; overflow: hidden; }
+  .orbit-bg { position: relative; left: auto; top: auto; width: 100%; aspect-ratio: 1440 / 879; }
   .text-col { position: relative; left: auto; top: auto; width: 88%; margin: 0 auto; padding-top: 28px; }
   .sec-title { width: 110px; margin-bottom: 24px; }
   .text-block { margin-bottom: 24px; }
@@ -388,9 +410,9 @@ img { display: block; max-width: 100%; }
   .img-overview { aspect-ratio: 1200 / 630; }
   .showcase { aspect-ratio: 1237 / 727; }
   .triple-stack { gap: 16px; }
-  .triple-stack .img-frame { aspect-ratio: 1000 / 327; }
+  .triple-stack .img-frame { aspect-ratio: 1100 / 359; }
   .grid-4 { grid-template-columns: 1fr 1fr; gap: 14px; }
-  .grid-4 .img-frame { aspect-ratio: 484 / 550; }
+  .grid-4 .img-frame { aspect-ratio: 373 / 424; }
 
   /* 播放按钮 & 滚动条：px 尺寸 */
   .img-overview .play-btn { width: 40px; height: 40px; top: 14px; right: 14px; }

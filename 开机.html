@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>开机</title>
+  <link rel="stylesheet" href="fonts.css">
+  <link rel="stylesheet" href="components/sticky-tabs/sticky-tabs.css">
+  <style>
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      background: #01020d;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      font-family: 'PingFang SC', -apple-system, 'Helvetica Neue', Arial, sans-serif;
+      color: #fff;
+    }
+
+    img {
+      display: block;
+    }
+
+    /* 页面容器：1600×11872 设计画布等比缩放；
+       图片绝对定位 1:1 还原设计稿坐标与叠压层序 */
+    .page {
+      position: relative;
+      width: 100%;
+      height: calc(11872 / 1600 * 100vw);
+    }
+
+    .scene {
+      position: absolute;
+      display: block;
+      height: auto;
+    }
+
+    .scene.full {
+      left: 0;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="st-header" data-show-at="260" data-always>
+    <div class="st-bg" aria-hidden="true"></div>
+    <div class="st-title"><span class="st-title-name">项目案例</span></div>
+    <nav class="st-tabs" aria-label="页面导航">
+      <a class="st-tab" href="1V1-new.html">小思1V1</a>
+      <a class="st-tab" href="开机.html">开机</a>
+      <a class="st-tab" href="B端.html">B端</a>
+      <a class="st-tab" href="APP.html">APP</a>
+      <a class="st-tab" href="OS-软硬一体.html">OS系统</a>
+    </nav>
+  </header>
+  <button class="st-back-top" title="回到顶部" aria-label="回到顶部">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"
+      stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15" />
+    </svg>
+  </button>
+
+  <main class="page">
+    <!-- z 序依设计稿 children 顺序（先=底）：9,5,4,3,1,2,6,7,8（后=顶） -->
+    <img class="scene full" style="top:0; aspect-ratio:1600/1418; z-index:5"
+      src="assets/开机/1.png" alt="" fetchpriority="high">
+    <img class="scene full" style="top:calc(1418/1600*100vw); aspect-ratio:1600/1188; z-index:6"
+      src="assets/开机/2.png" alt="" loading="lazy">
+    <img class="scene full" style="top:calc(2686/1600*100vw); aspect-ratio:1600/1346; z-index:4"
+      src="assets/开机/3.png" alt="" loading="lazy">
+    <img class="scene full" style="top:calc(3706/1600*100vw); aspect-ratio:1600/2154; z-index:3"
+      src="assets/开机/4.png" alt="" loading="lazy">
+    <img class="scene full" style="top:calc(5713/1600*100vw); aspect-ratio:1600/1725; z-index:2"
+      src="assets/开机/5.png" alt="" loading="lazy">
+    <img class="scene" style="left:calc(71/1600*100vw); top:calc(7581/1600*100vw); width:calc(1457/1600*100vw); aspect-ratio:1457/895; z-index:7"
+      src="assets/开机/6.png" alt="" loading="lazy">
+    <img class="scene" style="left:calc(50/1600*100vw); top:calc(8548/1600*100vw); width:calc(1500/1600*100vw); aspect-ratio:1500/1106; z-index:8"
+      src="assets/开机/7.png" alt="" loading="lazy">
+    <img class="scene full" style="top:calc(9444/1600*100vw); aspect-ratio:1600/1850; z-index:9"
+      src="assets/开机/8.png" alt="" loading="lazy">
+    <img class="scene full" style="top:calc(11173/1600*100vw); aspect-ratio:1599/699; z-index:1"
+      src="assets/开机/9.png" alt="" loading="lazy">
+  </main>
+
+  <script src="components/sticky-tabs/sticky-tabs.js?v=2"></script>
+</body>
+
+</html>

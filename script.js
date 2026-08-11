@@ -3,24 +3,23 @@
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 
 /* ─── 环形轨道标签 ───
-   x, y 为 ZRGZy 坐标系内的标签左上角（y 已含 a7YNpW 组的 +101 偏移）。
-   orbit-system 代表 950×950 方盒，其在 ZRGZy 中的左上角 = (95, 0)。
-   故标签在盒内的百分比位置：left = (x-95)/950*100, top = y/950*100。
-   标签随 orbit-system 自旋公转，自身反向自旋保持正立。 */
+   x, y 为标签在 855×855 方盒(=外圈环)内的左上角坐标(相对环左上角)。
+   盒内百分比位置：left = x/855*100, top = y/855*100。
+   坐标来自 new-首页 设计：Group 855 内环左上 (81,0)，标签组偏移 (0,68)。 */
 const ORBIT_TAGS = [
-  { text: '多款 Ai产品',         x: 3,   y: 345 },
-  { text: 'CRM、BI、OA',         x: 21,  y: 589 },
-  { text: '游戏产品 3D编辑器',    x: 86,  y: 706 },
-  { text: '教辅 教研 2D编辑器',   x: 215, y: 823 },
-  { text: '电商 / 会员',          x: 0,   y: 467 },
-  { text: '学习机 Pad',           x: 74,  y: 223 },
-  { text: '硬件产品',             x: 290, y: 284, inverted: true },
-  { text: 'B端产品',             x: 244, y: 496, inverted: true },
-  { text: 'C端产品',             x: 400, y: 178, inverted: true },
-  { text: '数据中台',             x: 396, y: 708, inverted: true },
-  { text: '学习/工具类 APP',       x: 163, y: 101 },
-  { text: 'K12教育',              x: 294, y: 602, inverted: true },
-  { text: 'OS系统',               x: 247, y: 390, inverted: true },
+  { text: '多款 Ai产品',         x: -79, y: 287 },
+  { text: 'CRM、BI、OA',         x: -63, y: 507 },
+  { text: '游戏产品 3D编辑器',    x: -4,  y: 612 },
+  { text: '教辅 教研 2D编辑器',   x: 92,  y: 717 },
+  { text: '电商 / 会员',          x: -81, y: 397 },
+  { text: '学习机 Pad',           x: -15, y: 177 },
+  { text: '硬件',                 x: 190, y: 232, inverted: true },
+  { text: 'B端',                  x: 146, y: 423, inverted: true },
+  { text: 'C端',                  x: 279, y: 137, inverted: true },
+  { text: '中台',                 x: 275, y: 614, inverted: true },
+  { text: '学习/工具类 APP',       x: 65,  y: 68 },
+  { text: 'K12',                  x: 194, y: 518, inverted: true },
+  { text: 'OS',                   x: 151, y: 328, inverted: true },
 ];
 
 function renderOrbit() {
@@ -31,8 +30,8 @@ function renderOrbit() {
     const el = document.createElement('span');
     el.className = 'tag' + (t.inverted ? ' inverted' : '');
     el.textContent = t.text;
-    el.style.left = ((t.x - 95) / 950 * 100) + '%';
-    el.style.top = (t.y / 950 * 100) + '%';
+    el.style.left = (t.x / 855 * 100) + '%';
+    el.style.top = (t.y / 855 * 100) + '%';
     el.style.setProperty('--i', i); // 错峰入场
     frag.appendChild(el);
   });
